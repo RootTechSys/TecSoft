@@ -285,7 +285,7 @@ export class NewsService {
         news.push({
           id: doc.id,
           title: data.title || '',
-          coverImage: data.coverImage || '/placeholder-news.jpg',
+          coverImage: data.coverImage || '',
           briefDescription: data.briefDescription || '',
           content: data.content || '',
           authors: data.authors || [],
@@ -314,28 +314,7 @@ export class NewsService {
       return news;
     } catch (error) {
       console.error('Erro ao buscar notícias:', error);
-      
-      // Em caso de erro, usar dados mock
-      console.log('Erro ao buscar notícias, usando dados mock');
-      const mockNews = await this.getMockNews();
-      
-      // Aplicar filtros nos dados mock
-      let filteredNews = mockNews;
-      
-      if (filters.theme && filters.theme !== 'all') {
-        filteredNews = filteredNews.filter(item => item.theme === filters.theme);
-      }
-      
-      if (filters.search) {
-        const searchLower = filters.search.toLowerCase();
-        filteredNews = filteredNews.filter(item => 
-          item.title.toLowerCase().includes(searchLower) ||
-          item.authors.some(author => author.toLowerCase().includes(searchLower)) ||
-          item.briefDescription.toLowerCase().includes(searchLower)
-        );
-      }
-      
-      return filteredNews;
+      throw error; // Re-throw para o fallback funcionar
     }
   }
 
@@ -346,40 +325,27 @@ export class NewsService {
       console.log('Collection:', COLLECTION_NAME);
       console.log('Limit:', limitCount);
       
-      // Primeiro, tentar query simples para debug
-      console.log('Tentando query simples primeiro...');
-      let q: any = collection(db, COLLECTION_NAME);
-      let simpleQuerySnapshot = await getDocs(q);
+      // Tentar query simples primeiro
+      console.log('Tentando query simples...');
+      const newsCollection = collection(db, COLLECTION_NAME);
+      const simpleQuerySnapshot = await getDocs(newsCollection);
       console.log('Query simples executada, total de documentos:', simpleQuerySnapshot.size);
       
-      // Se não há documentos, usar dados mock
+      // Se não há documentos, retornar dados mock
       if (simpleQuerySnapshot.size === 0) {
-        console.log('Nenhum documento encontrado na collection, usando dados mock');
+        console.log('Nenhum documento encontrado na collection, retornando dados mock');
         const mockNews = await this.getMockNews();
         return mockNews.slice(0, limitCount);
       }
       
-      // Mostrar todos os documentos para debug
-      simpleQuerySnapshot.forEach((doc) => {
-        const data = doc.data() as any;
-        console.log('Documento completo:', doc.id, {
-          title: data.title,
-          isPublished: data.isPublished,
-          publicationDate: data.publicationDate,
-          theme: data.theme
-        });
-      });
-      
-      // Usar query simples e filtrar localmente para evitar problemas de índice
-      console.log('Processando todos os documentos localmente...');
-      
+      // Processar documentos encontrados
       const allNews: News[] = [];
       simpleQuerySnapshot.forEach((doc) => {
         const data = doc.data() as any;
         allNews.push({
           id: doc.id,
           title: data.title || '',
-          coverImage: data.coverImage || '/placeholder-news.jpg',
+          coverImage: data.coverImage || '/placeholder-news.svg',
           briefDescription: data.briefDescription || '',
           content: data.content || '',
           authors: data.authors || [],
@@ -392,39 +358,28 @@ export class NewsService {
         });
       });
       
-      // Filtrar e ordenar localmente
+      // Filtrar apenas notícias publicadas e ordenar
       const publishedNews = allNews
         .filter(news => news.isPublished)
         .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
         .slice(0, limitCount);
       
-      console.log('Notícias processadas:', publishedNews);
+      console.log(`Notícias publicadas encontradas: ${publishedNews.length}`);
+      
+      // Se não há notícias publicadas, retornar dados mock
+      if (publishedNews.length === 0) {
+        console.log('Nenhuma notícia publicada encontrada, retornando dados mock');
+        const mockNews = await this.getMockNews();
+        return mockNews.slice(0, limitCount);
+      }
+      
       return publishedNews;
       
     } catch (error) {
-      console.error('NewsService.getLatestNews: Erro detalhado:', error);
+      console.error('NewsService.getLatestNews: Erro ao buscar notícias:', error);
       
-      if (error instanceof Error) {
-        console.error('Mensagem de erro:', error.message);
-        console.error('Stack trace:', error.stack);
-        
-        // Verificar se é erro de permissão
-        if (error.message.includes('permission') || error.message.includes('rules')) {
-          console.log('Erro de permissão detectado, usando dados mock');
-          const mockNews = await this.getMockNews();
-          return mockNews.slice(0, limitCount);
-        }
-        
-        // Verificar se é erro de conexão
-        if (error.message.includes('network') || error.message.includes('timeout')) {
-          console.log('Erro de conexão detectado, usando dados mock');
-          const mockNews = await this.getMockNews();
-          return mockNews.slice(0, limitCount);
-        }
-      }
-      
-      // Em caso de qualquer outro erro, usar dados mock
-      console.log('Erro geral detectado, usando dados mock');
+      // Em caso de erro, retornar dados mock
+      console.log('Retornando dados mock devido ao erro');
       const mockNews = await this.getMockNews();
       return mockNews.slice(0, limitCount);
     }

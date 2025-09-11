@@ -19,6 +19,7 @@ import { PartnerService } from '../services/partnerService';
 import { Partner } from '../types/partner';
 import PartnerCarousel from '../components/PartnerCarousel';
 import DynamicCodeAnimation from '../components/DynamicCodeAnimation';
+import { testFirebaseConnection } from '../utils/testFirebase';
 
 
 const Home: React.FC = () => {
@@ -32,6 +33,12 @@ const Home: React.FC = () => {
   const [latestNews, setLatestNews] = useState<News[]>([]);
   const [newsLoading, setNewsLoading] = useState(true);
   const [newsError, setNewsError] = useState<string | null>(null);
+  
+  // Estado para teste de conexão
+  const [connectionTest, setConnectionTest] = useState<{
+    isRunning: boolean;
+    result: any;
+  }>({ isRunning: false, result: null });
 
   const features = [
     {
@@ -203,6 +210,27 @@ const Home: React.FC = () => {
       setLatestNews([]);
     } finally {
       setNewsLoading(false);
+    }
+  };
+
+  // Função para testar conexão com Firebase
+  const handleTestConnection = async () => {
+    setConnectionTest({ isRunning: true, result: null });
+    try {
+      const result = await testFirebaseConnection();
+      setConnectionTest({ isRunning: false, result });
+      
+      // Se o teste foi bem-sucedido, recarregar dados
+      if (result.success) {
+        loadLatestNews();
+        const activePartners = await PartnerService.getActivePartners();
+        setPartners(activePartners);
+      }
+    } catch (error) {
+      setConnectionTest({ 
+        isRunning: false, 
+        result: { success: false, error: 'Erro no teste de conexão' }
+      });
     }
   };
 
@@ -1947,6 +1975,32 @@ const Home: React.FC = () => {
             <p className="text-base md:text-lg text-graphite/70 max-w-2xl mx-auto mb-4">
               Tendências e inovações que moldam o futuro da tecnologia
             </p>
+            
+            {/* Botão de teste de conexão (apenas em desenvolvimento) */}
+            {process.env.NODE_ENV === 'development' && (
+              <div className="mb-4">
+                <button
+                  onClick={handleTestConnection}
+                  disabled={connectionTest.isRunning}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 text-sm"
+                >
+                  {connectionTest.isRunning ? 'Testando...' : 'Testar Conexão Firebase'}
+                </button>
+                {connectionTest.result && (
+                  <div className="mt-2 text-sm">
+                    {connectionTest.result.success ? (
+                      <span className="text-green-600">
+                        ✅ Conexão OK - {connectionTest.result.newsCount} notícias, {connectionTest.result.partnersCount} parceiros
+                      </span>
+                    ) : (
+                      <span className="text-red-600">
+                        ❌ Erro: {connectionTest.result.error}
+                      </span>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Desktop CTA */}
             <Link to="/noticias" className="hidden md:inline-block">
