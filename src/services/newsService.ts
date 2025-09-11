@@ -25,7 +25,7 @@ export class NewsService {
       {
         id: 'mock-1',
         title: 'TECSOFT lança programa de incubação para startups',
-        coverImage: 'https://via.placeholder.com/400x200/8A8D55/FFFFFF?text=Startup+Incubation',
+        coverImage: '/placeholder-news.jpg',
         briefDescription: 'Iniciativa visa apoiar empreendedores do setor de software em Brasília',
         content: 'Conteúdo completo da notícia sobre o programa de incubação...',
         authors: ['Equipe TECSOFT'],
@@ -38,7 +38,7 @@ export class NewsService {
       {
         id: 'mock-2',
         title: 'Workshop gratuito sobre desenvolvimento mobile',
-        coverImage: 'https://via.placeholder.com/400x200/1E3A5F/FFFFFF?text=Mobile+Workshop',
+        coverImage: '/placeholder-news.jpg',
         briefDescription: 'Evento será realizado no próximo sábado com especialistas da área',
         content: 'Conteúdo completo sobre o workshop de desenvolvimento mobile...',
         authors: ['Equipe TECSOFT'],
@@ -51,7 +51,7 @@ export class NewsService {
       {
         id: 'mock-3',
         title: 'Parceria com universidades fortalece capacitação',
-        coverImage: 'https://via.placeholder.com/400x200/E6B33D/FFFFFF?text=Academic+Partnership',
+        coverImage: '/placeholder-news.jpg',
         briefDescription: 'Acordos garantem acesso a laboratórios e recursos educacionais',
         content: 'Conteúdo completo sobre as parcerias acadêmicas...',
         authors: ['Equipe TECSOFT'],
@@ -285,7 +285,7 @@ export class NewsService {
         news.push({
           id: doc.id,
           title: data.title || '',
-          coverImage: data.coverImage || '',
+          coverImage: data.coverImage || '/placeholder-news.jpg',
           briefDescription: data.briefDescription || '',
           content: data.content || '',
           authors: data.authors || [],
@@ -314,7 +314,28 @@ export class NewsService {
       return news;
     } catch (error) {
       console.error('Erro ao buscar notícias:', error);
-      throw error; // Re-throw para o fallback funcionar
+      
+      // Em caso de erro, usar dados mock
+      console.log('Erro ao buscar notícias, usando dados mock');
+      const mockNews = await this.getMockNews();
+      
+      // Aplicar filtros nos dados mock
+      let filteredNews = mockNews;
+      
+      if (filters.theme && filters.theme !== 'all') {
+        filteredNews = filteredNews.filter(item => item.theme === filters.theme);
+      }
+      
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        filteredNews = filteredNews.filter(item => 
+          item.title.toLowerCase().includes(searchLower) ||
+          item.authors.some(author => author.toLowerCase().includes(searchLower)) ||
+          item.briefDescription.toLowerCase().includes(searchLower)
+        );
+      }
+      
+      return filteredNews;
     }
   }
 
@@ -331,10 +352,11 @@ export class NewsService {
       let simpleQuerySnapshot = await getDocs(q);
       console.log('Query simples executada, total de documentos:', simpleQuerySnapshot.size);
       
-      // Se não há documentos, retornar array vazio
+      // Se não há documentos, usar dados mock
       if (simpleQuerySnapshot.size === 0) {
-        console.log('Nenhum documento encontrado na collection');
-        return [];
+        console.log('Nenhum documento encontrado na collection, usando dados mock');
+        const mockNews = await this.getMockNews();
+        return mockNews.slice(0, limitCount);
       }
       
       // Mostrar todos os documentos para debug
@@ -348,76 +370,36 @@ export class NewsService {
         });
       });
       
-      // Se a query complexa falhar, usar a simples e filtrar localmente
-      try {
-        console.log('Tentando query com filtros...');
-        q = query(
-          collection(db, COLLECTION_NAME),
-          where('isPublished', '==', true),
-          orderBy('publicationDate', 'desc'),
-          limit(limitCount)
-        );
-        
-        console.log('Query criada, executando...');
-        const querySnapshot = await getDocs(q);
-        console.log('Query executada, documentos encontrados:', querySnapshot.size);
-        
-        const news: News[] = [];
-        
-        querySnapshot.forEach((doc) => {
-          const data = doc.data() as any;
-          console.log('Documento filtrado:', doc.id, data);
-          news.push({
-            id: doc.id,
-            title: data.title || '',
-            coverImage: data.coverImage || '',
-            briefDescription: data.briefDescription || '',
-            content: data.content || '',
-            authors: data.authors || [],
-            theme: data.theme || 'Tecnologia',
-            publicationDate: data.publicationDate?.toDate() || new Date(),
-            scheduledDate: data.scheduledDate?.toDate(),
-            isPublished: data.isPublished || false,
-            createdAt: data.createdAt?.toDate() || new Date(),
-            updatedAt: data.updatedAt?.toDate() || new Date()
-          });
+      // Usar query simples e filtrar localmente para evitar problemas de índice
+      console.log('Processando todos os documentos localmente...');
+      
+      const allNews: News[] = [];
+      simpleQuerySnapshot.forEach((doc) => {
+        const data = doc.data() as any;
+        allNews.push({
+          id: doc.id,
+          title: data.title || '',
+          coverImage: data.coverImage || '/placeholder-news.jpg',
+          briefDescription: data.briefDescription || '',
+          content: data.content || '',
+          authors: data.authors || [],
+          theme: data.theme || 'Tecnologia',
+          publicationDate: data.publicationDate?.toDate() || new Date(),
+          scheduledDate: data.scheduledDate?.toDate(),
+          isPublished: data.isPublished || false,
+          createdAt: data.createdAt?.toDate() || new Date(),
+          updatedAt: data.updatedAt?.toDate() || new Date()
         });
-
-        console.log('Notícias processadas:', news);
-        return news;
-        
-      } catch (queryError) {
-        console.log('Query complexa falhou, usando fallback local:', queryError);
-        
-        // Fallback: filtrar localmente
-        const allNews: News[] = [];
-        simpleQuerySnapshot.forEach((doc) => {
-          const data = doc.data() as any;
-          allNews.push({
-            id: doc.id,
-            title: data.title || '',
-            coverImage: data.coverImage || '',
-            briefDescription: data.briefDescription || '',
-            content: data.content || '',
-            authors: data.authors || [],
-            theme: data.theme || 'Tecnologia',
-            publicationDate: data.publicationDate?.toDate() || new Date(),
-            scheduledDate: data.scheduledDate?.toDate(),
-            isPublished: data.isPublished || false,
-            createdAt: data.createdAt?.toDate() || new Date(),
-            updatedAt: data.updatedAt?.toDate() || new Date()
-          });
-        });
-        
-        // Filtrar e ordenar localmente
-        const publishedNews = allNews
-          .filter(news => news.isPublished)
-          .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
-          .slice(0, limitCount);
-        
-        console.log('Notícias processadas com fallback:', publishedNews);
-        return publishedNews;
-      }
+      });
+      
+      // Filtrar e ordenar localmente
+      const publishedNews = allNews
+        .filter(news => news.isPublished)
+        .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
+        .slice(0, limitCount);
+      
+      console.log('Notícias processadas:', publishedNews);
+      return publishedNews;
       
     } catch (error) {
       console.error('NewsService.getLatestNews: Erro detalhado:', error);
@@ -428,16 +410,23 @@ export class NewsService {
         
         // Verificar se é erro de permissão
         if (error.message.includes('permission') || error.message.includes('rules')) {
-          throw new Error('Erro de permissão: Verifique as regras de segurança do Firestore');
+          console.log('Erro de permissão detectado, usando dados mock');
+          const mockNews = await this.getMockNews();
+          return mockNews.slice(0, limitCount);
         }
         
         // Verificar se é erro de conexão
         if (error.message.includes('network') || error.message.includes('timeout')) {
-          throw new Error('Erro de conexão: Verifique sua conexão com a internet');
+          console.log('Erro de conexão detectado, usando dados mock');
+          const mockNews = await this.getMockNews();
+          return mockNews.slice(0, limitCount);
         }
       }
       
-      throw new Error(`Falha ao buscar notícias recentes: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+      // Em caso de qualquer outro erro, usar dados mock
+      console.log('Erro geral detectado, usando dados mock');
+      const mockNews = await this.getMockNews();
+      return mockNews.slice(0, limitCount);
     }
   }
 }

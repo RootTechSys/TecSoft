@@ -20,7 +20,7 @@ export class PartnerService {
     {
       id: '1',
       name: 'Universidade de Brasília',
-      logoUrl: 'https://via.placeholder.com/150x80/4F46E5/FFFFFF?text=UnB',
+      logoUrl: '/placeholder-news.jpg',
       websiteUrl: 'https://www.unb.br',
       order: 1,
       isActive: true,
@@ -30,7 +30,7 @@ export class PartnerService {
     {
       id: '2',
       name: 'SEBRAE-DF',
-      logoUrl: 'https://via.placeholder.com/150x80/059669/FFFFFF?text=SEBRAE',
+      logoUrl: '/placeholder-news.jpg',
       websiteUrl: 'https://www.sebrae.com.br',
       order: 2,
       isActive: true,
@@ -40,7 +40,7 @@ export class PartnerService {
     {
       id: '3',
       name: 'SENAI-DF',
-      logoUrl: 'https://via.placeholder.com/150x80/DC2626/FFFFFF?text=SENAI',
+      logoUrl: '/placeholder-news.jpg',
       websiteUrl: 'https://www.senai.org.br',
       order: 3,
       isActive: true,
@@ -50,7 +50,7 @@ export class PartnerService {
     {
       id: '4',
       name: 'Prefeitura de Brasília',
-      logoUrl: 'https://via.placeholder.com/150x80/7C3AED/FFFFFF?text=PREFEITURA',
+      logoUrl: '/placeholder-news.jpg',
       websiteUrl: 'https://www.brasilia.df.gov.br',
       order: 4,
       isActive: true,
@@ -60,7 +60,7 @@ export class PartnerService {
     {
       id: '5',
       name: 'Governo do Distrito Federal',
-      logoUrl: 'https://via.placeholder.com/150x80/EA580C/FFFFFF?text=GDF',
+      logoUrl: '/placeholder-news.jpg',
       websiteUrl: 'https://www.df.gov.br',
       order: 5,
       isActive: true,
@@ -70,7 +70,7 @@ export class PartnerService {
     {
       id: '6',
       name: 'Associação Brasileira de Software',
-      logoUrl: 'https://via.placeholder.com/150x80/0891B2/FFFFFF?text=ABES',
+      logoUrl: '/placeholder-news.jpg',
       websiteUrl: 'https://www.abes.org.br',
       order: 6,
       isActive: true,
@@ -101,7 +101,7 @@ export class PartnerService {
         partners.push({
           id: doc.id,
           name: data.name,
-          logoUrl: data.logoUrl,
+          logoUrl: data.logoUrl || '/placeholder-news.jpg',
           websiteUrl: data.websiteUrl || '',
           order: data.order || 0,
           isActive: data.isActive !== undefined ? data.isActive : true,
