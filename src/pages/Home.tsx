@@ -194,7 +194,8 @@ const Home: React.FC = () => {
       setNewsError(null);
       console.log('Carregando notícias mais recentes...');
       const news = await NewsService.getLatestNews(3);
-      console.log('Notícias carregadas:', news);
+      console.log('Notícias carregadas:', news.length, 'itens');
+      console.log('Detalhes das notícias:', news.map(n => ({ title: n.title, isPublished: n.isPublished })));
       setLatestNews(news);
     } catch (error) {
       console.error('Erro ao carregar notícias:', error);

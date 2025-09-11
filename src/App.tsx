@@ -9,6 +9,7 @@ import Services from './pages/Services';
 
 import Courses from './pages/Courses';
 import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
 import Contact from './pages/Contact';
 import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
@@ -64,6 +65,15 @@ function App() {
               <Navbar />
               <main>
                 <News />
+              </main>
+              <Footer />
+            </div>
+          } />
+          <Route path="/noticias/:id" element={
+            <div className="min-h-screen bg-white">
+              <Navbar />
+              <main>
+                <NewsDetail />
               </main>
               <Footer />
             </div>
