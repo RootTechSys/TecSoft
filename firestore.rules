@@ -1,21 +1,9 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Collection de notícias - leitura pública, escrita apenas para autenticados
-    match /news/{document} {
-      allow read: if true; // Leitura pública para exibição na home
-      allow write: if request.auth != null; // Escrita apenas para usuários autenticados
-    }
-    
-    // Collection de parceiros - leitura pública, escrita apenas para autenticados
-    match /partners/{document} {
-      allow read: if true; // Leitura pública para exibição na home
-      allow write: if request.auth != null; // Escrita apenas para usuários autenticados
-    }
-    
-    // Outras collections - apenas para usuários autenticados
+    // Regras temporárias mais permissivas para desenvolvimento
     match /{document=**} {
-      allow read, write: if request.auth != null;
+      allow read, write: if true; // Temporariamente permitir tudo para debug
     }
   }
 }

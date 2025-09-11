@@ -4,9 +4,7 @@ import {
   MagnifyingGlassIcon, 
   FunnelIcon,
   CalendarIcon,
-  UserIcon,
-  TagIcon,
-  ArrowLeftIcon
+  UserIcon
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import { News, NewsTheme, NewsFilters } from '../types/news';
@@ -99,27 +97,10 @@ export default function NewsPage() {
   return (
     <div className="min-h-screen bg-snow">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header className="bg-white shadow-sm border-b border-gray-200 pt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center mb-6">
-            <Link
-              to="/"
-              className="flex items-center text-primary-600 hover:text-primary-700 transition-colors mr-4"
-            >
-              <ArrowLeftIcon className="w-5 h-5 mr-2" />
-              Voltar ao Início
-            </Link>
-          </div>
           
           <div className="text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium mb-4"
-            >
-              <TagIcon className="w-4 h-4 mr-2" />
-              Notícias TECSOFT
-            </motion.div>
             
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
