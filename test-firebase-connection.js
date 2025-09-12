@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, addDoc, getDocs, doc, setDoc } = require('firebase/firestore');
+const { getFirestore, collection, getDocs } = require('firebase/firestore');
 
 // Configuração do Firebase
 const firebaseConfig = {
@@ -11,49 +11,72 @@ const firebaseConfig = {
   appId: "1:671203567540:web:tecsoft-app"
 };
 
-console.log('🔧 Testando conexão com Firebase...');
-console.log('Project ID:', firebaseConfig.projectId);
+console.log('🔍 TESTE DE CONEXÃO FIREBASE - TECSOFT');
+console.log('======================================\n');
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-async function testConnection() {
+async function testFirebaseConnection() {
   try {
-    console.log('📡 Testando leitura...');
+    // Inicializar Firebase
+    console.log('1️⃣ Inicializando Firebase...');
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    console.log('✅ Firebase inicializado\n');
+
+    // Teste 1: Conexão com notícias
+    console.log('2️⃣ Testando conexão com notícias...');
+    const newsRef = collection(db, 'news');
+    const newsSnapshot = await getDocs(newsRef);
+    console.log(`✅ Notícias encontradas: ${newsSnapshot.size}`);
     
-    // Tentar ler uma collection que sabemos que existe
-    const testCollection = collection(db, 'test');
-    const snapshot = await getDocs(testCollection);
-    console.log('✅ Leitura bem-sucedida! Documentos encontrados:', snapshot.size);
-    
-    // Tentar escrever um documento de teste
-    console.log('📝 Testando escrita...');
-    const testDoc = await addDoc(collection(db, 'test'), {
-      message: 'Teste de conexão',
-      timestamp: new Date()
-    });
-    console.log('✅ Escrita bem-sucedida! ID do documento:', testDoc.id);
-    
-    // Tentar ler o documento que acabamos de criar
-    console.log('🔍 Testando leitura do documento criado...');
-    const newSnapshot = await getDocs(testCollection);
-    console.log('✅ Leitura pós-escrita bem-sucedida! Documentos encontrados:', newSnapshot.size);
-    
-    console.log('🎉 Todos os testes passaram! O Firebase está funcionando corretamente.');
-    
-  } catch (error) {
-    console.error('❌ Erro no teste:', error);
-    console.error('Código do erro:', error.code);
-    console.error('Mensagem:', error.message);
-    
-    if (error.code === 'permission-denied') {
-      console.log('\n🔧 Possíveis soluções:');
-      console.log('1. Verificar se as regras do Firestore foram implantadas corretamente');
-      console.log('2. Verificar se o projeto Firebase está ativo');
-      console.log('3. Verificar se a configuração do projeto está correta');
-      console.log('4. Aguardar alguns minutos para as regras entrarem em vigor');
+    if (newsSnapshot.size > 0) {
+      newsSnapshot.forEach(doc => {
+        const data = doc.data();
+        console.log(`   📰 ${data.title} (${data.isPublished ? 'Publicada' : 'Rascunho'})`);
+      });
+    } else {
+      console.log('   ⚠️ Nenhuma notícia encontrada no Firebase');
     }
+    console.log('');
+
+    // Teste 2: Conexão com parceiros
+    console.log('3️⃣ Testando conexão com parceiros...');
+    const partnersRef = collection(db, 'partners');
+    const partnersSnapshot = await getDocs(partnersRef);
+    console.log(`✅ Parceiros encontrados: ${partnersSnapshot.size}`);
+    
+    if (partnersSnapshot.size > 0) {
+      partnersSnapshot.forEach(doc => {
+        const data = doc.data();
+        console.log(`   🤝 ${data.name} (${data.isActive ? 'Ativo' : 'Inativo'})`);
+      });
+    } else {
+      console.log('   ⚠️ Nenhum parceiro encontrado no Firebase');
+    }
+    console.log('');
+
+    // Resumo
+    console.log('📊 RESUMO DO TESTE');
+    console.log('==================');
+    console.log(`✅ Conexão: OK`);
+    console.log(`📰 Notícias: ${newsSnapshot.size} itens`);
+    console.log(`🤝 Parceiros: ${partnersSnapshot.size} itens`);
+    console.log(`🔧 Projeto: ${firebaseConfig.projectId}`);
+    
+    if (newsSnapshot.size === 0 && partnersSnapshot.size === 0) {
+      console.log('\n⚠️ ATENÇÃO: Nenhum dado encontrado no Firebase');
+      console.log('💡 Isso pode explicar por que as seções dinâmicas não funcionam');
+      console.log('🔧 Solução: Adicionar dados de teste ou verificar as regras do Firestore');
+    }
+
+  } catch (error) {
+    console.error('❌ Erro durante o teste:', error.message);
+    console.log('\n🔧 POSSÍVEIS CAUSAS:');
+    console.log('1. Credenciais incorretas');
+    console.log('2. Projeto não existe ou sem permissão');
+    console.log('3. Regras do Firestore muito restritivas');
+    console.log('4. Problema de rede');
   }
 }
 
-testConnection();
+// Executar teste
+testFirebaseConnection();
