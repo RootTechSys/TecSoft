@@ -20,7 +20,7 @@ export class PartnerService {
     {
       id: '1',
       name: 'Universidade de Brasília',
-      logoUrl: '/placeholder-news.svg',
+      logoUrl: 'https://via.placeholder.com/150x80/4F46E5/FFFFFF?text=UnB',
       websiteUrl: 'https://www.unb.br',
       order: 1,
       isActive: true,
@@ -30,7 +30,7 @@ export class PartnerService {
     {
       id: '2',
       name: 'SEBRAE-DF',
-      logoUrl: '/placeholder-news.svg',
+      logoUrl: 'https://via.placeholder.com/150x80/059669/FFFFFF?text=SEBRAE',
       websiteUrl: 'https://www.sebrae.com.br',
       order: 2,
       isActive: true,
@@ -40,7 +40,7 @@ export class PartnerService {
     {
       id: '3',
       name: 'SENAI-DF',
-      logoUrl: '/placeholder-news.svg',
+      logoUrl: 'https://via.placeholder.com/150x80/DC2626/FFFFFF?text=SENAI',
       websiteUrl: 'https://www.senai.org.br',
       order: 3,
       isActive: true,
@@ -50,7 +50,7 @@ export class PartnerService {
     {
       id: '4',
       name: 'Prefeitura de Brasília',
-      logoUrl: '/placeholder-news.svg',
+      logoUrl: 'https://via.placeholder.com/150x80/7C3AED/FFFFFF?text=PREFEITURA',
       websiteUrl: 'https://www.brasilia.df.gov.br',
       order: 4,
       isActive: true,
@@ -60,7 +60,7 @@ export class PartnerService {
     {
       id: '5',
       name: 'Governo do Distrito Federal',
-      logoUrl: '/placeholder-news.svg',
+      logoUrl: 'https://via.placeholder.com/150x80/EA580C/FFFFFF?text=GDF',
       websiteUrl: 'https://www.df.gov.br',
       order: 5,
       isActive: true,
@@ -70,7 +70,7 @@ export class PartnerService {
     {
       id: '6',
       name: 'Associação Brasileira de Software',
-      logoUrl: '/placeholder-news.svg',
+      logoUrl: 'https://via.placeholder.com/150x80/0891B2/FFFFFF?text=ABES',
       websiteUrl: 'https://www.abes.org.br',
       order: 6,
       isActive: true,
@@ -83,6 +83,12 @@ export class PartnerService {
     try {
       console.log('PartnerService.getAllPartners: Iniciando busca de parceiros...');
       
+      // Verificar se o usuário está autenticado
+      if (!auth.currentUser) {
+        console.log('PartnerService.getAllPartners: Usuário não autenticado, retornando dados mock');
+        return this.mockPartners;
+      }
+
       const partnersRef = collection(db, COLLECTION_NAME);
       const q = query(partnersRef, orderBy('order', 'asc'));
       
@@ -107,22 +113,14 @@ export class PartnerService {
       console.log(`PartnerService.getAllPartners: ${partners.length} parceiros encontrados`);
       console.log('Ordens dos parceiros:', partners.map(p => ({ name: p.name, order: p.order })));
       
-      // Se não há parceiros no Firebase, retornar dados mock
-      if (partners.length === 0) {
-        console.log('PartnerService.getAllPartners: Nenhum parceiro encontrado no Firebase, retornando dados mock');
-        return this.mockPartners;
-      }
-      
-      // Verificar se há conflitos de ordem (apenas se usuário estiver autenticado)
-      if (auth.currentUser) {
-        const orders = partners.map(p => p.order);
-        const uniqueOrders = Array.from(new Set(orders));
-        if (orders.length !== uniqueOrders.length) {
-          console.warn('Conflitos de ordem detectados! Corrigindo automaticamente...');
-          await this.fixOrderConflicts(partners);
-          // Recarregar após correção
-          return this.getAllPartners();
-        }
+      // Verificar se há conflitos de ordem
+      const orders = partners.map(p => p.order);
+      const uniqueOrders = Array.from(new Set(orders));
+      if (orders.length !== uniqueOrders.length) {
+        console.warn('Conflitos de ordem detectados! Corrigindo automaticamente...');
+        await this.fixOrderConflicts(partners);
+        // Recarregar após correção
+        return this.getAllPartners();
       }
       
       return partners;

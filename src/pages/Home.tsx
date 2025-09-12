@@ -32,8 +32,6 @@ const Home: React.FC = () => {
   const [latestNews, setLatestNews] = useState<News[]>([]);
   const [newsLoading, setNewsLoading] = useState(true);
   const [newsError, setNewsError] = useState<string | null>(null);
-  
-  // Estado para teste de conexão
 
   const features = [
     {
@@ -207,7 +205,6 @@ const Home: React.FC = () => {
       setNewsLoading(false);
     }
   };
-
 
   // Carregar notícias mais recentes
   useEffect(() => {
@@ -1950,8 +1947,6 @@ const Home: React.FC = () => {
             <p className="text-base md:text-lg text-graphite/70 max-w-2xl mx-auto mb-4">
               Tendências e inovações que moldam o futuro da tecnologia
             </p>
-            
-            {/* Botão de teste de conexão (apenas em desenvolvimento) */}
 
             {/* Desktop CTA */}
             <Link to="/noticias" className="hidden md:inline-block">

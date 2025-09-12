@@ -7,11 +7,7 @@ import {
   ChevronDownIcon 
 } from '@heroicons/react/24/outline';
 
-interface NavbarProps {
-  forceSolid?: boolean;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ forceSolid = false }) => {
+const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
@@ -40,7 +36,7 @@ const Navbar: React.FC<NavbarProps> = ({ forceSolid = false }) => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        forceSolid || isScrolled 
+        isScrolled 
           ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-200/50' 
           : 'bg-transparent'
       }`}

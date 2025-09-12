@@ -25,7 +25,7 @@ export class NewsService {
       {
         id: 'mock-1',
         title: 'TECSOFT lança programa de incubação para startups',
-        coverImage: '/placeholder-news.jpg',
+        coverImage: 'https://via.placeholder.com/400x200/8A8D55/FFFFFF?text=Startup+Incubation',
         briefDescription: 'Iniciativa visa apoiar empreendedores do setor de software em Brasília',
         content: 'Conteúdo completo da notícia sobre o programa de incubação...',
         authors: ['Equipe TECSOFT'],
@@ -38,7 +38,7 @@ export class NewsService {
       {
         id: 'mock-2',
         title: 'Workshop gratuito sobre desenvolvimento mobile',
-        coverImage: '/placeholder-news.jpg',
+        coverImage: 'https://via.placeholder.com/400x200/1E3A5F/FFFFFF?text=Mobile+Workshop',
         briefDescription: 'Evento será realizado no próximo sábado com especialistas da área',
         content: 'Conteúdo completo sobre o workshop de desenvolvimento mobile...',
         authors: ['Equipe TECSOFT'],
@@ -51,7 +51,7 @@ export class NewsService {
       {
         id: 'mock-3',
         title: 'Parceria com universidades fortalece capacitação',
-        coverImage: '/placeholder-news.jpg',
+        coverImage: 'https://via.placeholder.com/400x200/E6B33D/FFFFFF?text=Academic+Partnership',
         briefDescription: 'Acordos garantem acesso a laboratórios e recursos educacionais',
         content: 'Conteúdo completo sobre as parcerias acadêmicas...',
         authors: ['Equipe TECSOFT'],
@@ -325,63 +325,119 @@ export class NewsService {
       console.log('Collection:', COLLECTION_NAME);
       console.log('Limit:', limitCount);
       
-      // Tentar query simples primeiro
-      console.log('Tentando query simples...');
-      const newsCollection = collection(db, COLLECTION_NAME);
-      const simpleQuerySnapshot = await getDocs(newsCollection);
+      // Primeiro, tentar query simples para debug
+      console.log('Tentando query simples primeiro...');
+      let q: any = collection(db, COLLECTION_NAME);
+      let simpleQuerySnapshot = await getDocs(q);
       console.log('Query simples executada, total de documentos:', simpleQuerySnapshot.size);
       
-      // Se não há documentos, retornar dados mock
+      // Se não há documentos, retornar array vazio
       if (simpleQuerySnapshot.size === 0) {
-        console.log('Nenhum documento encontrado na collection, retornando dados mock');
-        const mockNews = await this.getMockNews();
-        return mockNews.slice(0, limitCount);
+        console.log('Nenhum documento encontrado na collection');
+        return [];
       }
       
-      // Processar documentos encontrados
-      const allNews: News[] = [];
+      // Mostrar todos os documentos para debug
       simpleQuerySnapshot.forEach((doc) => {
         const data = doc.data() as any;
-        allNews.push({
-          id: doc.id,
-          title: data.title || '',
-          coverImage: data.coverImage || '/placeholder-news.svg',
-          briefDescription: data.briefDescription || '',
-          content: data.content || '',
-          authors: data.authors || [],
-          theme: data.theme || 'Tecnologia',
-          publicationDate: data.publicationDate?.toDate() || new Date(),
-          scheduledDate: data.scheduledDate?.toDate(),
-          isPublished: data.isPublished || false,
-          createdAt: data.createdAt?.toDate() || new Date(),
-          updatedAt: data.updatedAt?.toDate() || new Date()
+        console.log('Documento completo:', doc.id, {
+          title: data.title,
+          isPublished: data.isPublished,
+          publicationDate: data.publicationDate,
+          theme: data.theme
         });
       });
       
-      // Filtrar apenas notícias publicadas e ordenar
-      const publishedNews = allNews
-        .filter(news => news.isPublished)
-        .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
-        .slice(0, limitCount);
-      
-      console.log(`Notícias publicadas encontradas: ${publishedNews.length}`);
-      
-      // Se não há notícias publicadas, retornar dados mock
-      if (publishedNews.length === 0) {
-        console.log('Nenhuma notícia publicada encontrada, retornando dados mock');
-        const mockNews = await this.getMockNews();
-        return mockNews.slice(0, limitCount);
+      // Se a query complexa falhar, usar a simples e filtrar localmente
+      try {
+        console.log('Tentando query com filtros...');
+        q = query(
+          collection(db, COLLECTION_NAME),
+          where('isPublished', '==', true),
+          orderBy('publicationDate', 'desc'),
+          limit(limitCount)
+        );
+        
+        console.log('Query criada, executando...');
+        const querySnapshot = await getDocs(q);
+        console.log('Query executada, documentos encontrados:', querySnapshot.size);
+        
+        const news: News[] = [];
+        
+        querySnapshot.forEach((doc) => {
+          const data = doc.data() as any;
+          console.log('Documento filtrado:', doc.id, data);
+          news.push({
+            id: doc.id,
+            title: data.title || '',
+            coverImage: data.coverImage || '',
+            briefDescription: data.briefDescription || '',
+            content: data.content || '',
+            authors: data.authors || [],
+            theme: data.theme || 'Tecnologia',
+            publicationDate: data.publicationDate?.toDate() || new Date(),
+            scheduledDate: data.scheduledDate?.toDate(),
+            isPublished: data.isPublished || false,
+            createdAt: data.createdAt?.toDate() || new Date(),
+            updatedAt: data.updatedAt?.toDate() || new Date()
+          });
+        });
+
+        console.log('Notícias processadas:', news);
+        return news;
+        
+      } catch (queryError) {
+        console.log('Query complexa falhou, usando fallback local:', queryError);
+        
+        // Fallback: filtrar localmente
+        const allNews: News[] = [];
+        simpleQuerySnapshot.forEach((doc) => {
+          const data = doc.data() as any;
+          allNews.push({
+            id: doc.id,
+            title: data.title || '',
+            coverImage: data.coverImage || '',
+            briefDescription: data.briefDescription || '',
+            content: data.content || '',
+            authors: data.authors || [],
+            theme: data.theme || 'Tecnologia',
+            publicationDate: data.publicationDate?.toDate() || new Date(),
+            scheduledDate: data.scheduledDate?.toDate(),
+            isPublished: data.isPublished || false,
+            createdAt: data.createdAt?.toDate() || new Date(),
+            updatedAt: data.updatedAt?.toDate() || new Date()
+          });
+        });
+        
+        // Filtrar e ordenar localmente
+        const publishedNews = allNews
+          .filter(news => news.isPublished)
+          .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
+          .slice(0, limitCount);
+        
+        console.log('Notícias processadas com fallback:', publishedNews);
+        return publishedNews;
       }
       
-      return publishedNews;
-      
     } catch (error) {
-      console.error('NewsService.getLatestNews: Erro ao buscar notícias:', error);
+      console.error('NewsService.getLatestNews: Erro detalhado:', error);
       
-      // Em caso de erro, retornar dados mock
-      console.log('Retornando dados mock devido ao erro');
-      const mockNews = await this.getMockNews();
-      return mockNews.slice(0, limitCount);
+      if (error instanceof Error) {
+        console.error('Mensagem de erro:', error.message);
+        console.error('Stack trace:', error.stack);
+        
+        // Verificar se é erro de permissão
+        if (error.message.includes('permission') || error.message.includes('rules')) {
+          throw new Error('Erro de permissão: Verifique as regras de segurança do Firestore');
+        }
+        
+        // Verificar se é erro de conexão
+        if (error.message.includes('network') || error.message.includes('timeout')) {
+          throw new Error('Erro de conexão: Verifique sua conexão com a internet');
+        }
+      }
+      
+      throw new Error(`Falha ao buscar notícias recentes: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
     }
   }
 }
