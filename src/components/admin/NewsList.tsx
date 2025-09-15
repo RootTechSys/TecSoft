@@ -42,25 +42,20 @@ export default function NewsList() {
       setError(null);
       console.log('Iniciando carregamento de notícias...');
       
-      // Carregar do Firebase (agora com autenticação obrigatória)
+      // Carregar do Firebase (com fallback para dados mock)
       const allNews = await NewsService.getAllNews();
-      console.log('Notícias carregadas do Firebase:', allNews);
+      console.log('Notícias carregadas:', allNews);
       setNews(allNews);
       
-    } catch (error) {
-      console.error('Erro ao carregar do Firebase:', error);
-      
-      if (error instanceof Error) {
-        if (error.message.includes('autenticado')) {
-          setError('🔐 Faça login para acessar as notícias');
-        } else if (error.message.includes('permission') || error.message.includes('rules')) {
-          setError('🚫 Erro de permissão. Verifique as regras de segurança do Firebase.');
-        } else {
-          setError(`❌ Erro ao carregar notícias: ${error.message}`);
-        }
-      } else {
-        setError('❌ Erro desconhecido ao carregar notícias');
+      // Verificar se são dados mock (IDs começam com 'mock-')
+      const isUsingMockData = allNews.some(item => item.id.startsWith('mock-'));
+      if (isUsingMockData) {
+        setError('⚠️ Modo Demonstração: Exibindo dados de exemplo. Para conectar ao Firebase, verifique as configurações.');
       }
+      
+    } catch (error) {
+      console.error('Erro ao carregar notícias:', error);
+      setError('❌ Erro inesperado ao carregar notícias');
     } finally {
       setLoading(false);
     }

@@ -27,7 +27,7 @@ export default function NewsPage() {
 
   useEffect(() => {
     applyFilters();
-  }, [news, filters]);
+  }, [news, filters]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadNews = async () => {
     try {
@@ -36,8 +36,11 @@ export default function NewsPage() {
       // Filtrar apenas notícias publicadas
       const publishedNews = allNews.filter(item => item.isPublished);
       setNews(publishedNews);
+      console.log('Notícias carregadas:', publishedNews.length);
     } catch (error) {
       console.error('Erro ao carregar notícias:', error);
+      // O serviço agora sempre retorna dados (mock ou Firebase)
+      setNews([]);
     } finally {
       setLoading(false);
     }

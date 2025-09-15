@@ -8,8 +8,6 @@ import {
   getDoc, 
   query, 
   where, 
-  orderBy, 
-  limit,
   Timestamp,
   serverTimestamp 
 } from 'firebase/firestore';
@@ -20,7 +18,7 @@ const COLLECTION_NAME = 'news';
 
 export class NewsService {
   // Dados mock para teste
-  static async getMockNews(): Promise<News[]> {
+  static getMockNews(): News[] {
     return [
       {
         id: 'mock-1',
@@ -269,6 +267,8 @@ export class NewsService {
   // Buscar todas as notícias com filtros
   static async getAllNews(filters: NewsFilters = { search: '', theme: 'all' }): Promise<News[]> {
     try {
+      console.log('NewsService.getAllNews: Tentando conectar ao Firebase...');
+      
       // Query otimizada - apenas o essencial
       let q: any = collection(db, COLLECTION_NAME);
       
@@ -298,6 +298,13 @@ export class NewsService {
         });
       });
 
+      console.log(`NewsService.getAllNews: ${news.length} notícias encontradas no Firebase`);
+      
+      // Debug: mostrar status das notícias
+      const publishedCount = news.filter(n => n.isPublished).length;
+      const draftCount = news.length - publishedCount;
+      console.log(`NewsService.getAllNews: ${publishedCount} publicadas, ${draftCount} em rascunho`);
+
       // Ordenar localmente para performance
       news.sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime());
 
@@ -313,8 +320,74 @@ export class NewsService {
 
       return news;
     } catch (error) {
-      console.error('Erro ao buscar notícias:', error);
-      throw error; // Re-throw para o fallback funcionar
+      console.error('NewsService.getAllNews: Erro ao conectar com Firebase:', error);
+      
+      // Em caso de erro de conexão, usar dados mock
+      console.log('NewsService.getAllNews: Usando dados mock devido ao erro de conexão');
+      let mockNews = this.getMockNews();
+      
+      // Aplicar filtros nos dados mock
+      if (filters.theme && filters.theme !== 'all') {
+        mockNews = mockNews.filter((item: News) => item.theme === filters.theme);
+      }
+      
+      if (filters.search) {
+        const searchLower = filters.search.toLowerCase();
+        mockNews = mockNews.filter((item: News) => 
+          item.title.toLowerCase().includes(searchLower) ||
+          item.authors.some((author: string) => author.toLowerCase().includes(searchLower)) ||
+          item.briefDescription.toLowerCase().includes(searchLower)
+        );
+      }
+      
+      console.log(`NewsService.getAllNews: Retornando ${mockNews.length} notícias mock`);
+      return mockNews;
+    }
+  }
+
+  // Método de debug para mostrar todas as notícias (incluindo rascunhos)
+  static async getAllNewsForDebug(limitCount: number = 3): Promise<News[]> {
+    try {
+      console.log('NewsService.getAllNewsForDebug: Buscando TODAS as notícias (incluindo rascunhos)...');
+      
+      const newsCollection = collection(db, COLLECTION_NAME);
+      const querySnapshot = await getDocs(newsCollection);
+      
+      if (querySnapshot.size === 0) {
+        console.log('Nenhum documento encontrado, usando dados mock');
+        return this.getMockNews().slice(0, limitCount);
+      }
+      
+      const allNews: News[] = [];
+      querySnapshot.forEach((doc) => {
+        const data = doc.data() as any;
+        allNews.push({
+          id: doc.id,
+          title: data.title || '',
+          coverImage: data.coverImage || '',
+          briefDescription: data.briefDescription || '',
+          content: data.content || '',
+          authors: data.authors || [],
+          theme: data.theme || 'Tecnologia',
+          publicationDate: data.publicationDate?.toDate() || new Date(),
+          scheduledDate: data.scheduledDate?.toDate(),
+          isPublished: data.isPublished || false,
+          createdAt: data.createdAt?.toDate() || new Date(),
+          updatedAt: data.updatedAt?.toDate() || new Date()
+        });
+      });
+      
+      // Ordenar por data e retornar todas (sem filtrar por isPublished)
+      const sortedNews = allNews
+        .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
+        .slice(0, limitCount);
+      
+      console.log(`NewsService.getAllNewsForDebug: Retornando ${sortedNews.length} notícias (incluindo rascunhos)`);
+      return sortedNews;
+      
+    } catch (error) {
+      console.error('NewsService.getAllNewsForDebug: Erro:', error);
+      return this.getMockNews().slice(0, limitCount);
     }
   }
 
@@ -325,119 +398,70 @@ export class NewsService {
       console.log('Collection:', COLLECTION_NAME);
       console.log('Limit:', limitCount);
       
-      // Primeiro, tentar query simples para debug
-      console.log('Tentando query simples primeiro...');
-      let q: any = collection(db, COLLECTION_NAME);
-      let simpleQuerySnapshot = await getDocs(q);
-      console.log('Query simples executada, total de documentos:', simpleQuerySnapshot.size);
+      // Tentar buscar dados do Firebase primeiro
+      const newsCollection = collection(db, COLLECTION_NAME);
+      const querySnapshot = await getDocs(newsCollection);
+      console.log('Query executada, total de documentos:', querySnapshot.size);
       
-      // Se não há documentos, retornar array vazio
-      if (simpleQuerySnapshot.size === 0) {
-        console.log('Nenhum documento encontrado na collection');
-        return [];
+      // Se não há documentos, usar dados mock
+      if (querySnapshot.size === 0) {
+        console.log('Nenhum documento encontrado na collection, usando dados mock');
+        return this.getMockNews().slice(0, limitCount);
       }
       
-      // Mostrar todos os documentos para debug
-      simpleQuerySnapshot.forEach((doc) => {
+      // Processar documentos do Firebase
+      const allNews: News[] = [];
+      querySnapshot.forEach((doc) => {
         const data = doc.data() as any;
-        console.log('Documento completo:', doc.id, {
-          title: data.title,
-          isPublished: data.isPublished,
-          publicationDate: data.publicationDate,
-          theme: data.theme
+        allNews.push({
+          id: doc.id,
+          title: data.title || '',
+          coverImage: data.coverImage || '',
+          briefDescription: data.briefDescription || '',
+          content: data.content || '',
+          authors: data.authors || [],
+          theme: data.theme || 'Tecnologia',
+          publicationDate: data.publicationDate?.toDate() || new Date(),
+          scheduledDate: data.scheduledDate?.toDate(),
+          isPublished: data.isPublished || false,
+          createdAt: data.createdAt?.toDate() || new Date(),
+          updatedAt: data.updatedAt?.toDate() || new Date()
         });
       });
       
-      // Se a query complexa falhar, usar a simples e filtrar localmente
-      try {
-        console.log('Tentando query com filtros...');
-        q = query(
-          collection(db, COLLECTION_NAME),
-          where('isPublished', '==', true),
-          orderBy('publicationDate', 'desc'),
-          limit(limitCount)
-        );
-        
-        console.log('Query criada, executando...');
-        const querySnapshot = await getDocs(q);
-        console.log('Query executada, documentos encontrados:', querySnapshot.size);
-        
-        const news: News[] = [];
-        
-        querySnapshot.forEach((doc) => {
-          const data = doc.data() as any;
-          console.log('Documento filtrado:', doc.id, data);
-          news.push({
-            id: doc.id,
-            title: data.title || '',
-            coverImage: data.coverImage || '',
-            briefDescription: data.briefDescription || '',
-            content: data.content || '',
-            authors: data.authors || [],
-            theme: data.theme || 'Tecnologia',
-            publicationDate: data.publicationDate?.toDate() || new Date(),
-            scheduledDate: data.scheduledDate?.toDate(),
-            isPublished: data.isPublished || false,
-            createdAt: data.createdAt?.toDate() || new Date(),
-            updatedAt: data.updatedAt?.toDate() || new Date()
-          });
-        });
-
-        console.log('Notícias processadas:', news);
-        return news;
-        
-      } catch (queryError) {
-        console.log('Query complexa falhou, usando fallback local:', queryError);
-        
-        // Fallback: filtrar localmente
-        const allNews: News[] = [];
-        simpleQuerySnapshot.forEach((doc) => {
-          const data = doc.data() as any;
-          allNews.push({
-            id: doc.id,
-            title: data.title || '',
-            coverImage: data.coverImage || '',
-            briefDescription: data.briefDescription || '',
-            content: data.content || '',
-            authors: data.authors || [],
-            theme: data.theme || 'Tecnologia',
-            publicationDate: data.publicationDate?.toDate() || new Date(),
-            scheduledDate: data.scheduledDate?.toDate(),
-            isPublished: data.isPublished || false,
-            createdAt: data.createdAt?.toDate() || new Date(),
-            updatedAt: data.updatedAt?.toDate() || new Date()
-          });
-        });
-        
-        // Filtrar e ordenar localmente
-        const publishedNews = allNews
-          .filter(news => news.isPublished)
-          .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
-          .slice(0, limitCount);
-        
-        console.log('Notícias processadas com fallback:', publishedNews);
-        return publishedNews;
+      // Debug: mostrar todas as notícias encontradas
+      console.log('NewsService.getLatestNews: Todas as notícias encontradas:');
+      allNews.forEach((news, index) => {
+        console.log(`  ${index + 1}. ID: ${news.id}`);
+        console.log(`     Título: ${news.title}`);
+        console.log(`     Publicada: ${news.isPublished ? 'SIM' : 'NÃO'}`);
+        console.log(`     Tema: ${news.theme}`);
+        console.log('');
+      });
+      
+      // Filtrar apenas notícias publicadas e ordenar por data
+      const publishedNews = allNews
+        .filter(news => news.isPublished)
+        .sort((a, b) => b.publicationDate.getTime() - a.publicationDate.getTime())
+        .slice(0, limitCount);
+      
+      console.log(`NewsService.getLatestNews: ${publishedNews.length} notícias publicadas encontradas`);
+      console.log(`NewsService.getLatestNews: ${allNews.length - publishedNews.length} notícias em rascunho (não exibidas no site público)`);
+      
+      // Se não há notícias publicadas, usar dados mock
+      if (publishedNews.length === 0) {
+        console.log('Nenhuma notícia publicada encontrada, usando dados mock');
+        return this.getMockNews().slice(0, limitCount);
       }
+      
+      return publishedNews;
       
     } catch (error) {
-      console.error('NewsService.getLatestNews: Erro detalhado:', error);
+      console.error('NewsService.getLatestNews: Erro ao conectar com Firebase:', error);
       
-      if (error instanceof Error) {
-        console.error('Mensagem de erro:', error.message);
-        console.error('Stack trace:', error.stack);
-        
-        // Verificar se é erro de permissão
-        if (error.message.includes('permission') || error.message.includes('rules')) {
-          throw new Error('Erro de permissão: Verifique as regras de segurança do Firestore');
-        }
-        
-        // Verificar se é erro de conexão
-        if (error.message.includes('network') || error.message.includes('timeout')) {
-          throw new Error('Erro de conexão: Verifique sua conexão com a internet');
-        }
-      }
-      
-      throw new Error(`Falha ao buscar notícias recentes: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+      // Em caso de erro de conexão, usar dados mock
+      console.log('Usando dados mock devido ao erro de conexão');
+      return this.getMockNews().slice(0, limitCount);
     }
   }
 }

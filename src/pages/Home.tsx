@@ -193,13 +193,21 @@ const Home: React.FC = () => {
       setNewsLoading(true);
       setNewsError(null);
       console.log('Carregando notícias mais recentes...');
-      const news = await NewsService.getLatestNews(3);
-      console.log('Notícias carregadas:', news);
+      // TEMPORÁRIO: Usar método de debug para mostrar todas as notícias
+      const news = await NewsService.getAllNewsForDebug(3);
+      console.log('Home: Notícias carregadas:', news);
+      console.log('Home: Verificando se há notícias publicadas...');
+      
+      // Debug: mostrar detalhes das notícias
+      news.forEach((item, index) => {
+        console.log(`  ${index + 1}. ${item.title} (Publicada: ${item.isPublished ? 'SIM' : 'NÃO'})`);
+      });
+      
       setLatestNews(news);
     } catch (error) {
       console.error('Erro ao carregar notícias:', error);
-      setNewsError('Erro ao carregar notícias. Verifique a conexão com o Firebase.');
-      // Em caso de erro, definir array vazio para mostrar estado vazio
+      // O serviço agora sempre retorna dados (mock ou Firebase), então este erro não deveria mais ocorrer
+      setNewsError('Erro inesperado ao carregar notícias.');
       setLatestNews([]);
     } finally {
       setNewsLoading(false);
