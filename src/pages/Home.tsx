@@ -193,8 +193,7 @@ const Home: React.FC = () => {
       setNewsLoading(true);
       setNewsError(null);
       console.log('Carregando notícias mais recentes...');
-      // TEMPORÁRIO: Usar método de debug para mostrar todas as notícias
-      const news = await NewsService.getAllNewsForDebug(3);
+      const news = await NewsService.getLatestNews(3);
       console.log('Home: Notícias carregadas:', news);
       console.log('Home: Verificando se há notícias publicadas...');
       

@@ -66,6 +66,8 @@ export class NewsService {
   static async testConnection(): Promise<boolean> {
     try {
       console.log('NewsService.testConnection: Testando conexão...');
+      console.log('Environment:', process.env.NODE_ENV);
+      console.log('User Agent:', navigator.userAgent);
       
       // Teste 1: Verificar se o app está inicializado
       console.log('Firebase app config:', { projectId: 'tecsoft-7cf2d', authDomain: 'tecsoft-7cf2d.firebaseapp.com' });
@@ -74,9 +76,16 @@ export class NewsService {
       const newsCollection = collection(db, COLLECTION_NAME);
       console.log('Collection de notícias acessada');
       
-      // Teste 3: Tentar executar uma query simples
+      // Teste 3: Tentar executar uma query simples com timeout
       const startTime = Date.now();
-      const querySnapshot = await getDocs(newsCollection);
+      
+      // Criar uma Promise com timeout para produção
+      const queryPromise = getDocs(newsCollection);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout: Query demorou mais de 10 segundos')), 10000)
+      );
+      
+      const querySnapshot = await Promise.race([queryPromise, timeoutPromise]) as any;
       const endTime = Date.now();
       
       console.log(`Query executada em ${endTime - startTime}ms`);
@@ -88,6 +97,7 @@ export class NewsService {
         console.log('Primeiro documento:', firstDoc.data());
       }
       
+      console.log('NewsService.testConnection: Conexão bem-sucedida!');
       return true;
     } catch (error) {
       console.error('NewsService.testConnection: Erro detalhado:', error);
@@ -96,6 +106,17 @@ export class NewsService {
       if (error instanceof Error) {
         console.error('Mensagem de erro:', error.message);
         console.error('Stack trace:', error.stack);
+        
+        // Logs específicos para diferentes tipos de erro
+        if (error.message.includes('permission')) {
+          console.error('ERRO DE PERMISSÃO: Verifique as regras do Firestore');
+        } else if (error.message.includes('network')) {
+          console.error('ERRO DE REDE: Verifique a conexão com a internet');
+        } else if (error.message.includes('timeout')) {
+          console.error('ERRO DE TIMEOUT: Firebase demorou para responder');
+        } else if (error.message.includes('cors')) {
+          console.error('ERRO DE CORS: Problema de configuração de domínio');
+        }
       }
       
       return false;

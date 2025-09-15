@@ -14,6 +14,7 @@ import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 import { AuthProvider } from './contexts/AuthContext';
+import FirebaseDiagnostic from './components/FirebaseDiagnostic';
 
 function App() {
   return (
@@ -75,6 +76,15 @@ function App() {
                 <Contact />
               </main>
               <Footer />
+            </div>
+          } />
+          
+          {/* Rota de Diagnóstico (temporária) */}
+          <Route path="/diagnostico" element={
+            <div className="min-h-screen bg-gray-50">
+              <main className="py-8">
+                <FirebaseDiagnostic />
+              </main>
             </div>
           } />
           
