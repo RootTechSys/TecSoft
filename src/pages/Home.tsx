@@ -19,6 +19,7 @@ import { PartnerService } from '../services/partnerService';
 import { Partner } from '../types/partner';
 import PartnerCarousel from '../components/PartnerCarousel';
 import DynamicCodeAnimation from '../components/DynamicCodeAnimation';
+import FirebasePermissionWarning from '../components/FirebasePermissionWarning';
 
 
 const Home: React.FC = () => {
@@ -32,6 +33,7 @@ const Home: React.FC = () => {
   const [latestNews, setLatestNews] = useState<News[]>([]);
   const [newsLoading, setNewsLoading] = useState(true);
   const [newsError, setNewsError] = useState<string | null>(null);
+  const [showPermissionWarning, setShowPermissionWarning] = useState(false);
 
   const features = [
     {
@@ -202,11 +204,16 @@ const Home: React.FC = () => {
         console.log(`  ${index + 1}. ${item.title} (Publicada: ${item.isPublished ? 'SIM' : 'NÃO'})`);
       });
       
+      // Verificar se há notícias
+      if (news.length === 0) {
+        console.log('Home: Nenhuma notícia encontrada');
+        setNewsError('Nenhuma notícia encontrada. Crie notícias no painel admin.');
+      }
+      
       setLatestNews(news);
     } catch (error) {
       console.error('Erro ao carregar notícias:', error);
-      // O serviço agora sempre retorna dados (mock ou Firebase), então este erro não deveria mais ocorrer
-      setNewsError('Erro inesperado ao carregar notícias.');
+      setNewsError('Erro ao carregar notícias do Firebase.');
       setLatestNews([]);
     } finally {
       setNewsLoading(false);
@@ -1968,6 +1975,11 @@ const Home: React.FC = () => {
             </Link>
           </motion.div>
 
+          {/* Aviso de Permissão */}
+          {showPermissionWarning && (
+            <FirebasePermissionWarning onDismiss={() => setShowPermissionWarning(false)} />
+          )}
+
           {/* Interactive News Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
             {newsLoading ? (
@@ -2265,6 +2277,7 @@ const Home: React.FC = () => {
           </motion.div>
         </div>
       </section>
+
     </div>
   );
 };

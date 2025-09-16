@@ -15,85 +15,25 @@ import { Partner, PartnerFormData, PartnerFilters } from '../types/partner';
 const COLLECTION_NAME = 'partners';
 
 export class PartnerService {
-  // Dados mock para teste
-  private static mockPartners: Partner[] = [
-    {
-      id: '1',
-      name: 'Universidade de Brasília',
-      logoUrl: 'https://via.placeholder.com/150x80/4F46E5/FFFFFF?text=UnB',
-      websiteUrl: 'https://www.unb.br',
-      order: 1,
-      isActive: true,
-      createdAt: new Date('2024-01-01'),
-      updatedAt: new Date('2024-01-01')
-    },
-    {
-      id: '2',
-      name: 'SEBRAE-DF',
-      logoUrl: 'https://via.placeholder.com/150x80/059669/FFFFFF?text=SEBRAE',
-      websiteUrl: 'https://www.sebrae.com.br',
-      order: 2,
-      isActive: true,
-      createdAt: new Date('2024-01-02'),
-      updatedAt: new Date('2024-01-02')
-    },
-    {
-      id: '3',
-      name: 'SENAI-DF',
-      logoUrl: 'https://via.placeholder.com/150x80/DC2626/FFFFFF?text=SENAI',
-      websiteUrl: 'https://www.senai.org.br',
-      order: 3,
-      isActive: true,
-      createdAt: new Date('2024-01-03'),
-      updatedAt: new Date('2024-01-03')
-    },
-    {
-      id: '4',
-      name: 'Prefeitura de Brasília',
-      logoUrl: 'https://via.placeholder.com/150x80/7C3AED/FFFFFF?text=PREFEITURA',
-      websiteUrl: 'https://www.brasilia.df.gov.br',
-      order: 4,
-      isActive: true,
-      createdAt: new Date('2024-01-04'),
-      updatedAt: new Date('2024-01-04')
-    },
-    {
-      id: '5',
-      name: 'Governo do Distrito Federal',
-      logoUrl: 'https://via.placeholder.com/150x80/EA580C/FFFFFF?text=GDF',
-      websiteUrl: 'https://www.df.gov.br',
-      order: 5,
-      isActive: true,
-      createdAt: new Date('2024-01-05'),
-      updatedAt: new Date('2024-01-05')
-    },
-    {
-      id: '6',
-      name: 'Associação Brasileira de Software',
-      logoUrl: 'https://via.placeholder.com/150x80/0891B2/FFFFFF?text=ABES',
-      websiteUrl: 'https://www.abes.org.br',
-      order: 6,
-      isActive: true,
-      createdAt: new Date('2024-01-06'),
-      updatedAt: new Date('2024-01-06')
-    }
-  ];
 
   static async getAllPartners(): Promise<Partner[]> {
     try {
       console.log('PartnerService.getAllPartners: Iniciando busca de parceiros...');
       
-      // Verificar se o usuário está autenticado
-      if (!auth.currentUser) {
-        console.log('PartnerService.getAllPartners: Usuário não autenticado, retornando dados mock');
-        return this.mockPartners;
-      }
-
       const partnersRef = collection(db, COLLECTION_NAME);
       const q = query(partnersRef, orderBy('order', 'asc'));
       
       console.log('PartnerService.getAllPartners: Executando query no Firestore...');
       const querySnapshot = await getDocs(q);
+      
+      console.log(`PartnerService.getAllPartners: ${querySnapshot.size} documentos encontrados`);
+      
+      // Se não há documentos, retornar array vazio
+      if (querySnapshot.size === 0) {
+        console.log('🚨 AVISO: Nenhum documento encontrado na collection "partners"');
+        console.log('💡 SOLUÇÃO: Crie parceiros no painel admin (/admin)');
+        return [];
+      }
       
       const partners: Partner[] = [];
       querySnapshot.forEach((doc) => {
@@ -126,8 +66,8 @@ export class PartnerService {
       return partners;
     } catch (error) {
       console.error('PartnerService.getAllPartners: Erro ao buscar parceiros:', error);
-      console.log('PartnerService.getAllPartners: Retornando dados mock devido ao erro');
-      return this.mockPartners;
+      console.log('PartnerService.getAllPartners: Retornando array vazio devido ao erro');
+      return [];
     }
   }
 
@@ -169,7 +109,7 @@ export class PartnerService {
       return activePartners;
     } catch (error) {
       console.error('PartnerService.getActivePartners: Erro ao buscar parceiros ativos:', error);
-      return this.mockPartners.filter(partner => partner.isActive);
+      return [];
     }
   }
 

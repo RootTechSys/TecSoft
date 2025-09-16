@@ -1,0 +1,33 @@
+# REGRAS CORRETAS DO FIRESTORE PARA TECSOFT
+# Copie e cole estas regras no Firebase Console > Firestore Database > Rules
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Collection de notícias - leitura pública, escrita apenas para autenticados
+    match /news/{document} {
+      allow read: if true; // Leitura pública para exibição na home e dashboard
+      allow write: if request.auth != null; // Escrita apenas para usuários autenticados
+    }
+    
+    // Collection de parceiros - leitura pública, escrita apenas para autenticados
+    match /partners/{document} {
+      allow read: if true; // Leitura pública para exibição na home
+      allow write: if request.auth != null; // Escrita apenas para usuários autenticados
+    }
+    
+    // Outras collections - apenas para usuários autenticados
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
+
+# INSTRUÇÕES:
+# 1. Acesse https://console.firebase.google.com/
+# 2. Selecione o projeto "tecsoft-7cf2d"
+# 3. Vá para Firestore Database > Rules
+# 4. Cole as regras acima
+# 5. Clique em "Publish" para implantar
+# 6. Aguarde alguns minutos para as regras serem aplicadas
+

@@ -17,50 +17,6 @@ import { News, NewsFormData, NewsFilters } from '../types/news';
 const COLLECTION_NAME = 'news';
 
 export class NewsService {
-  // Dados mock para teste
-  static getMockNews(): News[] {
-    return [
-      {
-        id: 'mock-1',
-        title: 'TECSOFT lança programa de incubação para startups',
-        coverImage: 'https://via.placeholder.com/400x200/8A8D55/FFFFFF?text=Startup+Incubation',
-        briefDescription: 'Iniciativa visa apoiar empreendedores do setor de software em Brasília',
-        content: 'Conteúdo completo da notícia sobre o programa de incubação...',
-        authors: ['Equipe TECSOFT'],
-        theme: 'Inovação',
-        publicationDate: new Date('2024-12-15'),
-        isPublished: true,
-        createdAt: new Date('2024-12-15'),
-        updatedAt: new Date('2024-12-15')
-      },
-      {
-        id: 'mock-2',
-        title: 'Workshop gratuito sobre desenvolvimento mobile',
-        coverImage: 'https://via.placeholder.com/400x200/1E3A5F/FFFFFF?text=Mobile+Workshop',
-        briefDescription: 'Evento será realizado no próximo sábado com especialistas da área',
-        content: 'Conteúdo completo sobre o workshop de desenvolvimento mobile...',
-        authors: ['Equipe TECSOFT'],
-        theme: 'Eventos',
-        publicationDate: new Date('2024-12-12'),
-        isPublished: true,
-        createdAt: new Date('2024-12-12'),
-        updatedAt: new Date('2024-12-12')
-      },
-      {
-        id: 'mock-3',
-        title: 'Parceria com universidades fortalece capacitação',
-        coverImage: 'https://via.placeholder.com/400x200/E6B33D/FFFFFF?text=Academic+Partnership',
-        briefDescription: 'Acordos garantem acesso a laboratórios e recursos educacionais',
-        content: 'Conteúdo completo sobre as parcerias acadêmicas...',
-        authors: ['Equipe TECSOFT'],
-        theme: 'Parcerias',
-        publicationDate: new Date('2024-12-10'),
-        isPublished: true,
-        createdAt: new Date('2024-12-10'),
-        updatedAt: new Date('2024-12-10')
-      }
-    ];
-  }
 
   // Teste de conexão com Firebase
   static async testConnection(): Promise<boolean> {
@@ -343,26 +299,21 @@ export class NewsService {
     } catch (error) {
       console.error('NewsService.getAllNews: Erro ao conectar com Firebase:', error);
       
-      // Em caso de erro de conexão, usar dados mock
-      console.log('NewsService.getAllNews: Usando dados mock devido ao erro de conexão');
-      let mockNews = this.getMockNews();
-      
-      // Aplicar filtros nos dados mock
-      if (filters.theme && filters.theme !== 'all') {
-        mockNews = mockNews.filter((item: News) => item.theme === filters.theme);
+      // Verificar tipo específico de erro
+      if (error instanceof Error) {
+        if (error.message.includes('permission') || error.message.includes('rules')) {
+          console.log('🚨 ERRO DE PERMISSÃO: Verifique as regras do Firestore');
+          console.log('💡 Solução: Verifique as regras do Firestore no Firebase Console');
+        } else if (error.message.includes('network') || error.message.includes('timeout')) {
+          console.log('🌐 ERRO DE REDE: Verifique sua conexão com a internet');
+        } else {
+          console.log('❌ ERRO DESCONHECIDO:', error.message);
+        }
       }
       
-      if (filters.search) {
-        const searchLower = filters.search.toLowerCase();
-        mockNews = mockNews.filter((item: News) => 
-          item.title.toLowerCase().includes(searchLower) ||
-          item.authors.some((author: string) => author.toLowerCase().includes(searchLower)) ||
-          item.briefDescription.toLowerCase().includes(searchLower)
-        );
-      }
-      
-      console.log(`NewsService.getAllNews: Retornando ${mockNews.length} notícias mock`);
-      return mockNews;
+      // Em caso de erro, retornar array vazio
+      console.log('NewsService.getAllNews: Retornando array vazio devido ao erro de conexão');
+      return [];
     }
   }
 
@@ -375,8 +326,8 @@ export class NewsService {
       const querySnapshot = await getDocs(newsCollection);
       
       if (querySnapshot.size === 0) {
-        console.log('Nenhum documento encontrado, usando dados mock');
-        return this.getMockNews().slice(0, limitCount);
+        console.log('Nenhum documento encontrado');
+        return [];
       }
       
       const allNews: News[] = [];
@@ -408,7 +359,7 @@ export class NewsService {
       
     } catch (error) {
       console.error('NewsService.getAllNewsForDebug: Erro:', error);
-      return this.getMockNews().slice(0, limitCount);
+      return [];
     }
   }
 
@@ -419,15 +370,16 @@ export class NewsService {
       console.log('Collection:', COLLECTION_NAME);
       console.log('Limit:', limitCount);
       
-      // Tentar buscar dados do Firebase primeiro
+      // Buscar dados do Firebase
       const newsCollection = collection(db, COLLECTION_NAME);
       const querySnapshot = await getDocs(newsCollection);
       console.log('Query executada, total de documentos:', querySnapshot.size);
       
-      // Se não há documentos, usar dados mock
+      // Se não há documentos, retornar array vazio
       if (querySnapshot.size === 0) {
-        console.log('Nenhum documento encontrado na collection, usando dados mock');
-        return this.getMockNews().slice(0, limitCount);
+        console.log('🚨 AVISO: Nenhum documento encontrado na collection "news"');
+        console.log('💡 SOLUÇÃO: Crie notícias no painel admin (/admin)');
+        return [];
       }
       
       // Processar documentos do Firebase
@@ -469,20 +421,26 @@ export class NewsService {
       console.log(`NewsService.getLatestNews: ${publishedNews.length} notícias publicadas encontradas`);
       console.log(`NewsService.getLatestNews: ${allNews.length - publishedNews.length} notícias em rascunho (não exibidas no site público)`);
       
-      // Se não há notícias publicadas, usar dados mock
-      if (publishedNews.length === 0) {
-        console.log('Nenhuma notícia publicada encontrada, usando dados mock');
-        return this.getMockNews().slice(0, limitCount);
-      }
-      
       return publishedNews;
       
     } catch (error) {
       console.error('NewsService.getLatestNews: Erro ao conectar com Firebase:', error);
       
-      // Em caso de erro de conexão, usar dados mock
-      console.log('Usando dados mock devido ao erro de conexão');
-      return this.getMockNews().slice(0, limitCount);
+      // Verificar tipo específico de erro
+      if (error instanceof Error) {
+        if (error.message.includes('permission') || error.message.includes('rules')) {
+          console.log('🚨 ERRO DE PERMISSÃO: Verifique as regras do Firestore');
+          console.log('💡 Solução: Verifique as regras do Firestore no Firebase Console');
+        } else if (error.message.includes('network') || error.message.includes('timeout')) {
+          console.log('🌐 ERRO DE REDE: Verifique sua conexão com a internet');
+        } else {
+          console.log('❌ ERRO DESCONHECIDO:', error.message);
+        }
+      }
+      
+      // Em caso de erro, retornar array vazio
+      console.log('📰 Retornando array vazio devido ao erro de conexão');
+      return [];
     }
   }
 }
