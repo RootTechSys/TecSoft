@@ -8,6 +8,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 const Contact: React.FC = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [, setFormData] = useState({
     name: '',
     email: '',
@@ -17,6 +18,7 @@ const Contact: React.FC = () => {
     message: ''
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [, setIsSubmitting] = useState(false);
 
   const contactInfo = [
