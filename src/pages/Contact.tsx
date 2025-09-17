@@ -25,9 +25,9 @@ const Contact: React.FC = () => {
     {
       icon: MapPinIcon,
       title: 'Endereço',
-      content: 'SCS QUADRA 06 BLOCO A Nº 136 SALA 108 - 1º ANDAR - ED. SÔNIA - BRASÍLIA - DF - CEP: 70.306-000',
-      subtitle: 'Centro de Tecnologia e Software',
-      link: null
+      content: 'SCS Quadra 06, Bloco A, nº 136, Sala 108',
+      subtitle: '1º Andar - Ed. Sônia - Asa Sul - Brasília/DF - CEP: 70.306-000',
+      link: 'https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA'
     },
     {
       icon: PhoneIcon,
@@ -227,6 +227,87 @@ const Contact: React.FC = () => {
             </div>
           </div>
 
+        </div>
+      </section>
+
+      {/* Google Maps Section */}
+      <section className="section-padding bg-gray-50">
+        <div className="container-custom">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h2 className="text-4xl font-display font-bold mb-6 text-gray-900">
+              Nossa <span className="text-gradient">Localização</span>
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+              Visite nossa sede no Setor Comercial Sul, no coração de Brasília. 
+              Estamos facilmente acessíveis por transporte público e com estacionamento disponível.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="max-w-6xl mx-auto"
+          >
+            <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+              <div className="aspect-video w-full">
+                <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1919.56582113942!2d-47.89177192892286!3d-15.797011198660368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a3ae5df547919%3A0xfda1c46208f0b38c!2sSCS%20Q.%2006%20-%20Setor%20Comercial%20Sul%20Q.%206%20-%20Asa%20Sul%2C%20Bras%C3%ADlia%20-%20DF%2C%2070655-775!5e0!3m2!1spt-BR!2sbr!4v1758144088394!5m2!1spt-BR!2sbr" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-full"
+                />
+              </div>
+              
+              {/* Map Info */}
+              <div className="p-6 bg-gradient-to-r from-primary-50 to-accent-50">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                  <div className="text-center md:text-left">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      Centro de Tecnologia e Software
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      SCS Quadra 06, Bloco A, nº 136, Sala 108 - 1º Andar
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      Ed. Sônia - Asa Sul - Brasília/DF - CEP: 70.306-000
+                    </p>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href="https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium"
+                    >
+                      <MapPinIcon className="w-4 h-4 mr-2" />
+                      Abrir no Google Maps
+                    </a>
+                    
+                    <a
+                      href="https://waze.com/ul?ll=-15.797011198660368,-47.89177192892286&navigate=yes"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                    >
+                      <MapPinIcon className="w-4 h-4 mr-2" />
+                      Abrir no Waze
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 

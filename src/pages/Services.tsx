@@ -226,18 +226,18 @@ const Services: React.FC = () => {
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-600 to-primary-600 text-white rounded-full text-sm font-medium mb-8 shadow-lg"
             >
               <SparklesIcon className="w-5 h-5 mr-2" />
-              Nossos Serviços
+              Nossas Atividades
             </motion.div>
 
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-display font-bold mb-8 bg-gradient-to-r from-graphite via-secondary-800 to-primary-800 bg-clip-text text-transparent leading-tight tracking-wide break-words">
               Soluções <span className="text-transparent bg-gradient-to-r from-secondary-600 to-primary-600 bg-clip-text">Especializadas</span>
             </h1>
             <p className="text-xl md:text-2xl text-graphite/70 leading-relaxed max-w-4xl mx-auto">
-              Impulsionamos seu negócio no setor de tecnologia com serviços completos e inovadores
+              Impulsionamos seu negócio no setor de tecnologia com atividades completas e inovadoras
             </p>
           </motion.div>
 
-          {/* Grid de Serviços com Design Único */}
+          {/* Grid de Atividades com Design Único */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -303,7 +303,7 @@ const Services: React.FC = () => {
                       {service.tech}
                     </span>
                     <Link 
-                      to="/servicos" 
+                      to="/atividades" 
                       className="text-graphite/80 hover:text-graphite font-semibold transition-colors text-xs lg:text-sm group-hover:translate-x-1 transform duration-300 flex items-center"
                     >
                       Saiba mais 
@@ -330,25 +330,23 @@ const Services: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="mb-20 transform skew-y-3"
           >
-            <div className="transform -skew-y-3">
-              <div className="text-center max-w-4xl mx-auto">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 text-white rounded-full text-sm font-medium mb-6 shadow-lg"
-                >
-                  <StarIcon className="w-5 h-5 mr-2" />
-                  Modelos de Parceria
-                </motion.div>
-                
-                <h2 className="text-5xl md:text-6xl font-display font-bold mb-6 bg-gradient-to-r from-graphite to-secondary-800 bg-clip-text text-transparent">
-                  Parcerias <span className="text-transparent bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text">Estratégicas</span>
-                </h2>
-                <p className="text-xl text-graphite/70 max-w-3xl mx-auto leading-relaxed">
-                  Diferentes formas de colaboração para atender às necessidades específicas do seu negócio
-                </p>
-              </div>
+            <div className="text-center max-w-4xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-600 to-accent-600 text-white rounded-full text-sm font-medium mb-6 shadow-lg"
+              >
+                <StarIcon className="w-5 h-5 mr-2" />
+                Modelos de Parceria
+              </motion.div>
+              
+              <h2 className="text-5xl md:text-6xl font-display font-bold mb-6 bg-gradient-to-r from-graphite to-secondary-800 bg-clip-text text-transparent">
+                Parcerias <span className="text-transparent bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text">Estratégicas</span>
+              </h2>
+              <p className="text-xl text-graphite/70 max-w-3xl mx-auto leading-relaxed">
+                Diferentes formas de colaboração para atender às necessidades específicas do seu negócio
+              </p>
             </div>
           </motion.div>
 
@@ -414,7 +412,7 @@ const Services: React.FC = () => {
         </div>
       </section>
 
-      {/* Seção de Serviços Adicionais - Layout em Zigzag */}
+      {/* Seção de Atividades Adicionais - Layout em Zigzag */}
       <section className="relative py-24 bg-gradient-to-br from-graphite via-secondary-900 to-primary-900 overflow-hidden">
         {/* Background Elements */}
         <div className="absolute inset-0">
@@ -438,7 +436,7 @@ const Services: React.FC = () => {
               className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-500 to-primary-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg"
             >
               <SparklesIcon className="w-5 h-5 mr-2" />
-              Serviços Complementares
+              Atividades Complementares
             </motion.div>
             
             <h2 className="text-5xl md:text-6xl font-display font-bold mb-6 text-white">

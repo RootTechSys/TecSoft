@@ -3,8 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ChevronLeftIcon, 
   ChevronRightIcon, 
-  PlayIcon, 
-  PauseIcon,
   ArrowTopRightOnSquareIcon
 } from '@heroicons/react/24/outline';
 
@@ -29,13 +27,13 @@ interface PartnerCarouselProps {
 const PartnerCarousel: React.FC<PartnerCarouselProps> = ({
   partners,
   autoPlay = true,
-  autoPlayInterval = 4000,
+  autoPlayInterval = 6000,
   showControls = true,
   showIndicators = true,
   className = ""
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(autoPlay);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true); // Sempre ativo
   const [isHovered, setIsHovered] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,9 +82,7 @@ const PartnerCarousel: React.FC<PartnerCarouselProps> = ({
     setCurrentSlide(slideIndex);
   }, []);
 
-  const toggleAutoPlay = useCallback(() => {
-    setIsAutoPlaying(!isAutoPlaying);
-  }, [isAutoPlaying]);
+  // Auto-play sempre ativo - função removida
 
   // Auto-play com pausa no hover
   useEffect(() => {
@@ -105,10 +101,7 @@ const PartnerCarousel: React.FC<PartnerCarouselProps> = ({
     };
   }, [isAutoPlaying, isHovered, totalSlides, autoPlayInterval, nextSlide]);
 
-  // Pausar auto-play quando usuário interage
-  const handleUserInteraction = useCallback(() => {
-    setIsAutoPlaying(false);
-  }, []);
+  // Auto-play sempre ativo - interação do usuário não pausa mais
 
   // Se não há parceiros suficientes para carrossel, mostrar grid simples
   if (activePartners.length <= itemsPerSlide) {
@@ -255,10 +248,7 @@ const PartnerCarousel: React.FC<PartnerCarouselProps> = ({
         <>
           {/* Botão Anterior */}
           <motion.button
-            onClick={() => {
-              prevSlide();
-              handleUserInteraction();
-            }}
+            onClick={prevSlide}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-700 hover:text-blue-600 border border-gray-200/50 hover:border-blue-300/50 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 z-10"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -269,10 +259,7 @@ const PartnerCarousel: React.FC<PartnerCarouselProps> = ({
           
           {/* Botão Próximo */}
           <motion.button
-            onClick={() => {
-              nextSlide();
-              handleUserInteraction();
-            }}
+            onClick={nextSlide}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 bg-white/90 backdrop-blur-sm hover:bg-white text-gray-700 hover:text-blue-600 border border-gray-200/50 hover:border-blue-300/50 p-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-110 z-10"
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
@@ -289,10 +276,7 @@ const PartnerCarousel: React.FC<PartnerCarouselProps> = ({
           {Array.from({ length: totalSlides }, (_, index) => (
             <motion.button
               key={index}
-              onClick={() => {
-                goToSlide(index);
-                handleUserInteraction();
-              }}
+              onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full transition-all duration-300 ${
                 index === currentSlide
                   ? 'bg-blue-600 scale-125 shadow-md'
@@ -306,27 +290,7 @@ const PartnerCarousel: React.FC<PartnerCarouselProps> = ({
         </div>
       )}
 
-      {/* Controle de Auto-play */}
-      {totalSlides > 1 && (
-        <div className="flex justify-center mt-6">
-          <motion.button
-            onClick={toggleAutoPlay}
-            className="flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            aria-label={isAutoPlaying ? 'Pausar carrossel' : 'Retomar carrossel'}
-          >
-            {isAutoPlaying ? (
-              <PauseIcon className="w-5 h-5" />
-            ) : (
-              <PlayIcon className="w-5 h-5" />
-            )}
-            <span className="text-sm font-semibold">
-              {isAutoPlaying ? 'Pausar' : 'Retomar'}
-            </span>
-          </motion.button>
-        </div>
-      )}
+      {/* Auto-play sempre ativo - botão removido */}
 
       {/* Contador de Slides */}
       {totalSlides > 1 && (

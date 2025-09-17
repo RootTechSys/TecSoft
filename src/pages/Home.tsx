@@ -86,81 +86,60 @@ const Home: React.FC = () => {
   const courses = [
     {
       id: 1,
-      title: 'Desenvolvimento Web Full Stack',
-      duration: '120 horas',
-      price: 'R$ 1.200',
+      title: 'Curso Gestão de Ideias para Inovação',
+      duration: '6 horas',
+      price: 'Gratuito',
       level: 'Intermediário',
-      rating: 4.8,
-      tech: 'React • Node.js • MongoDB',
-      description: 'Domine o desenvolvimento completo de aplicações web modernas',
-      category: 'Desenvolvimento',
-      students: 245,
-      color: 'from-blue-500 to-blue-600'
+      rating: 5.0,
+      tech: 'Metodologia MGPDI',
+      description: 'Aprenda a metodologia MGPDI para gestão eficiente de ideias e inovação em projetos',
+      category: 'Inovação',
+      students: 0,
+      color: 'bg-blue-600',
+      bgColor: 'bg-blue-50',
+      icon: '💡',
+      instructor: 'Cristina Filipak Machado',
+      schedule: '11/11 e 12/11/25',
+      time: '14:30 às 17:30',
+      event: 'Open Connections + InCoDay'
     },
     {
       id: 2,
-      title: 'Inteligência Artificial Aplicada',
-      duration: '80 horas',
-      price: 'R$ 980',
-      level: 'Avançado',
-      rating: 4.9,
-      tech: 'Python • TensorFlow • ML',
-      description: 'Construa soluções inteligentes com machine learning',
-      category: 'IA & Data Science',
-      students: 156,
-      color: 'from-purple-500 to-purple-600'
+      title: 'Curso Gestão da Colaboração para Inovação',
+      duration: '6 horas',
+      price: 'Gratuito',
+      level: 'Intermediário',
+      rating: 5.0,
+      tech: 'Metodologia MGPDI',
+      description: 'Aprenda a metodologia MGPDI para gestão eficiente da colaboração e inovação em projetos',
+      category: 'Inovação',
+      students: 0,
+      color: 'bg-purple-600',
+      bgColor: 'bg-purple-50',
+      icon: '🎯',
+      instructor: 'José Antonio Antonioni e Kival Weber',
+      schedule: '11/11 e 12/11/25',
+      time: '14:30 às 17:30',
+      event: 'Open Connections + InCoDay'
     },
     {
       id: 3,
-      title: 'Gestão de Projetos Ágeis',
-      duration: '60 horas',
-      price: 'R$ 750',
-      level: 'Básico',
-      rating: 4.7,
-      tech: 'Scrum • Kanban • Jira',
-      description: 'Lidere equipes com metodologias ágeis eficientes',
-      category: 'Gestão',
-      students: 312,
-      color: 'from-green-500 to-green-600'
-    },
-    {
-      id: 4,
-      title: 'DevOps e Cloud Computing',
-      duration: '100 horas',
-      price: 'R$ 1.100',
+      title: 'Curso Inovação Aberta: Gestão de Projetos Inovadores usando Métodos Ágeis e Design Thinking',
+      duration: '6 horas',
+      price: 'Gratuito',
       level: 'Intermediário',
-      rating: 4.8,
-      tech: 'AWS • Docker • Kubernetes',
-      description: 'Automatize deploys e gerencie infraestrutura na nuvem',
-      category: 'Infraestrutura',
-      students: 189,
-      color: 'from-orange-500 to-orange-600'
-    },
-    {
-      id: 5,
-      title: 'UX/UI Design Avançado',
-      duration: '90 horas',
-      price: 'R$ 850',
-      level: 'Intermediário',
-      rating: 4.6,
-      tech: 'Figma • Sketch • Prototyping',
-      description: 'Crie experiências digitais memoráveis e funcionais',
-      category: 'Design',
-      students: 198,
-      color: 'from-pink-500 to-pink-600'
-    },
-    {
-      id: 6,
-      title: 'Blockchain e Criptomoedas',
-      duration: '70 horas',
-      price: 'R$ 1.050',
-      level: 'Avançado',
-      rating: 4.5,
-      tech: 'Solidity • Web3 • Smart Contracts',
-      description: 'Desenvolva aplicações descentralizadas do futuro',
-      category: 'Blockchain',
-      students: 87,
-      color: 'from-yellow-500 to-yellow-600'
+      rating: 5.0,
+      tech: 'Métodos Ágeis • Design Thinking',
+      description: 'Domine a gestão de projetos inovadores combinando metodologias ágeis com Design Thinking',
+      category: 'Gestão de Projetos',
+      students: 0,
+      color: 'bg-green-600',
+      bgColor: 'bg-green-50',
+      icon: '🚀',
+      instructor: 'Rodrigo Quites',
+      schedule: '11/11 e 12/11/25',
+      time: '09:30 às 12:30',
+      event: 'Open Connections + InCoDay'
     }
   ];
 
@@ -357,48 +336,89 @@ const Home: React.FC = () => {
             </motion.div>
 
             {/* Título Principal */}
-            <motion.h1 
+            <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="text-5xl lg:text-6xl xl:text-7xl font-display leading-[1.1] mb-8 tracking-[-0.02em]"
-              style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)' }}
+              className="mb-8"
             >
-              <span className="font-black text-gray-900">Transformando</span>{' '}
-              <span className="text-blue-600 font-normal">Ideias em</span>{' '}
-              <span className="text-amber-500 font-black">Soluções</span>
-            </motion.h1>
+              <motion.div className="space-y-3">
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                  className="relative"
+                >
+                  <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
+                    <span className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-clip-text text-transparent">
+                      Apoiando o desenvolvimento das
+                    </span>
+                  </h1>
+                  <motion.div 
+                    className="absolute -left-2 top-0 w-1 h-full bg-gradient-to-b from-blue-500 to-blue-600 rounded-full"
+                    initial={{ height: 0 }}
+                    animate={{ height: "100%" }}
+                    transition={{ duration: 0.6, delay: 0.6 }}
+                  />
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                  className="pl-4"
+                >
+                  <h1 className="text-xl lg:text-2xl xl:text-3xl font-medium text-slate-600 tracking-wide leading-relaxed">
+                    <span className="bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 bg-clip-text text-transparent">
+                      empresas e startups de
+                    </span>
+                  </h1>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                  className="relative"
+                >
+                  <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-slate-700 tracking-tight leading-tight">
+                    <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                      tecnologia da informação no DF
+                    </span>
+                  </h1>
+                  <motion.div 
+                    className="absolute -right-2 top-0 w-1 h-full bg-gradient-to-b from-purple-500 to-purple-600 rounded-full"
+                    initial={{ height: 0 }}
+                    animate={{ height: "100%" }}
+                    transition={{ duration: 0.6, delay: 1.0 }}
+                  />
+                </motion.div>
+              </motion.div>
+              
+              {/* Linha decorativa animada */}
+              <motion.div 
+                className="mt-6 relative"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+              >
+                <motion.div 
+                  className="h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent rounded-full"
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1, delay: 1.4 }}
+                />
+                <motion.div 
+                  className="absolute top-0 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-blue-500 rounded-full"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ duration: 0.3, delay: 2.0 }}
+                />
+              </motion.div>
+            </motion.div>
             
             {/* Descrição */}
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg text-slate-600 leading-relaxed mb-8 max-w-[400px]"
-              style={{ fontSize: '1.1rem', lineHeight: '1.6' }}
-            >
-              Apoiando o desenvolvimento das empresas e startups de tecnologia da informação no DF
-            </motion.p>
 
-            {/* Botão CTA */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6 }}
-              className="mt-8"
-            >
-              <motion.a
-                href="https://docs.google.com/forms/d/1OrbitPrktXc30jVR1oVlxzhkenaRLzRvgzvy3yUAnO4/viewform?edit_requested=true"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-full font-semibold shadow-[0_10px_25px_rgba(37,99,235,0.3)] hover:shadow-[0_15px_35px_rgba(37,99,235,0.4)] transition-all duration-300 inline-flex items-center gap-2"
-              >
-                <span>Descubra Como</span>
-                <ArrowRightIcon className="w-5 h-5" />
-              </motion.a>
-            </motion.div>
           </motion.div>
 
           {/* Coluna 2: Terminal Centralizado */}
@@ -487,9 +507,7 @@ const Home: React.FC = () => {
           >
             {/* Card Assembleia */}
             <motion.a
-              href="https://assembleia.tecsoft.dev"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/assembleia"
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="group relative bg-white rounded-2xl p-6 border border-slate-200 hover:border-blue-300 hover:shadow-xl transition-all duration-300 cursor-pointer block w-[280px]"
@@ -604,27 +622,69 @@ const Home: React.FC = () => {
             </motion.div>
 
             {/* Título Principal */}
-            <motion.h1 
+            <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.2 }}
-              className="text-4xl md:text-5xl font-display leading-tight"
-              style={{ fontSize: 'clamp(2.5rem, 4vw, 4rem)' }}
+              className="mb-6 text-center"
             >
-              <span className="font-black text-gray-900">Transformando</span>{' '}
-              <span className="text-blue-600 font-normal">Ideias em</span>{' '}
-              <span className="text-amber-500 font-black">Soluções</span>
-            </motion.h1>
+              <motion.div className="space-y-2">
+                <motion.div 
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="relative"
+                >
+                  <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-slate-800 tracking-tight">
+                    <span className="bg-gradient-to-r from-slate-800 via-slate-700 to-slate-800 bg-clip-text text-transparent">
+                      Apoiando o desenvolvimento das
+                    </span>
+                  </h1>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                >
+                  <h1 className="text-base md:text-lg lg:text-xl font-medium text-slate-600 tracking-wide">
+                    <span className="bg-gradient-to-r from-slate-600 via-slate-500 to-slate-600 bg-clip-text text-transparent">
+                      empresas e startups de
+                    </span>
+                  </h1>
+                </motion.div>
+                
+                <motion.div 
+                  initial={{ opacity: 0, x: -15 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                  className="relative"
+                >
+                  <h1 className="text-lg md:text-xl lg:text-2xl font-bold text-slate-700 tracking-tight">
+                    <span className="bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                      tecnologia da informação no DF
+                    </span>
+                  </h1>
+                </motion.div>
+              </motion.div>
+              
+              {/* Linha decorativa mobile */}
+              <motion.div 
+                className="mt-4 flex justify-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.9 }}
+              >
+                <motion.div 
+                  className="h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent rounded-full w-3/4"
+                  initial={{ width: 0 }}
+                  animate={{ width: "75%" }}
+                  transition={{ duration: 0.8, delay: 1.1 }}
+                />
+              </motion.div>
+            </motion.div>
             
             {/* Descrição */}
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-lg text-gray-700 leading-relaxed font-medium max-w-2xl mx-auto"
-            >
-              Apoiando o desenvolvimento das empresas e startups de tecnologia da informação no DF
-            </motion.p>
 
             {/* Terminal Mobile */}
             <motion.div
@@ -704,9 +764,7 @@ const Home: React.FC = () => {
             >
               {/* Card Assembleia */}
               <motion.a
-                href="https://assembleia.tecsoft.dev"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/assembleia"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 className="group relative bg-white rounded-2xl p-6 border border-blue-200/50 hover:border-blue-300 hover:shadow-xl transition-all duration-300 cursor-pointer block w-full"
@@ -758,23 +816,6 @@ const Home: React.FC = () => {
             </motion.div>
 
             {/* CTA Mobile */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8 }}
-            >
-              <motion.a
-                href="https://docs.google.com/forms/d/1OrbitPrktXc30jVR1oVlxzhkenaRLzRvgzvy3yUAnO4/viewform?edit_requested=true"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-4 rounded-full font-semibold shadow-[0_10px_25px_rgba(37,99,235,0.3)] hover:shadow-[0_15px_35px_rgba(37,99,235,0.4)] transition-all duration-300 inline-flex items-center"
-              >
-                <span>Descubra Como</span>
-                <ArrowRightIcon className="w-5 h-5 ml-2" />
-              </motion.a>
-            </motion.div>
           </div>
         </div>
 
@@ -943,15 +984,25 @@ const Home: React.FC = () => {
               >
                 {/* Interactive Card */}
                 <motion.div 
-                  className="relative bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 overflow-visible h-full flex flex-col min-h-[360px]"
+                  className="relative bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-gray-100 overflow-visible h-full flex flex-col min-h-[360px] cursor-pointer"
                   whileHover={{ 
                     y: -8,
                     scale: 1.02,
-                    transition: { type: "spring", stiffness: 300 }
+                    boxShadow: "0 20px 40px rgba(0,0,0,0.12)",
+                    transition: { 
+                      type: "spring", 
+                      stiffness: 300,
+                      damping: 20
+                    }
                   }}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 100
+                  }}
                 >
                   {/* Card Background Pattern */}
                   <div className="absolute inset-0 bg-gradient-to-br from-secondary-600/5 to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
@@ -1006,20 +1057,30 @@ const Home: React.FC = () => {
                     </p>
                     
                     {/* Interactive Button */}
-                    <motion.button
-                      className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span>Saiba Mais</span>
-                      <motion.div
-                        className="ml-2"
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
+                    <Link to="/sobre">
+                      <motion.button
+                        className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start"
+                        whileHover={{ 
+                          scale: 1.05,
+                          boxShadow: "0 15px 30px rgba(0,0,0,0.15)"
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 400, 
+                          damping: 17 
+                        }}
                       >
-                        →
-                      </motion.div>
-                    </motion.button>
+                        <span>Saiba Mais</span>
+                        <motion.div
+                          className="ml-2"
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          →
+                        </motion.div>
+                      </motion.button>
+                    </Link>
                   </div>
 
 
@@ -1280,15 +1341,25 @@ const Home: React.FC = () => {
               >
                 {/* Interactive Service Card */}
                 <motion.div 
-                  className="relative bg-white rounded-3xl p-8 shadow-xl border border-gray-100 overflow-hidden h-full flex flex-col min-h-[480px]"
+                  className="relative bg-white rounded-3xl p-8 shadow-xl border border-gray-100 overflow-hidden h-full flex flex-col min-h-[480px] cursor-pointer"
                   whileHover={{ 
                     y: -12,
                     scale: 1.03,
-                    transition: { type: "spring", stiffness: 300 }
+                    boxShadow: "0 25px 50px rgba(0,0,0,0.15)",
+                    transition: { 
+                      type: "spring", 
+                      stiffness: 300,
+                      damping: 20
+                    }
                   }}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  transition={{ 
+                    duration: 0.6, 
+                    delay: index * 0.1,
+                    type: "spring",
+                    stiffness: 100
+                  }}
                 >
                   {/* Card Background Pattern */}
                   <div className="absolute inset-0 bg-gradient-to-br from-secondary-600/5 to-accent-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl" />
@@ -1365,20 +1436,30 @@ const Home: React.FC = () => {
                     </div>
                     
                     {/* Interactive Button */}
-                    <motion.button
-                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start mt-auto"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                    >
-                      <span>Saiba Mais</span>
-                      <motion.div
-                        className="ml-2"
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
+                    <Link to="/contato">
+                      <motion.button
+                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start mt-auto"
+                        whileHover={{ 
+                          scale: 1.05,
+                          boxShadow: "0 20px 40px rgba(0,0,0,0.15)"
+                        }}
+                        whileTap={{ scale: 0.95 }}
+                        transition={{ 
+                          type: "spring", 
+                          stiffness: 400, 
+                          damping: 17 
+                        }}
                       >
-                        →
-                      </motion.div>
-                    </motion.button>
+                        <span>Saiba Mais</span>
+                        <motion.div
+                          className="ml-2"
+                          animate={{ x: [0, 5, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                        >
+                          →
+                        </motion.div>
+                      </motion.button>
+                    </Link>
                   </div>
 
                   {/* Decorative Elements */}
@@ -1679,15 +1760,15 @@ const Home: React.FC = () => {
               <span className="w-2 h-2 bg-purple-500 rounded-full mr-2 animate-ping" />
               <span className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-ping" style={{ animationDelay: '0.5s' }} />
               <span className="w-2 h-2 bg-green-500 rounded-full mr-2" />
-              Cursos Destacados
+              Evento Especial
             </div>
             
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-3 text-graphite">
-              Formação <span className="text-accent-600">Profissional</span>
+              Cursos <span className="text-accent-600">Open Connections + InCoDay</span>
             </h2>
             
             <p className="text-base md:text-lg text-graphite/70 max-w-2xl mx-auto mb-4">
-              Qualidade e inovação para impulsionar sua carreira no setor de tecnologia
+              Participe dos cursos gratuitos ministrados por especialistas da Metodologia MGPDI
             </p>
 
             {/* Desktop CTA */}
@@ -1697,7 +1778,7 @@ const Home: React.FC = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>Explorar Todos os Cursos</span>
+                <span>Ver Todos os Cursos do Evento</span>
                 <ArrowRightIcon className="w-4 h-4 ml-2" />
               </motion.div>
             </Link>
@@ -1739,7 +1820,7 @@ const Home: React.FC = () => {
                         >
                     {/* Compact Course Card */}
                     <motion.div 
-                      className="relative bg-white rounded-xl p-4 shadow-lg border border-gray-100 overflow-hidden h-[340px] flex flex-col group"
+                      className={`relative bg-gradient-to-br ${course.bgColor} rounded-xl p-4 shadow-lg border border-gray-100 overflow-hidden h-[400px] flex flex-col group`}
                       whileHover={{ 
                         y: -4,
                         scale: 1.02,
@@ -1747,36 +1828,36 @@ const Home: React.FC = () => {
                       }}
                     >
                       {/* Dynamic Background Gradient */}
-                      <div className={`absolute inset-0 bg-gradient-to-br ${course.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500 rounded-xl`} />
+                      <div className={`absolute inset-0 bg-gradient-to-br ${course.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500 rounded-xl`} />
                       
                       {/* Header Row */}
                       <div className="flex items-start justify-between mb-3">
-                        {/* Course Icon */}
+                        {/* Course Icon with Emoji */}
                         <motion.div 
-                          className={`relative w-12 h-12 bg-gradient-to-br ${course.color} rounded-lg flex items-center justify-center group-hover:shadow-md transition-shadow duration-300`}
+                          className={`relative w-12 h-12 bg-gradient-to-br ${course.color} rounded-lg flex items-center justify-center group-hover:shadow-lg transition-all duration-300`}
                           whileHover={{ 
                             scale: 1.1,
                             transition: { type: "spring", stiffness: 300 }
                           }}
                         >
-                          <AcademicCapIcon className="w-6 h-6 text-white" />
+                          <span className="text-2xl">{course.icon}</span>
                         </motion.div>
 
                         {/* Level Badge */}
-                        <div className="inline-flex items-center px-2 py-1 bg-accent-500/10 text-accent-600 rounded-full text-xs font-bold border border-accent-500/20 whitespace-nowrap">
+                        <div className={`inline-flex items-center px-2 py-1 bg-gradient-to-r ${course.color} text-white rounded-full text-xs font-bold shadow-md whitespace-nowrap`}>
                           {course.level}
                         </div>
                       </div>
 
                       {/* Content */}
-                      <div className="relative z-10 flex-1 flex flex-col justify-between">
+                      <div className="relative z-10 flex-1 flex flex-col">
                         {/* Top Content */}
-                        <div className="space-y-3">
-                          <h3 className="text-base font-bold text-graphite group-hover:text-secondary-600 transition-colors duration-300 leading-tight line-clamp-2">
+                        <div className="space-y-3 flex-1">
+                          <h3 className="text-xs font-bold text-graphite group-hover:text-secondary-600 transition-colors duration-300 leading-tight line-clamp-3 min-h-[3.5rem]">
                             {course.title}
                           </h3>
                           
-                          <p className="text-graphite/70 text-sm leading-relaxed line-clamp-2">
+                          <p className="text-graphite/70 text-xs leading-relaxed line-clamp-2 min-h-[2rem]">
                             {course.description}
                           </p>
                           
@@ -1795,53 +1876,55 @@ const Home: React.FC = () => {
                                   />
                                 ))}
                               </div>
-                              <span className="ml-2 text-sm font-bold text-accent-600">
+                              <span className="ml-1 text-xs font-bold text-accent-600">
                                 {course.rating}
                               </span>
                             </div>
-                            <div className="text-lg font-bold text-accent-600">
+                            <div className="text-sm font-bold text-green-600">
                               {course.price}
                             </div>
                           </div>
                           
                           {/* Compact Info */}
                           <div className="space-y-2">
-                            <div className="flex items-center justify-between text-sm text-graphite/60">
+                            <div className="flex items-center justify-between text-xs text-graphite/60">
                               <div className="flex items-center">
-                                <ClockIcon className="w-4 h-4 text-secondary-600 mr-1" />
+                                <ClockIcon className="w-3 h-3 text-secondary-600 mr-1" />
                                 <span>{course.duration}</span>
                               </div>
-                              <span className="text-secondary-600 font-medium">
+                              <span className="text-secondary-600 font-medium text-xs">
                                 {course.category}
                               </span>
                             </div>
                             
                             {/* Tech Stack */}
-                            <div className="text-xs font-mono text-secondary-600 bg-secondary-50 px-3 py-2 rounded border border-secondary-100 text-center">
+                            <div className="text-xs font-mono text-secondary-600 bg-secondary-50 px-2 py-1 rounded border border-secondary-100 text-center line-clamp-1">
                               {course.tech}
                             </div>
                           </div>
                         </div>
                         
                         {/* Bottom Button - Always at bottom */}
-                        <div className="mt-4">
-                          <motion.button
-                            className="inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-lg font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 w-full"
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <span>Ver Detalhes</span>
-                            <ArrowRightIcon className="w-4 h-4 ml-2" />
-                          </motion.button>
+                        <div className="mt-3">
+                          <Link to="/cursos">
+                            <motion.button
+                              className={`inline-flex items-center justify-center px-3 py-2 bg-gradient-to-r ${course.color} text-white rounded-lg font-semibold text-xs hover:shadow-lg transition-all duration-300 group-hover:shadow-xl w-full`}
+                              whileHover={{ scale: 1.02 }}
+                              whileTap={{ scale: 0.98 }}
+                            >
+                              <span>Ver Detalhes</span>
+                              <ArrowRightIcon className="w-3 h-3 ml-1" />
+                            </motion.button>
+                          </Link>
                         </div>
                       </div>
 
                       {/* Decorative Elements */}
                       <motion.div
-                        className="absolute -top-1 -right-1 w-3 h-3 bg-accent-500/20 rounded-full"
+                        className={`absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r ${course.color} rounded-full opacity-60`}
                         animate={{ 
                           scale: [1, 1.3, 1],
-                          opacity: [0.5, 1, 0.5]
+                          opacity: [0.3, 0.8, 0.3]
                         }}
                         transition={{ 
                           duration: 3, 
@@ -2270,7 +2353,7 @@ const Home: React.FC = () => {
             <PartnerCarousel 
               partners={partners}
               autoPlay={true}
-              autoPlayInterval={5000}
+              autoPlayInterval={6000}
               showControls={true}
               showIndicators={true}
             />

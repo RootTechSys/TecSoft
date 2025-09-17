@@ -100,25 +100,16 @@ export default function NewsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-snow">
+    <div className="min-h-screen bg-snow pt-20">
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center mb-6">
-            <Link
-              to="/"
-              className="flex items-center text-primary-600 hover:text-primary-700 transition-colors mr-4"
-            >
-              <ArrowLeftIcon className="w-5 h-5 mr-2" />
-              Voltar ao Início
-            </Link>
-          </div>
           
           <div className="text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium mb-4"
+              className="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium mb-6"
             >
               <TagIcon className="w-4 h-4 mr-2" />
               Notícias TECSOFT
@@ -194,7 +185,7 @@ export default function NewsPage() {
       </section>
 
       {/* Lista de Notícias */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-10">
         {filteredNews.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, y: 20 }}

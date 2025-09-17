@@ -23,7 +23,7 @@ const About: React.FC = () => {
 
   // Define o título da página
   useEffect(() => {
-    document.title = 'Sobre a TECSOFT - Centro de Tecnologia e Software de Brasília';
+    document.title = 'O TECSOFT - Centro de Tecnologia e Software de Brasília';
   }, []);
 
   const objectives = [
@@ -257,7 +257,7 @@ const About: React.FC = () => {
             </motion.div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold mb-4">
-              Sobre a <span className="heading-accent">TECSOFT</span>
+              O <span className="heading-accent">TECSOFT</span>
             </h1>
             <p className="text-lg md:text-xl text-graphite/70 leading-relaxed max-w-3xl mx-auto">
               Uma sociedade civil sem fins lucrativos dedicada ao desenvolvimento 
@@ -396,7 +396,7 @@ const About: React.FC = () => {
             </p>
 
             {/* Desktop CTA */}
-            <Link to="/servicos" className="hidden md:inline-block">
+            <Link to="/atividades" className="hidden md:inline-block">
               <motion.div
                 className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300"
                 whileHover={{ scale: 1.05 }}
@@ -441,7 +441,7 @@ const About: React.FC = () => {
             </div>
 
             {/* Right Side - CTA */}
-            <Link to="/servicos" className="hidden md:block">
+            <Link to="/atividades" className="hidden md:block">
               <motion.div
                 className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300"
                 whileHover={{ scale: 1.05 }}

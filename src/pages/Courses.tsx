@@ -14,144 +14,111 @@ import {
 const Courses: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Updated courses data - 2024
 
   const categories = [
     { id: 'all', name: 'Todos os Cursos' },
-    { id: 'programming', name: 'Programação' },
-    { id: 'data-science', name: 'Ciência de Dados' },
-    { id: 'ai-ml', name: 'IA e Machine Learning' },
-    { id: 'web-development', name: 'Desenvolvimento Web' },
-    { id: 'mobile', name: 'Desenvolvimento Mobile' },
-    { id: 'devops', name: 'DevOps e Cloud' },
-    { id: 'management', name: 'Gestão de Projetos' }
+    { id: 'innovation', name: 'Inovação' },
+    { id: 'project-management', name: 'Gestão de Projetos' }
   ];
 
   const courses = [
     {
       id: 1,
-      title: 'Desenvolvimento Web Full Stack',
-      description: 'Aprenda a desenvolver aplicações web completas com as tecnologias mais modernas do mercado.',
-      category: 'web-development',
-      duration: '120 horas',
+      title: 'Curso Gestão de Ideias para Inovação',
+      description: 'Aprenda a metodologia MGPDI para gestão eficiente de ideias e inovação em projetos.',
+      category: 'innovation',
+      duration: '6 horas',
       level: 'Intermediário',
-      price: 'R$ 1.200',
-      originalPrice: 'R$ 1.500',
-      rating: 4.8,
-      students: 245,
-      instructor: 'Prof. Carlos Silva',
+      price: 'Gratuito',
+      originalPrice: '',
+      rating: 5.0,
+      students: 0,
+      instructor: 'Cristina Filipak Machado',
+      instructorTitle: 'Co-criadora da Metodologia MGPDI',
       features: [
-        'HTML5, CSS3 e JavaScript',
-        'React.js e Node.js',
-        'Banco de dados MongoDB',
-        'Deploy em produção',
-        'Certificado de conclusão'
+        'Metodologia MGPDI',
+        'Gestão de ideias',
+        'Processo de inovação',
+        'Ferramentas práticas',
+        'Certificado de participação'
       ],
-      image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+      schedule: '11/11 e 12/11/25',
+      time: '14:30 às 17:30',
+      location: 'Sede da Finatec-UnB',
+      locationUrl: 'https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA',
+      event: 'Open Connections + InCoDay',
+      status: 'Aguarde link de inscrição!',
+      statusType: 'Em Breve',
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      color: 'bg-blue-600',
+      bgColor: 'bg-blue-50',
+      icon: '💡'
     },
     {
       id: 2,
-      title: 'Inteligência Artificial Aplicada',
-      description: 'Domine os conceitos fundamentais de IA e aprenda a implementar soluções inteligentes.',
-      category: 'ai-ml',
-      duration: '80 horas',
-      level: 'Avançado',
-      price: 'R$ 980',
-      originalPrice: 'R$ 1.200',
-      rating: 4.9,
-      students: 189,
-      instructor: 'Dra. Ana Costa',
+      title: 'Curso Gestão da Colaboração para Inovação',
+      description: 'Aprenda a metodologia MGPDI para gestão eficiente da colaboração e inovação em projetos.',
+      category: 'innovation',
+      duration: '6 horas',
+      level: 'Intermediário',
+      price: 'Gratuito',
+      originalPrice: '',
+      rating: 5.0,
+      students: 0,
+      instructor: 'José Antonio Antonioni e Kival Weber',
+      instructorTitle: 'Co-criadores da Metodologia MGPDI',
       features: [
-        'Fundamentos de Machine Learning',
-        'Deep Learning com Python',
-        'Processamento de linguagem natural',
-        'Visão computacional',
-        'Projetos práticos'
+        'Metodologia MGPDI',
+        'Gestão da colaboração',
+        'Processo de inovação',
+        'Ferramentas práticas',
+        'Certificado de participação'
       ],
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+      schedule: '11/11 e 12/11/25',
+      time: '14:30 às 17:30',
+      location: 'Sede da Finatec-UnB',
+      locationUrl: 'https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA',
+      event: 'Open Connections + InCoDay',
+      status: 'Aguarde link de inscrição!',
+      statusType: 'Em Breve',
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      color: 'bg-purple-600',
+      bgColor: 'bg-purple-50',
+      icon: '🎯'
     },
     {
       id: 3,
-      title: 'Data Science I: Ciência de Dados',
-      description: 'Introdução à ciência de dados com foco em análise exploratória e visualização.',
-      category: 'data-science',
-      duration: '60 horas',
-      level: 'Básico',
-      price: 'R$ 750',
-      originalPrice: 'R$ 900',
-      rating: 4.7,
-      students: 312,
-      instructor: 'Prof. Roberto Santos',
-      features: [
-        'Python para Data Science',
-        'Pandas e NumPy',
-        'Visualização com Matplotlib',
-        'Análise estatística',
-        'Projeto final'
-      ],
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
-    },
-    {
-      id: 4,
-      title: 'Desenvolvimento Mobile com React Native',
-      description: 'Crie aplicativos móveis multiplataforma com React Native e JavaScript.',
-      category: 'mobile',
-      duration: '90 horas',
+      title: 'Curso Inovação Aberta: Gestão de Projetos Inovadores usando Métodos Ágeis e Design Thinking',
+      description: 'Domine a gestão de projetos inovadores combinando metodologias ágeis com Design Thinking.',
+      category: 'project-management',
+      duration: '6 horas',
       level: 'Intermediário',
-      price: 'R$ 890',
-      originalPrice: 'R$ 1.100',
-      rating: 4.6,
-      students: 178,
-      instructor: 'Prof. Maria Oliveira',
+      price: 'Gratuito',
+      originalPrice: '',
+      rating: 5.0,
+      students: 0,
+      instructor: 'Rodrigo Quites',
+      instructorTitle: 'Co-criador da Metodologia MGPDI',
       features: [
-        'Fundamentos do React Native',
-        'Navegação e roteamento',
-        'Integração com APIs',
-        'Publicação nas lojas',
-        'Performance e otimização'
+        'Métodos Ágeis',
+        'Design Thinking',
+        'Gestão de projetos inovadores',
+        'Ferramentas práticas',
+        'Certificado de participação'
       ],
-      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
-    },
-    {
-      id: 5,
-      title: 'DevOps e Cloud Computing',
-      description: 'Aprenda práticas DevOps e deploy em nuvem com AWS, Docker e Kubernetes.',
-      category: 'devops',
-      duration: '100 horas',
-      level: 'Avançado',
-      price: 'R$ 1.100',
-      originalPrice: 'R$ 1.400',
-      rating: 4.8,
-      students: 156,
-      instructor: 'Prof. João Pereira',
-      features: [
-        'Docker e containers',
-        'Kubernetes',
-        'AWS Cloud Services',
-        'CI/CD pipelines',
-        'Monitoramento e logs'
-      ],
-      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
-    },
-    {
-      id: 6,
-      title: 'Gestão de Projetos Ágeis',
-      description: 'Metodologias ágeis para gestão eficiente de projetos de tecnologia.',
-      category: 'management',
-      duration: '40 horas',
-      level: 'Básico',
-      price: 'R$ 650',
-      originalPrice: 'R$ 800',
-      rating: 4.5,
-      students: 203,
-      instructor: 'Prof. Fernanda Lima',
-      features: [
-        'Scrum e Kanban',
-        'Ferramentas ágeis',
-        'Gestão de equipes',
-        'Métricas e KPIs',
-        'Certificação preparatória'
-      ],
-      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+      schedule: '11/11 e 12/11/25',
+      time: '09:30 às 12:30',
+      location: 'Sede da Finatec-UnB',
+      locationUrl: 'https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA',
+      event: 'Open Connections + InCoDay',
+      status: 'Aguarde link de inscrição!',
+      statusType: 'Em Breve',
+      image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      color: 'bg-green-600',
+      bgColor: 'bg-green-50',
+      icon: '🚀'
     }
   ];
 
@@ -165,23 +132,23 @@ const Courses: React.FC = () => {
   const valuePropositions = [
     {
       icon: AcademicCapIcon,
-      title: 'Instrutores Especializados',
-      description: 'Professores com vasta experiência no mercado de tecnologia'
+      title: 'Instrutores Especialistas',
+      description: 'Co-criadores da Metodologia MGPDI com vasta experiência'
     },
     {
       icon: UserGroupIcon,
-      title: 'Turmas Reduzidas',
-      description: 'Atenção personalizada com no máximo 15 alunos por turma'
+      title: 'Evento Gratuito',
+      description: 'Cursos totalmente gratuitos no âmbito do evento'
     },
     {
       icon: ClockIcon,
-      title: 'Flexibilidade de Horários',
-      description: 'Cursos em diferentes horários para se adequar à sua rotina'
+      title: 'Carga Horária Concentrada',
+      description: '6 horas de conteúdo intensivo e prático'
     },
     {
       icon: StarIcon,
-      title: 'Certificação Reconhecida',
-      description: 'Certificados válidos e reconhecidos pelo mercado'
+      title: 'Certificado de Participação',
+      description: 'Certificado válido para todos os participantes'
     }
   ];
 
@@ -198,11 +165,11 @@ const Courses: React.FC = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
-              Cursos e <span className="text-gradient">Capacitação</span>
+              Cursos <span className="text-gradient">Open Connections + InCoDay</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 leading-relaxed">
-              Desenvolva suas habilidades com nossos cursos especializados em tecnologia, 
-              ministrados por profissionais experientes do mercado.
+              Participe dos cursos gratuitos do evento Open Connections + InCoDay, 
+              ministrados por especialistas da Metodologia MGPDI.
             </p>
           </motion.div>
         </div>
@@ -220,7 +187,7 @@ const Courses: React.FC = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-accent-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <proposition.icon className="w-8 h-8 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2 text-gray-900">
@@ -304,87 +271,134 @@ const Courses: React.FC = () => {
               </p>
             </motion.div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredCourses.map((course, index) => (
                 <motion.div
                   key={course.id}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="card overflow-hidden group"
+                  className={`${course.bgColor} rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group flex flex-col`}
                 >
-                  {/* Course Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={course.image}
-                      alt={course.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 bg-primary-600 text-white text-sm font-medium rounded-full">
+                  {/* Course Header */}
+                  <div className={`relative h-32 ${course.color} p-4`}>
+                    <div className="flex justify-between items-start mb-2">
+                      <span className="px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-medium rounded-full">
                         {course.level}
                       </span>
-                    </div>
-                    <div className="absolute top-4 right-4">
-                      <div className="flex items-center bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-                        <StarIcon className="w-4 h-4 text-yellow-400 fill-current" />
-                        <span className="ml-1 text-sm font-medium text-gray-900">
+                      <div className="flex items-center bg-white/20 backdrop-blur-sm rounded-full px-2 py-1">
+                        <StarIcon className="w-3 h-3 text-yellow-300 fill-current" />
+                        <span className="ml-1 text-xs font-medium text-white">
                           {course.rating}
                         </span>
                       </div>
                     </div>
+                    <div className="flex items-center mb-2">
+                      <span className="text-2xl mr-2">{course.icon}</span>
+                      <h3 className="text-white font-bold text-lg line-clamp-2 leading-tight flex-1">
+                        {course.title}
+                      </h3>
+                    </div>
                   </div>
 
                   {/* Course Content */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-semibold mb-2 text-gray-900 line-clamp-2">
-                      {course.title}
-                    </h3>
-                    <p className="text-gray-600 mb-4 line-clamp-3">
+                  <div className="p-4 flex-1 flex flex-col">
+                    {/* Description */}
+                    <p className="text-gray-600 text-sm mb-3 line-clamp-2">
                       {course.description}
                     </p>
 
-                    {/* Course Meta */}
-                    <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    {/* Course Meta - Compact */}
+                    <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                       <div className="flex items-center">
-                        <ClockIcon className="w-4 h-4 mr-1" />
+                        <ClockIcon className="w-3 h-3 mr-1" />
                         {course.duration}
                       </div>
                       <div className="flex items-center">
-                        <UserGroupIcon className="w-4 h-4 mr-1" />
+                        <UserGroupIcon className="w-3 h-3 mr-1" />
                         {course.students} alunos
                       </div>
                     </div>
 
-                    {/* Instructor */}
-                    <p className="text-sm text-gray-600 mb-4">
-                      <span className="font-medium">Instrutor:</span> {course.instructor}
-                    </p>
+                    {/* Instructor - Compact */}
+                    <div className="mb-3">
+                      <p className="text-xs text-gray-600 font-medium">
+                        {course.instructor}
+                      </p>
+                      {course.instructorTitle && (
+                        <p className="text-xs text-gray-500">
+                          {course.instructorTitle}
+                        </p>
+                      )}
+                    </div>
 
-                    {/* Features */}
-                    <ul className="space-y-2 mb-6">
-                      {course.features.slice(0, 3).map((feature) => (
-                        <li key={feature} className="flex items-center text-sm text-gray-700">
-                          <CheckCircleIcon className="w-4 h-4 text-primary-500 mr-2 flex-shrink-0" />
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
+                    {/* Schedule - Compact */}
+                    <div className="space-y-1 mb-3 text-xs text-gray-600">
+                      <p><span className="font-medium">Dias:</span> {course.schedule}</p>
+                      {course.time && (
+                        <p><span className="font-medium">Horário:</span> {course.time}</p>
+                      )}
+                      <p>
+                        <span className="font-medium">Local:</span> 
+                        <a 
+                          href={course.locationUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:text-blue-800 ml-1"
+                        >
+                          {course.location}
+                        </a>
+                      </p>
+                      {course.event && (
+                        <p className="text-blue-600 font-medium text-xs">
+                          {course.event}
+                        </p>
+                      )}
+                    </div>
 
-                    {/* Price and CTA */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-2xl font-bold text-primary-600">
+                    {/* Features - Compact */}
+                    <div className="mb-4 flex-1">
+                      <div className="flex flex-wrap gap-1">
+                        {course.features.slice(0, 3).map((feature) => (
+                          <span 
+                            key={feature} 
+                            className="inline-flex items-center px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+                          >
+                            <CheckCircleIcon className="w-3 h-3 text-green-500 mr-1" />
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Price and CTA - Fixed at bottom */}
+                    <div className="mt-auto">
+                      <div className="text-center mb-2">
+                        <span className="text-xl font-bold text-green-600">
                           {course.price}
                         </span>
-                        <span className="text-sm text-gray-500 line-through ml-2">
-                          {course.originalPrice}
-                        </span>
+                        {course.originalPrice && (
+                          <span className="text-sm text-gray-500 line-through ml-2">
+                            {course.originalPrice}
+                          </span>
+                        )}
                       </div>
-                      <button className="btn-primary">
-                        Ver Detalhes
-                        <ArrowRightIcon className="w-4 h-4 ml-2" />
+                      
+                      {/* Status */}
+                      {course.status && (
+                        <div className="text-center mb-3">
+                          <span className="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
+                            {course.status}
+                          </span>
+                        </div>
+                      )}
+                      
+                      <button 
+                        className={`w-full ${course.color} hover:opacity-90 disabled:bg-gray-400 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 text-sm`}
+                        disabled={course.status?.includes('Aguarde')}
+                      >
+                        {course.status?.includes('Aguarde') ? 'Em Breve' : 'Ver Detalhes'}
+                        <ArrowRightIcon className="w-4 h-4 ml-2 inline" />
                       </button>
                     </div>
                   </div>

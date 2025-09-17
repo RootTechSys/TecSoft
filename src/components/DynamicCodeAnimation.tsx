@@ -139,27 +139,139 @@ const DynamicCodeAnimation: React.FC = () => {
               transition={{ duration: 0.8, ease: "easeOut" }}
               className="text-center w-full"
             >
-              {/* Logo da TecSoft */}
+              {/* Logo da TecSoft com animações premium */}
               <motion.div
-                className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 mx-auto"
-                whileHover={{ scale: 1.05 }}
+                className="w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48 mx-auto relative"
+                whileHover={{ scale: 1.08, rotateY: 5 }}
                 transition={{ duration: 0.4, ease: "easeOut" }}
+                style={{ perspective: '1000px' }}
               >
+                {/* Aura/Glow effect */}
                 <motion.div
-                  className="w-full h-full bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/20"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                  className="absolute inset-0 bg-gradient-to-r from-blue-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl blur-xl"
+                  animate={{ 
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                    rotate: [0, 180, 360]
+                  }}
+                  transition={{ 
+                    duration: 4, 
+                    repeat: Infinity, 
+                    ease: "easeInOut" 
+                  }}
+                />
+                
+                {/* Container principal da logo */}
+                <motion.div
+                  className="relative w-full h-full bg-gradient-to-br from-white/15 via-white/10 to-white/5 backdrop-blur-md rounded-3xl p-6 border border-white/30 shadow-2xl"
+                  initial={{ opacity: 0, y: 20, rotateX: -15 }}
+                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
+                  transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
+                  style={{
+                    boxShadow: '0 25px 50px rgba(0, 0, 0, 0.3), 0 15px 35px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+                  }}
                 >
+                  {/* Efeito de brilho holográfico */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent rounded-3xl"
+                    animate={{ 
+                      x: ['-150%', '150%'],
+                      opacity: [0, 1, 0]
+                    }}
+                    transition={{ 
+                      duration: 3, 
+                      repeat: Infinity, 
+                      ease: "easeInOut",
+                      repeatDelay: 2
+                    }}
+                  />
+                  
+                  {/* Logo com animações sofisticadas */}
                   <motion.img
                     src="/LogoTecsoft.png"
                     alt="TecSoft Logo"
-                    className="w-full h-full object-contain"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+                    className="w-full h-full object-contain relative z-10"
+                    initial={{ opacity: 0, scale: 0.5, rotateY: -45 }}
+                    animate={{ 
+                      opacity: 1, 
+                      scale: 1, 
+                      rotateY: 0,
+                      filter: [
+                        'brightness(1) saturate(1)',
+                        'brightness(1.1) saturate(1.2)',
+                        'brightness(1) saturate(1)'
+                      ]
+                    }}
+                    transition={{ 
+                      duration: 1.2, 
+                      delay: 0.4, 
+                      ease: "easeOut",
+                      filter: {
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }
+                    }}
+                    whileHover={{
+                      scale: 1.05,
+                      filter: 'brightness(1.2) saturate(1.3)',
+                      transition: { duration: 0.3 }
+                    }}
                   />
                 </motion.div>
+                
+                {/* Partículas decorativas */}
+                <motion.div
+                  className="absolute -top-2 -right-2 w-3 h-3 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"
+                  animate={{ 
+                    scale: [1, 1.5, 1],
+                    opacity: [0.5, 1, 0.5],
+                    y: [0, -10, 0]
+                  }}
+                  transition={{ 
+                    duration: 2.5, 
+                    repeat: Infinity, 
+                    ease: "easeInOut",
+                    delay: 0.5
+                  }}
+                />
+                <motion.div
+                  className="absolute -bottom-2 -left-2 w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"
+                  animate={{ 
+                    scale: [1, 1.3, 1],
+                    opacity: [0.4, 0.8, 0.4],
+                    y: [0, 8, 0]
+                  }}
+                  transition={{ 
+                    duration: 3, 
+                    repeat: Infinity, 
+                    ease: "easeInOut",
+                    delay: 1.2
+                  }}
+                />
+              </motion.div>
+              
+              {/* Texto informativo elegante */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="mt-4 space-y-1"
+              >
+                <motion.p
+                  className="text-blue-200 text-sm font-medium tracking-wide"
+                  animate={{ opacity: [0.7, 1, 0.7] }}
+                  transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  Centro de Tecnologia de Software
+                </motion.p>
+                <motion.p
+                  className="text-purple-200 text-xs font-light tracking-wider"
+                  animate={{ opacity: [0.5, 0.8, 0.5] }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                >
+                  Agente SOFTEX • Centro-Oeste
+                </motion.p>
               </motion.div>
             </motion.div>
           )}

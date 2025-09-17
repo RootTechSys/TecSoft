@@ -22,11 +22,15 @@ const Navbar: React.FC = () => {
 
   const navItems = [
     { name: 'Home', path: '/' },
-    { name: 'Sobre a Tecsoft', path: '/sobre' },
-    { name: 'Nossos Serviços', path: '/servicos' },
+    { name: 'O Tecsoft', path: '/sobre' },
+    { name: 'Nossas Atividades', path: '/atividades' },
     { name: 'Cursos e Capacitação', path: '/cursos' },
     { name: 'Notícias', path: '/noticias' },
     { name: 'Contato', path: '/contato' },
+  ];
+
+  const adminItems = [
+    { name: 'Admin', path: '/admin/login' }
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -48,22 +52,18 @@ const Navbar: React.FC = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link to="/" className="flex items-center space-x-3">
+            <Link to="/" className="flex items-center">
               <motion.div 
-                className="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center"
-                whileHover={{ rotate: 360 }}
-                transition={{ duration: 0.6 }}
+                className="w-18 h-18 flex items-center justify-center"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
               >
-                <span className="text-white font-bold text-lg">T</span>
+                <img 
+                  src="/LogoTecsoft.png" 
+                  alt="TecSoft Logo" 
+                  className="w-full h-full object-contain"
+                />
               </motion.div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-display font-bold text-accent-500">
-                  TECSOFT
-                </h1>
-                <p className="text-xs text-graphite/70 -mt-1">
-                  Centro de Tecnologia e Software
-                </p>
-              </div>
             </Link>
           </motion.div>
 
@@ -120,7 +120,11 @@ const Navbar: React.FC = () => {
             >
               <Link
                 to="/admin/login"
-                className="text-xs text-graphite/50 hover:text-secondary-600 transition-colors px-2 py-1 rounded"
+                className={`text-xs transition-colors px-3 py-2 rounded-lg font-medium ${
+                  isActive('/admin/login')
+                    ? 'text-secondary-600 bg-primary-50 border border-accent-200'
+                    : 'text-graphite/50 hover:text-secondary-600 hover:bg-gray-50'
+                }`}
                 title="Painel Administrativo"
               >
                 Admin
@@ -214,10 +218,46 @@ const Navbar: React.FC = () => {
                     <Link
                       to={item.path}
                       onClick={() => setIsOpen(false)}
-                      className={`block py-2 px-3 rounded-lg font-medium transition-all duration-200 ${
+                      className={`block py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
                         isActive(item.path)
                           ? 'text-secondary-600 bg-primary-50 border-l-4 border-accent-500'
                           : 'text-graphite/80 hover:text-secondary-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      {item.name}
+                    </Link>
+                  </motion.div>
+                ))}
+                
+                {/* Admin Link */}
+                {adminItems.map((item, index) => (
+                  <motion.div
+                    key={item.name}
+                    variants={{
+                      open: {
+                        opacity: 1,
+                        x: 0,
+                        transition: {
+                          duration: 0.3,
+                          delay: 0.1 * (navItems.length + index)
+                        }
+                      },
+                      closed: {
+                        opacity: 0,
+                        x: -20,
+                        transition: {
+                          duration: 0.2
+                        }
+                      }
+                    }}
+                  >
+                    <Link
+                      to={item.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`block py-3 px-4 rounded-lg font-medium transition-all duration-200 text-xs ${
+                        isActive(item.path)
+                          ? 'text-secondary-600 bg-primary-50 border-l-4 border-accent-500'
+                          : 'text-graphite/50 hover:text-secondary-600 hover:bg-gray-50'
                       }`}
                     >
                       {item.name}
@@ -231,7 +271,7 @@ const Navbar: React.FC = () => {
                       y: 0,
                       transition: {
                         duration: 0.3,
-                        delay: 0.6
+                        delay: 0.8
                       }
                     },
                     closed: {
@@ -249,7 +289,7 @@ const Navbar: React.FC = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}
-                    className="btn-pulse w-full text-center ripple"
+                    className="btn-pulse w-full text-center ripple block py-3 px-4 rounded-lg font-semibold"
                   >
                     Associe-se
                   </a>

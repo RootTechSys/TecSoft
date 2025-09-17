@@ -14,16 +14,16 @@ const Footer: React.FC = () => {
 
   const footerLinks = {
     institucional: [
-      { name: 'Sobre a Tecsoft', href: '/sobre' },
-      { name: 'Nossos Serviços', href: '/servicos' },
+      { name: 'O Tecsoft', href: '/sobre' },
+      { name: 'Nossas Atividades', href: '/atividades' },
       { name: 'Associe-se', href: 'https://docs.google.com/forms/d/1OrbitPrktXc30jVR1oVlxzhkenaRLzRvgzvy3yUAnO4/viewform?edit_requested=true', external: true },
       { name: 'Estatuto Social', href: '/estatuto' },
     ],
     servicos: [
-      { name: 'Consultoria e Planejamento', href: '/servicos' },
-      { name: 'Desenvolvimento e Fomento', href: '/servicos' },
+      { name: 'Consultoria e Planejamento', href: '/atividades' },
+      { name: 'Desenvolvimento e Fomento', href: '/atividades' },
       { name: 'Cursos e Capacitação', href: '/cursos' },
-      { name: 'Parcerias', href: '/servicos' },
+      { name: 'Parcerias', href: '/atividades' },
     ],
     recursos: [
       { name: 'Notícias', href: '/noticias' },
@@ -52,13 +52,13 @@ const Footer: React.FC = () => {
             transition={{ duration: 0.6 }}
             className="lg:col-span-1"
           >
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-accent-500 rounded-lg flex items-center justify-center">
-                <span className="text-graphite font-bold text-xl">T</span>
-              </div>
-              <div>
-                <h3 className="text-xl font-display font-bold">TECSOFT</h3>
-                <p className="text-sm text-snow/80">Centro de Tecnologia e Software</p>
+            <div className="flex items-center mb-4">
+              <div className="w-18 h-18 flex items-center justify-center">
+                <img 
+                  src="/LogoTecsoft.png" 
+                  alt="TecSoft Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
             <p className="text-snow/90 text-sm leading-relaxed mb-6">
