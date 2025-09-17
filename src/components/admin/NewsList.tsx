@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   PlusIcon, 
@@ -6,7 +6,6 @@ import {
   FunnelIcon,
   PencilIcon,
   TrashIcon,
-  EyeIcon,
   CalendarIcon,
   UserIcon,
   TagIcon
@@ -28,12 +27,25 @@ export default function NewsList() {
     theme: 'all'
   });
 
-  useEffect(() => {
-    loadNews();
-  }, []);
+  const applyFilters = useCallback(() => {
+    let filtered = [...news];
 
-  useEffect(() => {
-    applyFilters();
+    // Filtro por texto
+    if (filters.search) {
+      const searchLower = filters.search.toLowerCase();
+      filtered = filtered.filter(item =>
+        item.title.toLowerCase().includes(searchLower) ||
+        item.authors.some(author => author.toLowerCase().includes(searchLower)) ||
+        item.briefDescription.toLowerCase().includes(searchLower)
+      );
+    }
+
+    // Filtro por tema
+    if (filters.theme && filters.theme !== 'all') {
+      filtered = filtered.filter(item => item.theme === filters.theme);
+    }
+
+    setFilteredNews(filtered);
   }, [news, filters]);
 
   const loadNews = async () => {
@@ -61,26 +73,13 @@ export default function NewsList() {
     }
   };
 
-  const applyFilters = () => {
-    let filtered = [...news];
+  useEffect(() => {
+    loadNews();
+  }, []);
 
-    // Filtro por texto
-    if (filters.search) {
-      const searchLower = filters.search.toLowerCase();
-      filtered = filtered.filter(item =>
-        item.title.toLowerCase().includes(searchLower) ||
-        item.authors.some(author => author.toLowerCase().includes(searchLower)) ||
-        item.briefDescription.toLowerCase().includes(searchLower)
-      );
-    }
-
-    // Filtro por tema
-    if (filters.theme && filters.theme !== 'all') {
-      filtered = filtered.filter(item => item.theme === filters.theme);
-    }
-
-    setFilteredNews(filtered);
-  };
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
 
   const handleCreateNews = async (newsData: any) => {
     try {

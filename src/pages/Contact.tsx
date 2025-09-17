@@ -4,13 +4,11 @@ import {
   MapPinIcon,
   PhoneIcon,
   EnvelopeIcon,
-  ClockIcon,
-  ArrowRightIcon,
-  CheckCircleIcon
+  ClockIcon
 } from '@heroicons/react/24/outline';
 
 const Contact: React.FC = () => {
-  const [formData, setFormData] = useState({
+  const [, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
@@ -19,7 +17,7 @@ const Contact: React.FC = () => {
     message: ''
   });
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [, setIsSubmitting] = useState(false);
 
   const contactInfo = [
     {
@@ -52,59 +50,6 @@ const Contact: React.FC = () => {
     }
   ];
 
-  const departments = [
-    {
-      name: 'Associação e Membros',
-      email: 'associados@tecsoft.org.br',
-      phone: '(61) 99999-9991',
-      description: 'Informações sobre associação, benefícios e suporte aos membros.'
-    },
-    {
-      name: 'Cursos e Capacitação',
-      email: 'cursos@tecsoft.org.br',
-      phone: '(61) 99999-9992',
-      description: 'Informações sobre cursos, workshops e programas de capacitação.'
-    },
-    {
-      name: 'Consultoria e Serviços',
-      email: 'consultoria@tecsoft.org.br',
-      phone: '(61) 99999-9993',
-      description: 'Solicitações de consultoria, projetos e parcerias.'
-    },
-    {
-      name: 'Eventos e Comunicação',
-      email: 'eventos@tecsoft.org.br',
-      phone: '(61) 99999-9994',
-      description: 'Eventos, notícias e comunicação institucional.'
-    }
-  ];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    // Simular envio do formulário
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
-    setIsSubmitting(false);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      subject: '',
-      message: ''
-    });
-  };
 
   return (
     <div className="min-h-screen pt-20">
@@ -257,6 +202,7 @@ const Contact: React.FC = () => {
             <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
               <div className="aspect-video w-full">
                 <iframe 
+                  title="Localização da TECSOFT no Google Maps"
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1919.56582113942!2d-47.89177192892286!3d-15.797011198660368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935a3ae5df547919%3A0xfda1c46208f0b38c!2sSCS%20Q.%2006%20-%20Setor%20Comercial%20Sul%20Q.%206%20-%20Asa%20Sul%2C%20Bras%C3%ADlia%20-%20DF%2C%2070655-775!5e0!3m2!1spt-BR!2sbr!4v1758144088394!5m2!1spt-BR!2sbr" 
                   width="100%" 
                   height="100%" 

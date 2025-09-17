@@ -40,7 +40,7 @@ export default function NewsForm({ news, onSubmit, onCancel, isLoading }: NewsFo
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof NewsFormData, string>>>({});
-  const [imagePreview, setImagePreview] = useState<string>('');
+  const [, setImagePreview] = useState<string>('');
 
   useEffect(() => {
     if (news) {

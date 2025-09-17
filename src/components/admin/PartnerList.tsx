@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   PlusIcon,
@@ -42,7 +42,7 @@ export default function PartnerList() {
     }
   };
 
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let filtered = [...partners];
 
     // Filtro por busca
@@ -58,7 +58,7 @@ export default function PartnerList() {
     }
 
     setFilteredPartners(filtered);
-  };
+  }, [partners, filters]);
 
   useEffect(() => {
     loadPartners();
@@ -66,7 +66,7 @@ export default function PartnerList() {
 
   useEffect(() => {
     applyFilters();
-  }, [partners, filters]);
+  }, [applyFilters]);
 
   const handleCreatePartner = async (partnerData: any) => {
     try {

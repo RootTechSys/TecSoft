@@ -11,7 +11,6 @@ import {
   ArrowRightOnRectangleIcon,
   PlusIcon,
   PencilIcon,
-  TrashIcon
 } from '@heroicons/react/24/outline';
 import NewsList from '../../components/admin/NewsList';
 import PartnerList from '../../components/admin/PartnerList';

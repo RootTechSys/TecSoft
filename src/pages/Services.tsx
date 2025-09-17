@@ -10,7 +10,6 @@ import {
   AcademicCapIcon,
   BuildingOfficeIcon,
   CogIcon,
-  CpuChipIcon,
   CommandLineIcon,
   ArrowRightIcon,
   StarIcon,

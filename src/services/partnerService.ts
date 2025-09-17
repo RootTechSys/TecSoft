@@ -10,7 +10,7 @@ import {
   serverTimestamp 
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
-import { Partner, PartnerFormData, PartnerFilters } from '../types/partner';
+import { Partner, PartnerFormData } from '../types/partner';
 
 const COLLECTION_NAME = 'partners';
 

@@ -2,16 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  CheckCircleIcon,
   UserGroupIcon,
   AcademicCapIcon,
   LightBulbIcon,
   DocumentTextIcon,
   ArrowDownTrayIcon,
   ArrowRightIcon,
-  CpuChipIcon,
-  CommandLineIcon,
-  CubeIcon,
   ChartBarIcon,
   InformationCircleIcon,
   PlayIcon
@@ -252,7 +248,7 @@ const About: React.FC = () => {
               transition={{ duration: 0.8, delay: 0.1 }}
               className="inline-flex items-center px-4 py-2 bg-secondary-600/10 text-secondary-600 rounded-full text-sm font-medium mb-6"
             >
-              <CpuChipIcon className="w-4 h-4 mr-2" />
+              <ChartBarIcon className="w-4 h-4 mr-2" />
               Sobre Nós
             </motion.div>
 
