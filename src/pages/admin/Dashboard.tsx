@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../contexts/AuthContext';
@@ -6,41 +6,161 @@ import {
   NewspaperIcon,
   DocumentTextIcon,
   BuildingOfficeIcon,
-  ChartBarIcon,
   UserCircleIcon,
   ArrowRightOnRectangleIcon,
   PlusIcon,
-  PencilIcon,
+  EnvelopeIcon,
 } from '@heroicons/react/24/outline';
 import NewsList from '../../components/admin/NewsList';
 import PartnerList from '../../components/admin/PartnerList';
+import { NewsService } from '../../services/newsService';
+import { PartnerService } from '../../services/partnerService';
+import { DocumentService } from '../../services/documentService';
 
 const Dashboard: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('overview');
+  const [newsCount, setNewsCount] = useState<number>(0);
+  const [documentsCount, setDocumentsCount] = useState<number>(0);
+  const [partnersCount, setPartnersCount] = useState<number>(0);
+  const [recentActivities, setRecentActivities] = useState<Array<{
+    id: string;
+    type: 'news' | 'document' | 'partner';
+    title: string;
+    action: string;
+    timestamp: Date;
+    color: string;
+  }>>([]);
+
+  // Função para buscar atividades recentes
+  const fetchRecentActivities = async () => {
+    try {
+      const activities: Array<{
+        id: string;
+        type: 'news' | 'document' | 'partner';
+        title: string;
+        action: string;
+        timestamp: Date;
+        color: string;
+      }> = [];
+
+      // Buscar notícias recentes
+      const allNews = await NewsService.getAllNews();
+      allNews.slice(0, 3).forEach(news => {
+        activities.push({
+          id: news.id,
+          type: 'news',
+          title: news.title,
+          action: news.isPublished ? 'publicada' : 'criada',
+          timestamp: news.updatedAt,
+          color: 'bg-green-500'
+        });
+      });
+
+      // Buscar documentos recentes
+      const allDocuments = await DocumentService.getAllDocuments();
+      allDocuments.slice(0, 2).forEach(doc => {
+        activities.push({
+          id: doc.id,
+          type: 'document',
+          title: doc.title,
+          action: 'adicionado',
+          timestamp: doc.uploadedAt,
+          color: 'bg-blue-500'
+        });
+      });
+
+      // Buscar parceiros recentes
+      const allPartners = await PartnerService.getAllPartners();
+      allPartners.slice(0, 2).forEach(partner => {
+        activities.push({
+          id: partner.id,
+          type: 'partner',
+          title: partner.name,
+          action: 'adicionado',
+          timestamp: partner.updatedAt,
+          color: 'bg-purple-500'
+        });
+      });
+
+      // Ordenar por timestamp (mais recente primeiro) e pegar os 5 mais recentes
+      const sortedActivities = activities
+        .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+        .slice(0, 5);
+
+      setRecentActivities(sortedActivities);
+    } catch (error) {
+      setRecentActivities([]);
+    }
+  };
+
+  // Função para formatar tempo relativo
+  const getTimeAgo = (date: Date): string => {
+    const now = new Date();
+    const diffInMs = now.getTime() - date.getTime();
+    const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    if (diffInMinutes < 60) {
+      return `${diffInMinutes}m atrás`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours}h atrás`;
+    } else {
+      return `${diffInDays} dia${diffInDays > 1 ? 's' : ''} atrás`;
+    }
+  };
+
+  // Buscar contagens de dados e atividades recentes
+  useEffect(() => {
+    const fetchDataCounts = async () => {
+      try {
+        // Buscar contagem de notícias
+        const allNews = await NewsService.getAllNews();
+        setNewsCount(allNews.length);
+
+        // Buscar contagem de documentos
+        const allDocuments = await DocumentService.getAllDocuments();
+        setDocumentsCount(allDocuments.length);
+
+        // Buscar contagem de parceiros
+        const allPartners = await PartnerService.getAllPartners();
+        setPartnersCount(allPartners.length);
+
+        // Buscar atividades recentes
+        await fetchRecentActivities();
+
+      } catch (error) {
+        setNewsCount(0);
+        setDocumentsCount(0);
+        setPartnersCount(0);
+        setRecentActivities([]);
+      }
+    };
+
+    fetchDataCounts();
+  }, []);
 
   const handleLogout = async () => {
     try {
       await logout();
       navigate('/admin/login');
     } catch (error) {
-      console.error('Logout error:', error);
     }
   };
 
   const stats = [
-    { title: 'Notícias Publicadas', value: '12', icon: NewspaperIcon, color: 'bg-blue-500' },
-    { title: 'Documentos', value: '8', icon: DocumentTextIcon, color: 'bg-green-500' },
-    { title: 'Parceiros', value: '15', icon: BuildingOfficeIcon, color: 'bg-purple-500' },
-    { title: 'Visualizações', value: '2.4k', icon: ChartBarIcon, color: 'bg-orange-500' }
+    { title: 'Notícias Publicadas', value: newsCount.toString(), icon: NewspaperIcon, color: 'bg-blue-500' },
+    { title: 'Documentos', value: documentsCount.toString(), icon: DocumentTextIcon, color: 'bg-green-500' },
+    { title: 'Parceiros', value: partnersCount.toString(), icon: BuildingOfficeIcon, color: 'bg-purple-500' }
   ];
 
   const quickActions = [
-    { title: 'Nova Notícia', icon: PlusIcon, action: () => navigate('/admin/noticias/nova'), color: 'bg-blue-500' },
-    { title: 'Upload Documento', icon: PlusIcon, action: () => navigate('/admin/documentos/upload'), color: 'bg-green-500' },
-    { title: 'Adicionar Parceiro', icon: PlusIcon, action: () => navigate('/admin/parceiros/novo'), color: 'bg-purple-500' },
-    { title: 'Gerenciar Conteúdo', icon: PencilIcon, action: () => navigate('/admin/conteudo'), color: 'bg-orange-500' }
+    { title: 'Nova Notícia', icon: PlusIcon, action: () => setActiveTab('noticias'), color: 'bg-blue-500' },
+    { title: 'Upload Documento', icon: PlusIcon, action: () => setActiveTab('documentos'), color: 'bg-green-500' },
+    { title: 'Adicionar Parceiro', icon: PlusIcon, action: () => setActiveTab('parceiros'), color: 'bg-purple-500' },
+    { title: 'Email', icon: EnvelopeIcon, action: () => window.open('https://mail.hostinger.com', '_blank'), color: 'bg-red-500' }
   ];
 
   return (
@@ -162,21 +282,28 @@ const Dashboard: React.FC = () => {
             <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
               <h2 className="text-xl font-semibold text-graphite mb-4">Atividade Recente</h2>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-graphite">Nova notícia "Tecnologia em Brasília" publicada</span>
-                  <span className="text-xs text-graphite/50 ml-auto">2h atrás</span>
-                </div>
-                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm text-graphite">Documento "Estatuto Social" atualizado</span>
-                  <span className="text-xs text-graphite/50 ml-auto">1 dia atrás</span>
-                </div>
-                <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm text-graphite">Novo parceiro "SEBRAE-DF" adicionado</span>
-                  <span className="text-xs text-graphite/50 ml-auto">3 dias atrás</span>
-                </div>
+                {recentActivities.length > 0 ? (
+                  recentActivities.map((activity) => (
+                    <div key={activity.id} className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                      <div className={`w-2 h-2 ${activity.color} rounded-full`}></div>
+                      <span className="text-sm text-graphite">
+                        {activity.type === 'news' && 'Notícia'}
+                        {activity.type === 'document' && 'Documento'}
+                        {activity.type === 'partner' && 'Parceiro'}
+                        {' "'}{activity.title}{'" '}
+                        {activity.action}
+                      </span>
+                      <span className="text-xs text-graphite/50 ml-auto">
+                        {getTimeAgo(activity.timestamp)}
+                      </span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-graphite/60">
+                    <p>Nenhuma atividade recente encontrada</p>
+                    <p className="text-xs mt-1">Crie conteúdo para ver as atividades aqui</p>
+                  </div>
+                )}
               </div>
             </div>
           </motion.div>

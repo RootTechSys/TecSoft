@@ -60,8 +60,11 @@ const Login: React.FC = () => {
           </motion.div>
           
           <h1 className="text-3xl font-display font-bold text-graphite mb-2">
-            Painel Administrativo
+            Login na plataforma
           </h1>
+          <div className="bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-lg text-sm font-semibold mb-4">
+            ⚠️ Acesso autorizado apenas para equipe da TecSoft!!
+          </div>
           <p className="text-graphite/70">
             TECSOFT - Centro de Tecnologia e Software de Brasília
           </p>
@@ -75,18 +78,18 @@ const Login: React.FC = () => {
           className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Campo Email */}
+            {/* Campo Usuário */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-graphite mb-2">
-                Email
+                Usuário
               </label>
               <input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all duration-200"
-                placeholder="admin@tecsoft.org.br"
+                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-secondary-500 focus:border-transparent transition-all duration-200"
+                placeholder=""
                 required
               />
             </div>
@@ -163,16 +166,6 @@ const Login: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Informações de Segurança */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6, duration: 0.6 }}
-          className="text-center mt-6 text-xs text-graphite/50"
-        >
-          <p>🔒 Acesso restrito a administradores autorizados</p>
-          <p>🛡️ Sistema protegido com Firebase Authentication</p>
-        </motion.div>
       </motion.div>
     </div>
   );

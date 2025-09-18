@@ -18,20 +18,15 @@ export class PartnerService {
 
   static async getAllPartners(): Promise<Partner[]> {
     try {
-      console.log('PartnerService.getAllPartners: Iniciando busca de parceiros...');
       
       const partnersRef = collection(db, COLLECTION_NAME);
       const q = query(partnersRef, orderBy('order', 'asc'));
       
-      console.log('PartnerService.getAllPartners: Executando query no Firestore...');
       const querySnapshot = await getDocs(q);
       
-      console.log(`PartnerService.getAllPartners: ${querySnapshot.size} documentos encontrados`);
       
       // Se não há documentos, retornar array vazio
       if (querySnapshot.size === 0) {
-        console.log('🚨 AVISO: Nenhum documento encontrado na collection "partners"');
-        console.log('💡 SOLUÇÃO: Crie parceiros no painel admin (/admin)');
         return [];
       }
       
@@ -50,14 +45,11 @@ export class PartnerService {
         });
       });
 
-      console.log(`PartnerService.getAllPartners: ${partners.length} parceiros encontrados`);
-      console.log('Ordens dos parceiros:', partners.map(p => ({ name: p.name, order: p.order })));
       
       // Verificar se há conflitos de ordem
       const orders = partners.map(p => p.order);
       const uniqueOrders = Array.from(new Set(orders));
       if (orders.length !== uniqueOrders.length) {
-        console.warn('Conflitos de ordem detectados! Corrigindo automaticamente...');
         await this.fixOrderConflicts(partners);
         // Recarregar após correção
         return this.getAllPartners();
@@ -65,15 +57,12 @@ export class PartnerService {
       
       return partners;
     } catch (error) {
-      console.error('PartnerService.getAllPartners: Erro ao buscar parceiros:', error);
-      console.log('PartnerService.getAllPartners: Retornando array vazio devido ao erro');
       return [];
     }
   }
 
   static async fixOrderConflicts(partners: Partner[]): Promise<void> {
     try {
-      console.log('Corrigindo conflitos de ordem...');
       
       // Ordenar por ordem atual e reatribuir ordens sequenciais
       const sortedPartners = [...partners].sort((a, b) => a.order - b.order);
@@ -83,7 +72,6 @@ export class PartnerService {
         order: index + 1
       }));
       
-      console.log('Novas ordens:', updates);
       
       for (const { id, order } of updates) {
         await updateDoc(doc(db, COLLECTION_NAME, id), {
@@ -92,23 +80,18 @@ export class PartnerService {
         });
       }
       
-      console.log('Conflitos de ordem corrigidos!');
     } catch (error) {
-      console.error('Erro ao corrigir conflitos de ordem:', error);
     }
   }
 
   static async getActivePartners(): Promise<Partner[]> {
     try {
-      console.log('PartnerService.getActivePartners: Buscando parceiros ativos...');
       
       const allPartners = await this.getAllPartners();
       const activePartners = allPartners.filter(partner => partner.isActive);
       
-      console.log(`PartnerService.getActivePartners: ${activePartners.length} parceiros ativos encontrados`);
       return activePartners;
     } catch (error) {
-      console.error('PartnerService.getActivePartners: Erro ao buscar parceiros ativos:', error);
       return [];
     }
   }
@@ -119,14 +102,12 @@ export class PartnerService {
       const maxOrder = allPartners.reduce((max, partner) => Math.max(max, partner.order), 0);
       return maxOrder + 1;
     } catch (error) {
-      console.error('PartnerService.getNextOrder: Erro ao obter próxima ordem:', error);
       return 1;
     }
   }
 
   static async createPartner(partnerData: PartnerFormData): Promise<string> {
     try {
-      console.log('PartnerService.createPartner: Iniciando criação de parceiro...', partnerData);
       
       // Verificar se o usuário está autenticado
       if (!auth.currentUser) {
@@ -148,7 +129,6 @@ export class PartnerService {
         const allPartners = await this.getAllPartners();
         const maxOrder = allPartners.reduce((max, partner) => Math.max(max, partner.order), 0);
         finalOrder = maxOrder + 1;
-        console.log(`Ordem automática definida: ${finalOrder}`);
       }
 
       const partner: Omit<Partner, 'id'> = {
@@ -161,7 +141,6 @@ export class PartnerService {
         updatedAt: new Date()
       };
 
-      console.log('PartnerService.createPartner: Dados preparados para Firestore:', partner);
 
       const docRef = await addDoc(collection(db, COLLECTION_NAME), {
         ...partner,
@@ -169,17 +148,14 @@ export class PartnerService {
         updatedAt: serverTimestamp()
       });
 
-      console.log('PartnerService.createPartner: Parceiro criado com sucesso! ID:', docRef.id);
       return docRef.id;
     } catch (error) {
-      console.error('PartnerService.createPartner: Erro detalhado:', error);
       throw new Error(`Falha ao criar parceiro: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
     }
   }
 
   static async updatePartner(id: string, partnerData: Partial<PartnerFormData>): Promise<void> {
     try {
-      console.log('PartnerService.updatePartner: Iniciando atualização de parceiro...', { id, partnerData });
       
       // Verificar se o usuário está autenticado
       if (!auth.currentUser) {
@@ -198,18 +174,14 @@ export class PartnerService {
       if (updateData.logoUrl) updateData.logoUrl = updateData.logoUrl.trim();
       if (updateData.websiteUrl) updateData.websiteUrl = updateData.websiteUrl.trim();
 
-      console.log('PartnerService.updatePartner: Dados para atualização:', updateData);
       await updateDoc(partnerRef, updateData);
-      console.log('PartnerService.updatePartner: Parceiro atualizado com sucesso!');
     } catch (error) {
-      console.error('PartnerService.updatePartner: Erro detalhado:', error);
       throw new Error(`Falha ao atualizar parceiro: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
     }
   }
 
   static async deletePartner(id: string): Promise<void> {
     try {
-      console.log('PartnerService.deletePartner: Iniciando exclusão de parceiro...', { id });
       
       // Verificar se o usuário está autenticado
       if (!auth.currentUser) {
@@ -217,16 +189,13 @@ export class PartnerService {
       }
       
       await deleteDoc(doc(db, COLLECTION_NAME, id));
-      console.log('PartnerService.deletePartner: Parceiro deletado com sucesso!');
     } catch (error) {
-      console.error('PartnerService.deletePartner: Erro detalhado:', error);
       throw new Error(`Falha ao deletar parceiro: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
     }
   }
 
   static async reorderPartners(partners: { id: string; order: number }[]): Promise<void> {
     try {
-      console.log('PartnerService.reorderPartners: Iniciando reordenação de parceiros...', partners);
       
       // Verificar se o usuário está autenticado
       if (!auth.currentUser) {
@@ -235,7 +204,6 @@ export class PartnerService {
 
       // Atualizar cada parceiro individualmente para garantir que todas as atualizações sejam aplicadas
       for (const { id, order } of partners) {
-        console.log(`Atualizando parceiro ${id} para ordem ${order}`);
         
         const partnerRef = doc(db, COLLECTION_NAME, id);
         await updateDoc(partnerRef, {
@@ -243,12 +211,9 @@ export class PartnerService {
           updatedAt: serverTimestamp()
         });
         
-        console.log(`Parceiro ${id} atualizado com sucesso para ordem ${order}`);
       }
 
-      console.log('PartnerService.reorderPartners: Todos os parceiros reordenados com sucesso!');
     } catch (error) {
-      console.error('PartnerService.reorderPartners: Erro detalhado:', error);
       throw new Error(`Falha ao reordenar parceiros: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
     }
   }

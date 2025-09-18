@@ -166,10 +166,10 @@ const Footer: React.FC = () => {
               <div className="flex items-center space-x-3">
                 <EnvelopeIcon className="w-5 h-5 text-accent-500 flex-shrink-0" />
                 <a 
-                  href="mailto:tecsoft@tecsoft.org.br" 
+                  href="mailto:contato@tecsoft.org.br" 
                   className="text-snow/90 hover:text-accent-500 transition-colors duration-200 text-sm"
                 >
-                  tecsoft@tecsoft.org.br
+                  contato@tecsoft.org.br
                 </a>
               </div>
               
@@ -196,11 +196,6 @@ const Footer: React.FC = () => {
               Todos os direitos reservados.
             </div>
             <div className="flex items-center space-x-6">
-              <div className="flex space-x-6 text-sm">
-                <Link to="/privacidade" className="text-snow/80 hover:text-accent-500 transition-colors">Política de Privacidade</Link>
-                <Link to="/termos" className="text-snow/80 hover:text-accent-500 transition-colors">Termos de Uso</Link>
-                <Link to="/cookies" className="text-snow/80 hover:text-accent-500 transition-colors">Cookies</Link>
-              </div>
               
               {/* Botão Voltar ao Topo */}
               <motion.button
