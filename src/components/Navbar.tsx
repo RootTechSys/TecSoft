@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
   ];
 
   const adminItems = [
-    { name: 'Admin', path: '/admin/login' }
+    { name: 'Entrar', path: '/admin/login' }
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -96,8 +96,8 @@ const Navbar: React.FC = () => {
             ))}
           </div>
 
-          {/* CTA Button com efeito de pulso */}
-          <div className="hidden lg:block flex items-center space-x-4">
+          {/* CTA Buttons lado a lado */}
+          <div className="hidden lg:flex items-center space-x-3">
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -112,21 +112,21 @@ const Navbar: React.FC = () => {
               </a>
             </motion.div>
             
-            {/* Link discreto para o painel administrativo */}
+            {/* Botão Entrar */}
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <Link
                 to="/admin/login"
-                className={`text-xs transition-colors px-3 py-2 rounded-lg font-medium ${
+                className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   isActive('/admin/login')
                     ? 'text-secondary-600 bg-primary-50 border border-accent-200'
-                    : 'text-graphite/50 hover:text-secondary-600 hover:bg-gray-50'
+                    : 'text-graphite hover:text-secondary-600 hover:bg-gray-50 border border-gray-200'
                 }`}
                 title="Painel Administrativo"
               >
-                Admin
+                Entrar
               </Link>
             </motion.div>
           </div>
@@ -228,41 +228,7 @@ const Navbar: React.FC = () => {
                   </motion.div>
                 ))}
                 
-                {/* Admin Link */}
-                {adminItems.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    variants={{
-                      open: {
-                        opacity: 1,
-                        x: 0,
-                        transition: {
-                          duration: 0.3,
-                          delay: 0.1 * (navItems.length + index)
-                        }
-                      },
-                      closed: {
-                        opacity: 0,
-                        x: -20,
-                        transition: {
-                          duration: 0.2
-                        }
-                      }
-                    }}
-                  >
-                    <Link
-                      to={item.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`block py-3 px-4 rounded-lg font-medium transition-all duration-200 text-xs ${
-                        isActive(item.path)
-                          ? 'text-secondary-600 bg-primary-50 border-l-4 border-accent-500'
-                          : 'text-graphite/50 hover:text-secondary-600 hover:bg-gray-50'
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
+                {/* Botões de ação lado a lado */}
                 <motion.div
                   variants={{
                     open: {
@@ -281,7 +247,7 @@ const Navbar: React.FC = () => {
                       }
                     }
                   }}
-                  className="pt-4 border-t border-gray-200"
+                  className="pt-4 border-t border-gray-200 space-y-3"
                 >
                   <a
                     href="https://docs.google.com/forms/d/1OrbitPrktXc30jVR1oVlxzhkenaRLzRvgzvy3yUAnO4/viewform?edit_requested=true"
@@ -292,6 +258,18 @@ const Navbar: React.FC = () => {
                   >
                     Associe-se
                   </a>
+                  
+                  <Link
+                    to="/admin/login"
+                    onClick={() => setIsOpen(false)}
+                    className={`block py-3 px-4 rounded-lg font-medium transition-all duration-200 text-center border ${
+                      isActive('/admin/login')
+                        ? 'text-secondary-600 bg-primary-50 border-accent-200'
+                        : 'text-graphite hover:text-secondary-600 hover:bg-gray-50 border-gray-200'
+                    }`}
+                  >
+                    Entrar
+                  </Link>
                 </motion.div>
               </motion.div>
             </motion.div>

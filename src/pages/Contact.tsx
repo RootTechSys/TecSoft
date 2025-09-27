@@ -39,9 +39,9 @@ const Contact: React.FC = () => {
     {
       icon: EnvelopeIcon,
       title: 'Email',
-      content: 'tecsoft@tecsoft.org.br',
+      content: 'contato@tecsoft.org.br',
       subtitle: 'Respondemos em até 24h',
-      link: 'mailto:tecsoft@tecsoft.org.br'
+      link: 'mailto:contato@tecsoft.org.br'
     },
     {
       icon: ClockIcon,
