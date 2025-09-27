@@ -11,7 +11,6 @@ import {
   AcademicCapIcon,
   TrophyIcon,
   ArrowRightIcon,
-  CheckCircleIcon,
   StarIcon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
@@ -26,7 +25,6 @@ import FAQContact from '../components/FAQContact';
 import ConversionFooter from '../components/ConversionFooter';
 
 const OpenConnections: React.FC = () => {
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [showCalendarModal, setShowCalendarModal] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   
@@ -44,10 +42,6 @@ const OpenConnections: React.FC = () => {
     return () => window.removeEventListener('scroll', updateScrollProgress);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsFormSubmitted(true);
-  };
 
   const workshops = [
     {
@@ -300,128 +294,6 @@ const OpenConnections: React.FC = () => {
         </div>
       </section>
 
-      {/* Registration Section */}
-      <section className="py-20 bg-gradient-to-b from-slate-800 to-slate-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Participe do Evento
-            </h2>
-            <p className="text-xl text-gray-300">
-              Inscreva-se e garante sua vaga no maior evento de inovação do Distrito Federal
-            </p>
-          </motion.div>
-
-          {!isFormSubmitted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-slate-800 to-slate-700 rounded-2xl p-8 shadow-2xl border border-slate-600"
-            >
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-white font-semibold mb-2">Nome Completo</label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
-                      placeholder="Seu nome completo"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white font-semibold mb-2">Email</label>
-                    <input
-                      type="email"
-                      required
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
-                      placeholder="seu@email.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white font-semibold mb-2">Telefone</label>
-                    <input
-                      type="tel"
-                      required
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
-                      placeholder="(61) 99999-9999"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white font-semibold mb-2">Empresa/Instituição</label>
-                    <input
-                      type="text"
-                      required
-                      className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
-                      placeholder="Nome da sua empresa"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-white font-semibold mb-2">Área de Interesse</label>
-                  <select
-                    required
-                    className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
-                  >
-                    <option value="">Selecione uma área</option>
-                    <option value="startup">Startup/Empreendedorismo</option>
-                    <option value="investimento">Investimento</option>
-                    <option value="tecnologia">Tecnologia</option>
-                    <option value="inovacao">Inovação</option>
-                    <option value="networking">Networking</option>
-                    <option value="outros">Outros</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-white font-semibold mb-2">Mensagem (Opcional)</label>
-                  <textarea
-                    rows={4}
-                    className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-gray-400 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300"
-                    placeholder="Conte-nos sobre suas expectativas para o evento..."
-                  />
-                </div>
-                <div className="text-center">
-                  <button
-                    type="submit"
-                    className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-full text-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105"
-                  >
-                    Inscrever-se no Evento
-                    <ArrowRightIcon className="inline-block ml-2 h-5 w-5" />
-                  </button>
-                </div>
-              </form>
-            </motion.div>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="bg-gradient-to-br from-green-800 to-green-700 rounded-2xl p-12 shadow-2xl border border-green-600 text-center"
-            >
-              <CheckCircleIcon className="h-16 w-16 text-green-400 mx-auto mb-6" />
-              <h3 className="text-3xl font-bold text-white mb-4">
-                Inscrição Realizada com Sucesso!
-              </h3>
-              <p className="text-xl text-green-200 mb-6">
-                Obrigado por se inscrever no Open Connections + InCoDay 2025. 
-                Você receberá mais informações em breve.
-              </p>
-              <button
-                onClick={() => setIsFormSubmitted(false)}
-                className="bg-white text-green-800 font-bold py-3 px-6 rounded-full hover:bg-green-100 transition-colors duration-300"
-              >
-                Fazer Nova Inscrição
-              </button>
-            </motion.div>
-          )}
-        </div>
-      </section>
 
       {/* BRAFIP Call for Ideas Section */}
       <section className="py-20 bg-gradient-to-b from-slate-900 to-slate-800">
