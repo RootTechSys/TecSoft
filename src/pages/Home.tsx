@@ -346,7 +346,7 @@ const Home: React.FC = () => {
                 <motion.div 
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
                   className="relative"
                 >
                   <h1 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-slate-800 tracking-tight leading-tight">
@@ -362,10 +362,10 @@ const Home: React.FC = () => {
                   />
                 </motion.div>
                 
-                <motion.div 
+            <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
                   className="pl-4"
                 >
                   <h1 className="text-xl lg:text-2xl xl:text-3xl font-medium text-slate-600 tracking-wide leading-relaxed">
@@ -392,7 +392,7 @@ const Home: React.FC = () => {
                     animate={{ height: "100%" }}
                     transition={{ duration: 0.6, delay: 1.0 }}
                   />
-                </motion.div>
+            </motion.div>
               </motion.div>
               
               {/* Linha decorativa animada */}
@@ -1058,28 +1058,28 @@ const Home: React.FC = () => {
                     
                     {/* Interactive Button */}
                     <Link to="/sobre">
-                      <motion.button
-                        className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start"
+                    <motion.button
+                      className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start"
                         whileHover={{ 
                           scale: 1.05,
                           boxShadow: "0 15px 30px rgba(0,0,0,0.15)"
                         }}
-                        whileTap={{ scale: 0.95 }}
+                      whileTap={{ scale: 0.95 }}
                         transition={{ 
                           type: "spring", 
                           stiffness: 400, 
                           damping: 17 
                         }}
+                    >
+                      <span>Saiba Mais</span>
+                      <motion.div
+                        className="ml-2"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
                       >
-                        <span>Saiba Mais</span>
-                        <motion.div
-                          className="ml-2"
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          →
-                        </motion.div>
-                      </motion.button>
+                        →
+                      </motion.div>
+                    </motion.button>
                     </Link>
                   </div>
 
@@ -1437,28 +1437,28 @@ const Home: React.FC = () => {
                     
                     {/* Interactive Button */}
                     <Link to="/contato">
-                      <motion.button
-                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start mt-auto"
+                    <motion.button
+                      className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-secondary-600 to-secondary-700 text-white rounded-xl font-semibold text-sm hover:shadow-lg transition-all duration-300 group-hover:from-accent-500 group-hover:to-accent-600 self-start mt-auto"
                         whileHover={{ 
                           scale: 1.05,
                           boxShadow: "0 20px 40px rgba(0,0,0,0.15)"
                         }}
-                        whileTap={{ scale: 0.95 }}
+                      whileTap={{ scale: 0.95 }}
                         transition={{ 
                           type: "spring", 
                           stiffness: 400, 
                           damping: 17 
                         }}
+                    >
+                      <span>Saiba Mais</span>
+                      <motion.div
+                        className="ml-2"
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
                       >
-                        <span>Saiba Mais</span>
-                        <motion.div
-                          className="ml-2"
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                          →
-                        </motion.div>
-                      </motion.button>
+                        →
+                      </motion.div>
+                    </motion.button>
                     </Link>
                   </div>
 
@@ -1907,14 +1907,14 @@ const Home: React.FC = () => {
                         {/* Bottom Button - Always at bottom */}
                         <div className="mt-3">
                           <Link to="/cursos">
-                            <motion.button
+                          <motion.button
                               className={`inline-flex items-center justify-center px-3 py-2 bg-gradient-to-r ${course.color} text-white rounded-lg font-semibold text-xs hover:shadow-lg transition-all duration-300 group-hover:shadow-xl w-full`}
-                              whileHover={{ scale: 1.02 }}
-                              whileTap={{ scale: 0.98 }}
-                            >
-                              <span>Ver Detalhes</span>
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                          >
+                            <span>Ver Detalhes</span>
                               <ArrowRightIcon className="w-3 h-3 ml-1" />
-                            </motion.button>
+                          </motion.button>
                           </Link>
                         </div>
                       </div>

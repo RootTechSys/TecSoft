@@ -11,6 +11,7 @@ import Courses from './pages/Courses';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import Contact from './pages/Contact';
+import OpenConnections from './pages/OpenConnections';
 import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ProtectedRoute from './components/admin/ProtectedRoute';
@@ -97,6 +98,7 @@ function App() {
               <Footer />
             </div>
           } />
+          <Route path="/open-connections" element={<OpenConnections />} />
           
           {/* Rota de Diagnóstico (temporária) */}
           <Route path="/diagnostico" element={
