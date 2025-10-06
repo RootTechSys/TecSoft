@@ -11,7 +11,11 @@ import Courses from './pages/Courses';
 import News from './pages/News';
 import NewsDetail from './pages/NewsDetail';
 import Contact from './pages/Contact';
-import OpenConnections from './pages/OpenConnections';
+import OpenConnections from './pages/open-connections/OpenConnections';
+import SobreEventos from './pages/SobreEventos';
+import AgendaCompleta from './pages/AgendaCompleta';
+import Localizacao from './pages/Localizacao';
+import Inscricoes from './pages/Inscricoes';
 import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
 import ProtectedRoute from './components/admin/ProtectedRoute';
@@ -99,6 +103,12 @@ function App() {
             </div>
           } />
           <Route path="/open-connections" element={<OpenConnections />} />
+          
+          {/* Rotas do Hotsite Open Connections + InCoDay */}
+          <Route path="/hotsite/sobre" element={<SobreEventos />} />
+          <Route path="/hotsite/agenda" element={<AgendaCompleta />} />
+          <Route path="/hotsite/localizacao" element={<Localizacao />} />
+          <Route path="/hotsite/inscricoes" element={<Inscricoes />} />
           
           {/* Rota de Diagnóstico (temporária) */}
           <Route path="/diagnostico" element={

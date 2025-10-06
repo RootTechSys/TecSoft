@@ -539,9 +539,7 @@ const Home: React.FC = () => {
 
             {/* Card Evento */}
             <motion.a
-              href="https://evento.tecsoft.dev"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/open-connections"
               whileHover={{ scale: 1.02, y: -2 }}
               whileTap={{ scale: 0.98 }}
               className="group relative bg-white rounded-2xl p-6 border border-slate-200 hover:border-green-300 hover:shadow-xl transition-all duration-300 cursor-pointer block w-[280px]"
@@ -789,9 +787,7 @@ const Home: React.FC = () => {
 
               {/* Card Evento */}
               <motion.a
-                href="https://evento.tecsoft.dev"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/open-connections"
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.98 }}
                 className="group relative bg-white rounded-2xl p-6 border border-green-200/50 hover:border-green-300 hover:shadow-xl transition-all duration-300 cursor-pointer block w-full"
@@ -2358,6 +2354,162 @@ const Home: React.FC = () => {
               showIndicators={true}
             />
           </motion.div>
+        </div>
+      </section>
+
+      {/* Speakers Section */}
+      <section id="palestrantes" className="speakers-section" style={{
+        padding: '56px 0 32px'
+      }}>
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            .speakers-section{ padding: 56px 0 32px; }
+            .container-wide{ max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+            .speakers-head{ text-align: center; margin-bottom: 24px; }
+            .speakers-title{ font-size: clamp(24px,3.2vw,36px); font-weight: 900; color: #fff; margin: 0 0 6px; }
+            .speakers-sub{ color: rgba(255,255,255,.9); }
+
+            .speakers-grid{
+              display: grid;
+              grid-template-columns: repeat(4, minmax(0,1fr));
+              gap: 18px;
+            }
+            @media (max-width: 1100px){ .speakers-grid{ grid-template-columns: repeat(3,1fr); } }
+            @media (max-width: 820px){  .speakers-grid{ grid-template-columns: repeat(2,1fr); } }
+            @media (max-width: 560px){  .speakers-grid{ grid-template-columns: 1fr; } }
+
+            .speaker-card{
+              background: rgba(255,255,255,.10);
+              border: 1px solid rgba(255,255,255,.22);
+              border-radius: 16px;
+              backdrop-filter: blur(12px);
+              -webkit-backdrop-filter: blur(12px);
+              overflow: hidden;
+              display: flex; flex-direction: column;
+              transition: transform .2s, border-color .2s, box-shadow .2s;
+              min-height: 320px;
+            }
+            .speaker-card:hover{ transform: translateY(-4px); border-color: rgba(245,159,11,.7); }
+
+            .speaker-photo{
+              width: 100%; aspect-ratio: 16/9; background: rgba(255,255,255,.12);
+              display:flex; align-items:center; justify-content:center;
+            }
+            .speaker-photo img{
+              width: 100%; height: 100%; object-fit: cover;
+            }
+
+            .speaker-body{ padding: 16px 16px 18px; display:flex; flex-direction:column; gap: 6px; }
+            .speaker-name{ font-weight: 900; color: #fff; margin: 0; }
+            .speaker-role{ font-weight: 700; color: rgba(255,255,255,.9); margin: 0; }
+            .speaker-bio{ color: rgba(255,255,255,.85); font-size: 14px; line-height: 1.55; }
+
+            .speaker-card.minimal{
+              min-height: 120px; align-items: center; justify-content: center;
+              padding: 20px;
+            }
+            .speaker-card.minimal .speaker-name{ font-size: 18px; text-align: center; }
+            .speakers-note{ margin-top: 14px; color: rgba(255,255,255,.8); text-align: center; }
+
+            /* Acessibilidade: evita estourar tipografia em telas menores */
+            @media (max-width: 380px){
+              .speaker-bio{ font-size: 13px; }
+            }
+          `
+        }} />
+        
+        <div className="container-wide">
+          <header className="speakers-head">
+            <h2 className="speakers-title">Palestrantes</h2>
+            <p className="speakers-sub">
+              Esta edição reúne profissionais do ecossistema de tecnologia, inovação e gestão pública/privada.
+            </p>
+          </header>
+
+          <ul className="speakers-grid">
+            {/* COMPLETOS (com foto e bio) */}
+            <li className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/images/speakers/humberto-ribeiro.jpg" alt="Humberto Luiz Ribeiro" />
+              </div>
+              <div className="speaker-body">
+                <h3 className="speaker-name">Humberto Luiz Ribeiro</h3>
+                <p className="speaker-role">Diretor da EPICENTOR • Coordenador do CiberLab (FINATEC/UnB)</p>
+                <div className="speaker-bio">
+                  <p>
+                    Conselheiro de Cibersegurança do World Economic Forum (2025–2026) e membro‑diretor do
+                    Departamento de Defesa e Segurança da FIESP (2023–2026). Engenheiro pela UnB, com formações
+                    no MIT, INSEAD, Wharton, UNA e Georgetown, e professor‑visitante na Cornell University. Foi
+                    Secretário de Comércio e Serviços do Governo Federal, cofundador da BRASSCOM e da CONAJE, e
+                    condecorado com a Medalha do Mérito Alvorada, Medalha da Vitória e Hall da Fama do Franchising.
+                  </p>
+                </div>
+              </div>
+            </li>
+
+            <li className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/images/speakers/raulison-resende.jpg" alt="Raulison Resende" />
+              </div>
+              <div className="speaker-body">
+                <h3 className="speaker-name">Raulison Resende</h3>
+                <p className="speaker-role">Diretor do Comitê de Tecnologia do Instituto Pactuá • Diretor de Educação da ASSESPRO‑SP • CEO da Wongola</p>
+                <div className="speaker-bio">
+                  <p>
+                    Executivo com 25+ anos em projetos estratégicos de tecnologia e educação no Brasil, Angola e EUA.
+                    Fundador do programa Black in Tech (BiT), Mestre e Doutor pela UNICAMP e pós‑doutor pela FGV.
+                    Liderou captação de milhões em iniciativas de inovação e transformação digital, conectando
+                    tecnologia, gestão e impacto escalável.
+                  </p>
+                </div>
+              </div>
+            </li>
+
+            <li className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/images/speakers/marcelo-boarin.jpg" alt="Marcelo Boarin" />
+              </div>
+              <div className="speaker-body">
+                <h3 className="speaker-name">Marcelo Boarin</h3>
+                <p className="speaker-role">Mestre em Engenharia Elétrica (UnB) • Profnit (UEG) • MBA (FGV)</p>
+                <div className="speaker-bio">
+                  <p>
+                    26 anos de atuação em TI, Experiência do Cliente e IA, com passagens por Saint Gobain, J&J,
+                    IBM, VIVO, Brasil Telecom/Oi, CONTAX e Nextel/Claro. Fundador da SOBREXP e consultor na
+                    iniciativa de Empregabilidade 50+ da A5 Solutions.
+                  </p>
+                </div>
+              </div>
+            </li>
+
+            <li className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/images/speakers/camilo-mussi.jpg" alt="Camilo Mussi" />
+              </div>
+              <div className="speaker-body">
+                <h3 className="speaker-name">Camilo Mussi</h3>
+                <p className="speaker-role">CIO do Ministério da Agricultura e Pecuária (desde 2023)</p>
+                <div className="speaker-bio">
+                  <p>
+                    Ex‑CIO de ANTAQ, INEP e Ministério do Esporte. Oficial Aviador da FAB. Prêmios: Security Leader
+                    Brasil 2024 e liderança em inovação no DF; destaque na transformação digital do governo federal (2019).
+                    Mestre em IA; especializações e graduações em Direito e Administração; 24 anos como gestor e professor.
+                  </p>
+                </div>
+              </div>
+            </li>
+
+            {/* INCOMPLETOS (sem foto/bio – apenas nome) */}
+            <li className="speaker-card minimal"><h3 className="speaker-name">Palestrante 5</h3></li>
+            <li className="speaker-card minimal"><h3 className="speaker-name">Palestrante 6</h3></li>
+            <li className="speaker-card minimal"><h3 className="speaker-name">Palestrante 7</h3></li>
+            <li className="speaker-card minimal"><h3 className="speaker-name">Palestrante 8</h3></li>
+          </ul>
+
+          <p className="speakers-note">
+            As fotos dos palestrantes serão enviadas no próximo prompt, já salvas em /images/speakers/.
+          </p>
         </div>
       </section>
 

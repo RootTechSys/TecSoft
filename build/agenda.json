@@ -1,209 +1,228 @@
 {
-  "meta": {
-    "cores": {
-      "fundoPrimario": "#0C2340",
-      "fundoSecundario": "#0E3D4E",
-      "teal": "#16B3A6",
-      "bege": "#E7C8A1",
-      "textoPrimario": "#EAF2FB",
-      "textoSecundario": "#B6C3D1",
-      "borda": "#1B3D6B"
-    },
-    "tipografia": {
-      "tituloPeso": 700,
-      "tituloOutlinePx": 2,
-      "bodyAlturaLinha": 1.5
-    },
-    "icones": {
-      "palestra": "AcademicCapIcon",
-      "painel": "UserGroupIcon",
-      "workshop": "CodeBracketIcon",
-      "pitch": "TrophyIcon",
-      "networking": "UserGroupIcon"
-    },
-    "trilhas": ["Palestras", "Workshops", "Negócios", "Pitches", "Networking"],
-    "marcadoresDestaque": ["Palestra Magna", "Rodada de Negócios", "Pitch Day"]
-  },
-  "dias": [
+  "eventos": [
     {
-      "dataISO": "2025-11-11",
-      "rotulo": "1º Dia",
-      "periodos": [
+      "id": "dia1-manha",
+      "titulo": "1º Dia – 11 de novembro de 2025 (manhã)",
+      "periodo": "manha",
+      "dia": 1,
+      "cor": "#00bcd4",
+      "atividades": [
         {
-          "nome": "Manhã",
-          "sessoes": [
-            {
-              "inicio": "08:00",
-              "fim": "09:00",
-              "tipo": "networking",
-              "titulo": "Credenciamento e Café de Boas-vindas",
-              "local": "Foyer",
-              "trilhas": ["Networking"]
-            },
-            {
-              "inicio": "09:00",
-              "fim": "10:00",
-              "tipo": "palestra",
-              "titulo": "Abertura",
-              "local": "Auditório Principal",
-              "trilhas": ["Palestras"]
-            },
-            {
-              "inicio": "10:00",
-              "fim": "11:00",
-              "tipo": "palestra",
-              "titulo": "Palestra Magna: A Inovação como vetor de desenvolvimento econômico",
-              "local": "Auditório Principal",
-              "trilhas": ["Palestras"],
-              "destaque": true
-            },
-            {
-              "inicio": "11:00",
-              "fim": "12:30",
-              "tipo": "painel",
-              "titulo": "Mecanismos de acesso aos mercados EUA, EU, Ásia-Pacífico, LATAM",
-              "local": "Auditório",
-              "trilhas": ["Negócios"]
-            }
-          ]
+          "id": 1,
+          "horario": "08:00 às 09:00",
+          "atividade": "Credenciamento e Café da Manhã de Boas-vindas",
+          "tipo": "credenciamento",
+          "icone": "☕"
         },
         {
-          "nome": "Tarde",
-          "sessoes": [
-            {
-              "inicio": "14:00",
-              "fim": "14:45",
-              "tipo": "palestra",
-              "titulo": "Ações afirmativas para formação de RH qualificado",
-              "local": "Auditório",
-              "trilhas": ["Palestras"]
-            },
-            {
-              "inicio": "14:45",
-              "fim": "15:15",
-              "tipo": "painel",
-              "titulo": "Financiamento à Inovação: perspectiva da FINEP",
-              "local": "Auditório",
-              "trilhas": ["Negócios"]
-            },
-            {
-              "inicio": "15:15",
-              "fim": "15:45",
-              "tipo": "palestra",
-              "titulo": "Atendimento ao consumidor na era da IA",
-              "local": "Auditório",
-              "trilhas": ["Palestras"]
-            },
-            {
-              "inicio": "15:45",
-              "fim": "16:45",
-              "tipo": "painel",
-              "titulo": "Cybersegurança: tendências e desafios",
-              "local": "Auditório",
-              "trilhas": ["Workshops", "Negócios"]
-            },
-            {
-              "inicio": "16:45",
-              "fim": "18:15",
-              "tipo": "painel",
-              "titulo": "IA como oportunidade de negócios",
-              "local": "Auditório",
-              "trilhas": ["Negócios"],
-              "destaque": true
-            },
-            {
-              "inicio": "18:15",
-              "fim": "18:15",
-              "tipo": "networking",
-              "titulo": "Coquetel de Networking",
-              "local": "Lounge",
-              "trilhas": ["Networking"]
-            }
-          ]
+          "id": 2,
+          "horario": "09:00 às 10:00",
+          "atividade": "Abertura",
+          "tipo": "cerimonia",
+          "icone": "🎤"
+        },
+        {
+          "id": 3,
+          "horario": "10:00 às 11:30",
+          "atividade": "Palestra Magna: A Inovação como vetor de desenvolvimento econômico e social",
+          "tipo": "palestra",
+          "icone": "%",
+          "palestrante": "Nome do Palestrante"
+        },
+        {
+          "id": 4,
+          "horario": "11:30 às 12:30",
+          "atividade": "Painel: A Transformação Digital do Agronegócio como Oportunidade para empresas brasileiras de Tecnologia",
+          "tipo": "painel",
+          "icone": "💼"
+        },
+        {
+          "id": 5,
+          "horario": "12:30 às 14:00",
+          "atividade": "Almoço",
+          "tipo": "intervalo",
+          "icone": "🍽️"
         }
       ]
     },
     {
-      "dataISO": "2025-11-12",
-      "rotulo": "2º Dia",
-      "periodos": [
+      "id": "dia1-tarde",
+      "titulo": "1º Dia – 11 de novembro de 2025 (tarde)",
+      "periodo": "tarde",
+      "dia": 1,
+      "cor": "#00e5ff",
+      "atividades": [
         {
-          "nome": "Manhã",
-          "sessoes": [
-            {
-              "inicio": "09:00",
-              "fim": "10:00",
-              "tipo": "pitch",
-              "titulo": "Bloco de Pitches #1 (4x15min)",
-              "local": "Sala Pitches",
-              "trilhas": ["Pitches"],
-              "destaque": true
-            },
-            {
-              "inicio": "10:00",
-              "fim": "11:00",
-              "tipo": "painel",
-              "titulo": "Compras Públicas de Inovação",
-              "local": "Auditório",
-              "trilhas": ["Negócios"]
-            },
-            {
-              "inicio": "11:00",
-              "fim": "12:00",
-              "tipo": "pitch",
-              "titulo": "Bloco de Pitches #2 (4x15min)",
-              "local": "Sala Pitches",
-              "trilhas": ["Pitches"]
-            }
-          ]
+          "id": 6,
+          "horario": "14:00 às 15:15",
+          "atividade": "Painel: Cyber segurança: tendências e desafios estratégicos para os próximos anos",
+          "tipo": "painel",
+          "icone": "🔒"
         },
         {
-          "nome": "Tarde",
-          "sessoes": [
-            {
-              "inicio": "14:00",
-              "fim": "15:00",
-              "tipo": "pitch",
-              "titulo": "Bloco de Pitches #3 (4x15min)",
-              "local": "Sala Pitches",
-              "trilhas": ["Pitches"]
-            },
-            {
-              "inicio": "15:00",
-              "fim": "16:15",
-              "tipo": "painel",
-              "titulo": "Internacionalização da Inovação",
-              "local": "Auditório",
-              "trilhas": ["Negócios"]
-            },
-            {
-              "inicio": "16:00",
-              "fim": "16:45",
-              "tipo": "pitch",
-              "titulo": "Bloco de Pitches #4 (3x15min)",
-              "local": "Sala Pitches",
-              "trilhas": ["Pitches"]
-            },
-            {
-              "inicio": "16:45",
-              "fim": "17:45",
-              "tipo": "painel",
-              "titulo": "Avaliação InCoDay, Anúncio 2026 e Premiação",
-              "local": "Auditório",
-              "trilhas": ["Negócios"],
-              "destaque": true
-            },
-            {
-              "inicio": "17:45",
-              "fim": "18:00",
-              "tipo": "networking",
-              "titulo": "Encerramento",
-              "local": "Foyer",
-              "trilhas": ["Networking"]
-            }
-          ]
+          "id": 7,
+          "horario": "15:15 às 16:30",
+          "atividade": "Painel: Mecanismos de Financiamento à Inovação: A perspectiva da Finep (Brasil)",
+          "tipo": "painel",
+          "icone": "💰"
+        },
+        {
+          "id": 8,
+          "horario": "16:30 às 17:00",
+          "atividade": "Coffee break",
+          "tipo": "intervalo",
+          "icone": "☕"
+        },
+        {
+          "id": 9,
+          "horario": "17:00 às 18:15",
+          "atividade": "Painel: Internacionalização da Inovação: diferentes perspectivas",
+          "tipo": "painel",
+          "icone": "🌍"
+        },
+        {
+          "id": 10,
+          "horario": "18:15",
+          "atividade": "Coquetel de Networking",
+          "tipo": "networking",
+          "icone": "🥂"
+        }
+      ]
+    },
+    {
+      "id": "dia2-manha",
+      "titulo": "2º Dia – 12 de novembro de 2025 (manhã)",
+      "periodo": "manha",
+      "dia": 2,
+      "cor": "#a855f7",
+      "atividades": [
+        {
+          "id": 11,
+          "horario": "09:00 às 10:00",
+          "atividade": "Painel: Mecanismos de acesso aos mercados EUA, EU, Asia-Pacífico, LATAM",
+          "tipo": "painel",
+          "icone": "🌐"
+        },
+        {
+          "id": 12,
+          "horario": "10:00 às 11:00",
+          "atividade": "Bloco de Pitches #1: 4 pitches de ideias selecionadas, com 15 minutos cada",
+          "tipo": "pitch",
+          "icone": "🚀"
+        },
+        {
+          "id": 13,
+          "horario": "11:00 às 12:30",
+          "atividade": "Painel: Cases de Aplicação de IA",
+          "tipo": "painel",
+          "icone": "🤖"
+        },
+        {
+          "id": 14,
+          "horario": "12:30 às 14:00",
+          "atividade": "Almoço",
+          "tipo": "intervalo",
+          "icone": "🍽️"
+        },
+        {
+          "id": 15,
+          "horario": "14:00 às 15:00",
+          "atividade": "Painel: Ações afirmativas para formação de recursos humanos qualificados",
+          "tipo": "painel",
+          "icone": "👥"
+        }
+      ]
+    },
+    {
+      "id": "dia2-tarde",
+      "titulo": "2º Dia – 12 de novembro de 2025 (tarde)",
+      "periodo": "tarde",
+      "dia": 2,
+      "cor": "#ec4899",
+      "atividades": [
+        {
+          "id": 16,
+          "horario": "15:00 às 16:00",
+          "atividade": "Bloco de Pitches #2: 4 pitches de ideias selecionadas, com 15 minutos cada",
+          "tipo": "pitch",
+          "icone": "🚀"
+        },
+        {
+          "id": 17,
+          "horario": "16:00 às 17:20",
+          "atividade": "Coffee break",
+          "tipo": "intervalo",
+          "icone": "☕"
+        },
+        {
+          "id": 18,
+          "horario": "17:20 às 18:05",
+          "atividade": "Bloco de Pitches #3: 3 pitches de ideias selecionadas, com 15 minutos cada",
+          "tipo": "pitch",
+          "icone": "🚀"
+        },
+        {
+          "id": 19,
+          "horario": "18:05 às 18:50",
+          "atividade": "Avaliação Open Connection e InCoDay, Anúncio InCoDay 2026 e Premiação",
+          "tipo": "cerimonia",
+          "icone": "🏆"
+        },
+        {
+          "id": 20,
+          "horario": "18:50",
+          "atividade": "Encerramento",
+          "tipo": "cerimonia",
+          "icone": "👋"
         }
       ]
     }
-  ]
+  ],
+  "workshops": {
+    "titulo": "Minicursos e Workshops",
+    "subtitulo": "(sujeito a alterações)",
+    "cor": "#10b981",
+    "items": [
+      {
+        "id": 1,
+        "nome": "Gestão de Ideias para a Inovação – Modelo MGPDI",
+        "responsavel": "Cristina Filipak Machado (QualityFocus)",
+        "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
+        "dias": ["2025-11-11", "2025-11-12"],
+        "horario": "19:00-22:00"
+      },
+      {
+        "id": 2,
+        "nome": "Gestão da Colaboração para a Inovação – Modelo MGPDI",
+        "responsavel": "José Antônio Antonioni (Softsul) e Kival Weber (MGPDI)",
+        "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
+        "dias": ["2025-11-11", "2025-11-12"],
+        "horario": "19:00-22:00"
+      },
+      {
+        "id": 3,
+        "nome": "Inovação Aberta - Gerência de Projetos Inovadores usando Métodos Ágeis – Modelo MGPDI",
+        "responsavel": "Rodrigo Quites Reis (UFPA)",
+        "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
+        "dias": ["2025-11-11", "2025-11-12"],
+        "horario": "19:00-22:00"
+      },
+      {
+        "id": 4,
+        "nome": "Como elaborar projetos de captação de recursos para Inovação",
+        "responsavel": "Membro da equipe técnica do Tecsoft",
+        "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
+        "dias": ["2025-11-11", "2025-11-12"],
+        "horario": "19:00-22:00"
+      },
+      {
+        "id": 5,
+        "nome": "IA Generativa como alavancador de negócios – Como planejar sistemas de LLM",
+        "responsavel": "Consultor especializado em IA com foco na aplicação no desenvolvimento de soluções inovadoras",
+        "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
+        "dias": ["2025-11-11", "2025-11-12"],
+        "horario": "19:00-22:00"
+      }
+    ]
+  }
 }
