@@ -1,9 +1,8 @@
 {
   "eventos": [
     {
-      "id": "dia1-manha",
-      "titulo": "1º Dia – 11 de novembro de 2025 (manhã)",
-      "periodo": "manha",
+      "id": "dia1",
+      "titulo": "1º Dia – 11 de novembro de 2025",
       "dia": 1,
       "cor": "#00bcd4",
       "atividades": [
@@ -42,16 +41,7 @@
           "atividade": "Almoço",
           "tipo": "intervalo",
           "icone": "🍽️"
-        }
-      ]
-    },
-    {
-      "id": "dia1-tarde",
-      "titulo": "1º Dia – 11 de novembro de 2025 (tarde)",
-      "periodo": "tarde",
-      "dia": 1,
-      "cor": "#00e5ff",
-      "atividades": [
+        },
         {
           "id": 6,
           "horario": "14:00 às 15:15",
@@ -90,9 +80,8 @@
       ]
     },
     {
-      "id": "dia2-manha",
-      "titulo": "2º Dia – 12 de novembro de 2025 (manhã)",
-      "periodo": "manha",
+      "id": "dia2",
+      "titulo": "2º Dia – 12 de novembro de 2025",
       "dia": 2,
       "cor": "#a855f7",
       "atividades": [
@@ -130,16 +119,7 @@
           "atividade": "Painel: Ações afirmativas para formação de recursos humanos qualificados",
           "tipo": "painel",
           "icone": "👥"
-        }
-      ]
-    },
-    {
-      "id": "dia2-tarde",
-      "titulo": "2º Dia – 12 de novembro de 2025 (tarde)",
-      "periodo": "tarde",
-      "dia": 2,
-      "cor": "#ec4899",
-      "atividades": [
+        },
         {
           "id": 16,
           "horario": "15:00 às 16:00",

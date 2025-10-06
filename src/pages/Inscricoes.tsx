@@ -568,7 +568,7 @@ const Inscricoes: React.FC = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                    Inscrever-se
+                    Inscrever-se Gratuitamente
                   </motion.a>
               </div>
               </motion.article>
@@ -696,7 +696,7 @@ const Inscricoes: React.FC = () => {
                   <svg className="faq-caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
                 </summary>
                 <div className="faq-a">
-                  Escolha a atividade de interesse e clique em "Inscrever-se" no card correspondente. Preencha o formulário e aguarde confirmação por e-mail.
+                  Escolha a atividade de interesse e clique em "Inscrever-se Gratuitamente" no card correspondente. Preencha o formulário e aguarde confirmação por e-mail.
                 </div>
               </details>
               </div>
@@ -704,7 +704,7 @@ const Inscricoes: React.FC = () => {
             {/* CTA integrado */}
             <div className="faq-cta">
               <span className="cta-text">Pronto para garantir vaga?</span>
-              <a className="insc-btn tone-amber" href="https://forms.gle/4iqerAKaukLmkGgCA" target="_blank" rel="noopener noreferrer">Inscrever-se</a>
+              <a className="insc-btn tone-amber" href="https://forms.gle/4iqerAKaukLmkGgCA" target="_blank" rel="noopener noreferrer">Inscrever-se Gratuitamente</a>
             </div>
           </motion.section>
 

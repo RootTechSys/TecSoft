@@ -582,7 +582,7 @@ const HolographicHero: React.FC = () => {
           </p>
           <div className="hero-cta">
             <a href="https://forms.gle/4iqerAKaukLmkGgCA" target="_blank" rel="noopener noreferrer" className="btn-primary">Inscreva-se Agora</a>
-            <a href="/hotsite/inscricoes" className="btn-secondary">Saiba Mais</a>
+            <a href="/hotsite/sobre" className="btn-secondary">Saiba Mais</a>
           </div>
         </div>
 

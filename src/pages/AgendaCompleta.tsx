@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useLayoutEffect } from 'react';
 import { motion } from 'framer-motion';
 import NavigationSidebar from '../components/NavigationSidebar';
 
@@ -45,7 +45,6 @@ const AgendaCompleta: React.FC = () => {
   const [agendaData, setAgendaData] = useState<AgendaData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeDay, setActiveDay] = useState(1);
-  const [activePeriod, setActivePeriod] = useState('manha');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
   
   const ITEMS_PER_VIEW = 5;
@@ -66,12 +65,29 @@ const AgendaCompleta: React.FC = () => {
     fetchAgenda();
   }, []);
 
-  const toggleExpand = (eventoId: string) => {
+  const toggleExpand = useCallback((eventoId: string) => {
+    const isCurrentlyExpanded = expandedSections[eventoId];
+    
     setExpandedSections(prev => ({
       ...prev,
       [eventoId]: !prev[eventoId]
     }));
-  };
+
+    // Scroll suave apenas para "Ver Menos"
+    if (isCurrentlyExpanded) {
+      setTimeout(() => {
+        // "Ver Menos" - scroll para o topo da seção de atividades
+        const timelineContainer = document.querySelector('.timeline-container');
+        if (timelineContainer) {
+          timelineContainer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      }, 200); // Delay maior para permitir renderização completa
+    }
+  }, [expandedSections]);
+
 
   if (loading) {
     return (
@@ -90,10 +106,7 @@ const AgendaCompleta: React.FC = () => {
   }
 
   // Filtrar eventos por dia selecionado
-  const eventosDoDia = agendaData.eventos.filter(e => e.dia === activeDay);
-  
-  // Evento ativo (dia + período)
-  const eventoAtivo = eventosDoDia.find(e => e.periodo === activePeriod);
+  const eventoAtivo = agendaData.eventos.find(e => e.dia === activeDay);
 
   return (
     <div className="agenda-timeline-section min-h-screen">
@@ -456,108 +469,6 @@ const AgendaCompleta: React.FC = () => {
           font-weight: 500;
         }
 
-        /* Tabs de Período - MELHORADAS */
-        .period-tabs {
-          display: flex;
-          gap: 16px;
-          justify-content: center;
-          margin-bottom: 48px;
-          padding: 8px;
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(10px);
-          border-radius: 16px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          max-width: 400px;
-          margin-left: auto;
-          margin-right: auto;
-        }
-
-        .period-tab {
-          flex: 1;
-          background: rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(10px);
-          border: 2px solid transparent;
-          border-radius: 12px;
-          padding: 16px 24px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 8px;
-          position: relative;
-        }
-
-        .period-tab::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 10px;
-          padding: 2px;
-          background: linear-gradient(135deg, transparent, transparent);
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-
-        .period-tab:hover {
-          background: rgba(255, 255, 255, 0.1);
-          border-color: rgba(0, 188, 212, 0.5);
-          transform: translateY(-2px);
-        }
-
-        .period-tab.active {
-          background: linear-gradient(135deg, 
-            rgba(0, 188, 212, 0.3) 0%, 
-            rgba(0, 229, 255, 0.2) 100%
-          );
-          border-color: #00e5ff;
-          box-shadow: 
-            0 0 30px rgba(0, 229, 255, 0.4),
-            0 8px 24px rgba(0, 188, 212, 0.3),
-            inset 0 0 20px rgba(0, 229, 255, 0.1);
-          transform: scale(1.05);
-        }
-
-        .period-tab.active::before {
-          opacity: 1;
-          background: linear-gradient(135deg, #00e5ff, #00bcd4);
-        }
-
-        .period-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 28px;
-          height: 28px;
-          filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
-          transition: transform 0.3s ease;
-        }
-
-        .period-icon svg {
-          width: 100%;
-          height: 100%;
-        }
-
-        .period-tab.active .period-icon {
-          transform: scale(1.2);
-        }
-
-        .period-label {
-          font-size: 16px;
-          font-weight: 700;
-          color: rgba(255, 255, 255, 0.7);
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          transition: color 0.3s ease;
-        }
-
-        .period-tab.active .period-label {
-          color: white;
-          text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
 
         /* ===== TIMELINE CONTAINER - MAIS ESPAÇO ===== */
         .timeline-container {
@@ -764,6 +675,51 @@ const AgendaCompleta: React.FC = () => {
           cursor: pointer;
           transition: all 0.3s ease;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .btn-show-more::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: left 0.5s ease;
+        }
+
+        .btn-show-more:active::before {
+          left: 100%;
+        }
+
+        /* Animação shimmer para placeholder */
+        @keyframes shimmer {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(100%);
+          }
+        }
+
+        .timeline-placeholder {
+          border-radius: 8px;
+          overflow: hidden;
+        }
+
+        /* Otimizações de performance para timeline */
+        .timeline-items {
+          contain: layout style paint;
+          transform: translateZ(0);
+          will-change: height, opacity;
+        }
+
+        .timeline-item {
+          contain: layout style paint;
+          transform: translateZ(0);
+          will-change: transform, opacity;
         }
 
         .btn-show-more:hover {
@@ -1529,33 +1485,6 @@ const AgendaCompleta: React.FC = () => {
           }
         }
 
-        /* Mobile - Tabs de Período */
-        @media (max-width: 768px) {
-          .period-tabs {
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 32px;
-            padding: 12px;
-            max-width: none;
-          }
-          
-          .period-tab {
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            padding: 14px 20px;
-            gap: 12px;
-          }
-          
-          .period-icon {
-            width: 24px;
-            height: 24px;
-          }
-          
-          .period-label {
-            font-size: 15px;
-          }
-        }
 
         /* Mobile - Timeline */
         @media (max-width: 768px) {
@@ -1789,7 +1718,7 @@ const AgendaCompleta: React.FC = () => {
 
           {/* Descrição */}
           <p className="event-description-clean">
-            Dois dias completos de inovação, networking e conhecimento com os melhores especialistas do mercado
+            Dois dias completos de inovação, networking e conhecimento com os especialistas renomados do mercado
           </p>
 
           {/* Decoração de linhas */}
@@ -1803,53 +1732,20 @@ const AgendaCompleta: React.FC = () => {
         <div className="days-tabs">
           <button
             className={`day-tab ${activeDay === 1 ? 'active' : ''}`}
-            onClick={() => {
-              setActiveDay(1);
-              setActivePeriod('manha');
-            }}
+            onClick={() => setActiveDay(1)}
           >
             <span className="day-number">Dia 1</span>
             <span className="day-date">11 de Novembro</span>
           </button>
           <button
             className={`day-tab ${activeDay === 2 ? 'active' : ''}`}
-            onClick={() => {
-              setActiveDay(2);
-              setActivePeriod('manha');
-            }}
+            onClick={() => setActiveDay(2)}
           >
             <span className="day-number">Dia 2</span>
             <span className="day-date">12 de Novembro</span>
           </button>
         </div>
 
-        {/* Tabs de Período */}
-        <div className="period-tabs">
-          <button
-            className={`period-tab ${activePeriod === 'manha' ? 'active' : ''}`}
-            onClick={() => setActivePeriod('manha')}
-          >
-            <span className="period-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="5"/>
-                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-              </svg>
-            </span>
-            <span className="period-label">Manhã</span>
-          </button>
-          <button
-            className={`period-tab ${activePeriod === 'tarde' ? 'active' : ''}`}
-            onClick={() => setActivePeriod('tarde')}
-          >
-            <span className="period-icon">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
-              </svg>
-            </span>
-            <span className="period-label">Tarde</span>
-          </button>
-        </div>
 
         {/* Timeline de Atividades */}
         {eventoAtivo && (
@@ -1935,34 +1831,126 @@ function TimelineView({ evento, isExpanded, onToggle, maxItems }: {
   onToggle: () => void;
   maxItems: number;
 }) {
-  const visibleItems = isExpanded 
-    ? evento.atividades 
-    : evento.atividades.slice(0, maxItems);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
-  const hasMore = evento.atividades.length > maxItems;
+  const visibleItems = useMemo(() => {
+    return isExpanded 
+      ? evento.atividades 
+      : evento.atividades.slice(0, maxItems);
+  }, [evento.atividades, isExpanded, maxItems]);
+  
+  const hasMore = useMemo(() => {
+    return evento.atividades.length > maxItems;
+  }, [evento.atividades.length, maxItems]);
+
+  const handleToggle = () => {
+    setIsTransitioning(true);
+    onToggle();
+    
+    // Reset transition state após renderização completa
+    setTimeout(() => {
+      setIsTransitioning(false);
+    }, 800); // Aumentado para garantir renderização completa
+  };
 
   return (
     <div className="timeline-container">
       <div className="timeline-line" style={{ '--timeline-color': evento.cor } as React.CSSProperties}></div>
       
-      <div className="timeline-items">
-        {visibleItems.map((atividade, index) => (
-          <TimelineItem 
-            key={atividade.id} 
-            atividade={atividade} 
-            cor={evento.cor}
-            index={index}
+      <motion.div 
+        className="timeline-items"
+        initial={false}
+        animate={{ 
+          opacity: 1,
+          height: "auto"
+        }}
+        transition={{ 
+          duration: 0.5,
+          ease: "easeInOut"
+        }}
+        style={{
+          minHeight: isExpanded ? "auto" : "0px",
+          overflow: "hidden",
+          position: "relative",
+          willChange: "height, opacity",
+          transform: "translateZ(0)", // Force hardware acceleration
+          backfaceVisibility: "hidden"
+        }}
+      >
+        {/* Placeholder para evitar espaço vazio durante transição */}
+        {isTransitioning && isExpanded && (
+          <motion.div
+            className="timeline-placeholder"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              right: 0,
+              height: "200px",
+              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent)",
+              animation: "shimmer 1.5s infinite"
+            }}
           />
+        )}
+        
+        {visibleItems.map((atividade, index) => (
+          <motion.div
+            key={atividade.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ 
+              duration: 0.4,
+              delay: index * 0.08,
+              ease: "easeOut"
+            }}
+            style={{
+              willChange: "transform, opacity",
+              transform: "translateZ(0)"
+            }}
+          >
+            <MemoizedTimelineItem 
+              atividade={atividade} 
+              cor={evento.cor}
+              index={index}
+            />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
       {hasMore && (
-        <button 
+        <motion.button 
+          id={`btn-show-more-${evento.id}`}
           className="btn-show-more"
-          onClick={onToggle}
-          style={{ '--btn-color': evento.cor } as React.CSSProperties}
+          onClick={handleToggle}
+          disabled={isTransitioning}
+          style={{ 
+            '--btn-color': evento.cor,
+            opacity: isTransitioning ? 0.7 : 1,
+            cursor: isTransitioning ? 'not-allowed' : 'pointer'
+          } as React.CSSProperties}
+          whileHover={!isTransitioning ? { scale: 1.02 } : {}}
+          whileTap={!isTransitioning ? { scale: 0.98 } : {}}
+          transition={{ duration: 0.2 }}
         >
-          {isExpanded ? (
+          {isTransitioning ? (
+            <>
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                style={{ width: 20, height: 20 }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="31.416" strokeDashoffset="31.416">
+                    <animate attributeName="stroke-dashoffset" values="31.416;0" dur="1s" repeatCount="indefinite"/>
+                  </circle>
+                </svg>
+              </motion.div>
+              Carregando...
+            </>
+          ) : isExpanded ? (
             <>
               <svg width="20" height="20" viewBox="0 0 24 24">
                 <path fill="currentColor" d="M7 14l5-5 5 5z"/>
@@ -1977,14 +1965,14 @@ function TimelineView({ evento, isExpanded, onToggle, maxItems }: {
               </svg>
             </>
           )}
-        </button>
+        </motion.button>
       )}
     </div>
   );
 }
 
 // Item da Timeline
-function TimelineItem({ atividade, cor, index }: {
+const TimelineItem = React.memo(function TimelineItem({ atividade, cor, index }: {
   atividade: Atividade;
   cor: string;
   index: number;
@@ -2031,7 +2019,9 @@ function TimelineItem({ atividade, cor, index }: {
       </div>
     </div>
   );
-}
+});
+
+const MemoizedTimelineItem = TimelineItem;
 
 // Helper para nomes de tipos
 function getTypeName(tipo: string): string {

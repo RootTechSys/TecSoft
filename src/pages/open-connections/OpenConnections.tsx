@@ -1042,7 +1042,7 @@ const OpenConnections: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, delay: 1 }}
               >
-                Software + Conectividade · Conteúdo, Networking e Parcerias
+                reunindo Tecnologia, Inovação e Negócios para o desenvolvimento profissional, empresarial e do DF
               </motion.p>
 
               <motion.div 
