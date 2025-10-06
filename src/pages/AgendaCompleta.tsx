@@ -1808,7 +1808,7 @@ const AgendaCompleta: React.FC = () => {
             <div className="wk-cta">
               <a
                 className="wk-btn"
-                href={process.env.NEXT_PUBLIC_WORKSHOPS_FORM_URL || '/hotsite/agenda#'}
+                href="https://forms.gle/LEX9CiPZhhYE2kUe9"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Abrir formulário de inscrição de workshops"
