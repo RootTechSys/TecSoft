@@ -26,7 +26,7 @@
           "horario": "10:00 às 11:30",
           "atividade": "Palestra Magna: A Inovação como vetor de desenvolvimento econômico e social",
           "tipo": "palestra",
-          "icone": "%",
+          "icone": "🎯",
           "palestrante": "Nome do Palestrante"
         },
         {
@@ -82,7 +82,7 @@
         },
         {
           "id": 10,
-          "horario": "18:15",
+          "horario": "18:15 às 19:00",
           "atividade": "Coquetel de Networking",
           "tipo": "networking",
           "icone": "🥂"
@@ -105,14 +105,14 @@
         },
         {
           "id": 12,
-          "horario": "10:00 às 11:00",
+          "horario": "10:00 às 11:15",
           "atividade": "Bloco de Pitches #1: 4 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
           "icone": "🚀"
         },
         {
           "id": 13,
-          "horario": "11:00 às 12:30",
+          "horario": "11:15 às 12:30",
           "atividade": "Painel: Cases de Aplicação de IA",
           "tipo": "painel",
           "icone": "🤖"
@@ -123,13 +123,6 @@
           "atividade": "Almoço",
           "tipo": "intervalo",
           "icone": "🍽️"
-        },
-        {
-          "id": 15,
-          "horario": "14:00 às 15:00",
-          "atividade": "Painel: Ações afirmativas para formação de recursos humanos qualificados",
-          "tipo": "painel",
-          "icone": "👥"
         }
       ]
     },
@@ -142,24 +135,32 @@
       "atividades": [
         {
           "id": 16,
-          "horario": "15:00 às 16:00",
+          "horario": "14:00 às 15:45",
           "atividade": "Bloco de Pitches #2: 4 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
           "icone": "🚀"
         },
+    
         {
           "id": 17,
-          "horario": "16:00 às 17:20",
+          "horario": "15:45 às 16:05",
           "atividade": "Coffee break",
           "tipo": "intervalo",
           "icone": "☕"
         },
         {
           "id": 18,
-          "horario": "17:20 às 18:05",
+          "horario": "16:05 às 16:50",
           "atividade": "Bloco de Pitches #3: 3 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
           "icone": "🚀"
+        },
+        {
+          "id": 15,
+          "horario": "16:50 às 18:05",
+          "atividade": "Painel: Ações afirmativas para formação de recursos humanos qualificados",
+          "tipo": "painel",
+          "icone": "👥"
         },
         {
           "id": 19,

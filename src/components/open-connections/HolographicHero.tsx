@@ -450,6 +450,15 @@ const HolographicHero: React.FC = () => {
           max-width: 600px;
         }
 
+        .hero-event-title {
+          background: linear-gradient(135deg, #00bcd4, #a855f7, #ec4899);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          font-weight: 700;
+          text-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+        }
+
         .hero-cta {
           display: flex;
           gap: 20px;
@@ -578,7 +587,7 @@ const HolographicHero: React.FC = () => {
             Conectando <span className="hero-highlight">Inovação</span> e Tecnologia
           </h1>
           <p className="hero-description">
-            Open Connections + InCoDay 2025: reunindo Tecnologia, Inovação e Negócios para o desenvolvimento profissional, empresarial e do DF
+            <span className="hero-event-title">Open Connections + InCoDay 2025</span>: reunindo Tecnologia, Inovação e Negócios para o desenvolvimento profissional, empresarial e do DF
           </p>
           <div className="hero-cta">
             <a href="https://forms.gle/4iqerAKaukLmkGgCA" target="_blank" rel="noopener noreferrer" className="btn-primary">Inscreva-se Agora</a>

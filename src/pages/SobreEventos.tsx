@@ -2104,7 +2104,7 @@ export default function SobreEventos() {
             <span className="orgs-eyebrow">Parceria Estratégica</span>
             <h2 className="orgs-title">Organizadores e Apoiadores</h2>
             <p className="orgs-sub">
-              TECSOFT e BraFIP unem forças para realizar o InCoDay e o Open Connections, com apoio confirmado da FINATEC.
+              TECSOFT, BraFIP e ALETI unem forças para realizar o InCoDay e o Open Connections, com apoio confirmado da FINATEC.
                   </p>
                     </div>
                 
@@ -2125,6 +2125,15 @@ export default function SobreEventos() {
                 <Logo src="/Logos/BraFip.png" alt="BraFIP" variant="organizadores" />
                 </div>
               <div className="org-name">BraFIP</div>
+            </a>
+
+            {/* ALETI */}
+            <a className="org-card" href="https://aleti.org" target="_blank" rel="noopener">
+              <div className="org-badge">Organização</div>
+              <div className="org-logo">
+                <Logo src="/Logos/LOGO ALETI.png" alt="ALETI" variant="organizadores" />
+              </div>
+              <div className="org-name">ALETI</div>
             </a>
 
             {/* FINATEC */}
@@ -2153,7 +2162,7 @@ export default function SobreEventos() {
                 Entidades do <span className="gforti-accent">GFORTI</span>
               </h2>
               <p className="gforti-sub">
-                O Open Connections + InCoDay contam com o apoio e a participação das organizações integrantes do GFORTI.
+                O Open Connection + InCoDay contam com o apoio do GFORTI
               </p>
                   </div>
           </header>
@@ -2161,7 +2170,7 @@ export default function SobreEventos() {
           {/* Badge "Membro GFORTI" */}
           <div className="gforti-badge-line">
             <span className="gforti-badge">
-              Membro do GFORTI
+              ORGANIZAÇÕES MEMBROS DO GFORTI
             </span>
                 </div>
 
