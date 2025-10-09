@@ -46,6 +46,9 @@ const AgendaCompleta: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeDay, setActiveDay] = useState(1);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+  const [atividadesVisiveis, setAtividadesVisiveis] = useState(5);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   
   const ITEMS_PER_VIEW = 5;
 
@@ -88,6 +91,54 @@ const AgendaCompleta: React.FC = () => {
     }
   }, [expandedSections]);
 
+  // Reset do estado quando mudar de dia
+  useEffect(() => {
+    setAtividadesVisiveis(ITEMS_PER_VIEW);
+    setIsExpanded(false);
+  }, [activeDay]);
+
+  // Função para alternar entre mostrar mais/menos atividades
+  const toggleShowMore = useCallback(() => {
+    if (isExpanded) {
+      // Mostrar menos - voltar aos primeiros 5 itens
+      setAtividadesVisiveis(ITEMS_PER_VIEW);
+      setIsExpanded(false);
+      setIsLoadingMore(false);
+      
+      // Scroll suave para o topo da timeline
+      setTimeout(() => {
+        const timelineContainer = document.querySelector('.timeline-container');
+        if (timelineContainer) {
+          timelineContainer.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start' 
+          });
+        }
+      }, 300);
+    } else {
+      // Mostrar mais - animar a revelação dos itens adicionais
+      setIsExpanded(true);
+      setIsLoadingMore(true);
+      
+      // Animar a revelação dos itens adicionais com delay escalonado
+      const totalItems = agendaData ? agendaData.eventos.filter(e => e.dia === activeDay).flatMap(evento => evento.atividades).length : 0;
+      const itemsToShow = totalItems;
+      
+      // Revelar itens gradualmente
+      for (let i = ITEMS_PER_VIEW; i < itemsToShow; i++) {
+        setTimeout(() => {
+          setAtividadesVisiveis(prev => Math.min(prev + 1, itemsToShow));
+          
+          // Parar o loading quando todos os itens foram revelados
+          if (i === itemsToShow - 1) {
+            setTimeout(() => {
+              setIsLoadingMore(false);
+            }, 200);
+          }
+        }, (i - ITEMS_PER_VIEW) * 150); // 150ms de delay entre cada item
+      }
+    }
+  }, [isExpanded, activeDay, agendaData, ITEMS_PER_VIEW]);
 
   if (loading) {
     return (
@@ -105,8 +156,9 @@ const AgendaCompleta: React.FC = () => {
     );
   }
 
-  // Filtrar eventos por dia selecionado
-  const eventoAtivo = agendaData.eventos.find(e => e.dia === activeDay);
+  // Filtrar eventos por dia selecionado e combinar todas as atividades
+  const eventosDoDia = agendaData.eventos.filter(e => e.dia === activeDay);
+  const todasAtividadesDoDia = eventosDoDia.flatMap(evento => evento.atividades);
 
   return (
     <div className="agenda-timeline-section min-h-screen">
@@ -473,8 +525,10 @@ const AgendaCompleta: React.FC = () => {
         /* ===== TIMELINE CONTAINER - MAIS ESPAÇO ===== */
         .timeline-container {
           position: relative;
-          padding: 40px 0;
+          padding: 40px 0 0 0 !important; /* Remove padding inferior completamente */
           margin: 0 20px; /* ADICIONAR margem lateral */
+          gap: 12px !important; /* Reduz espaço entre itens */
+          padding-bottom: 0 !important; /* Remove padding inferior do container */
         }
 
         /* Linha da Timeline */
@@ -497,7 +551,8 @@ const AgendaCompleta: React.FC = () => {
         .timeline-items {
           display: flex;
           flex-direction: column;
-          gap: 32px;
+          gap: 12px; /* Reduzido para 12px conforme solicitado */
+          margin-bottom: 0; /* Remove margem inferior */
         }
 
         /* Item Individual */
@@ -656,25 +711,35 @@ const AgendaCompleta: React.FC = () => {
           border-style: dashed;
         }
 
-        /* Botão Mostrar Mais */
+        /* Botão Mostrar Mais/Menos - Responsivo */
         .btn-show-more {
-          display: flex;
+          display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 10px;
-          width: 100%;
-          max-width: 400px;
-          margin: 40px auto 0;
+          gap: 8px;                    /* espaço entre ícone e texto */
+          flex-direction: row;          /* garante ícone → texto */
+          
+          /* Largura */
+          width: auto;                    /* Desktop: largura automática */
+          max-width: 400px;               /* Largura máxima controlada */
+          min-width: 280px;               /* Mínimo para não ficar muito estreito */
+          
+          /* Espaçamento e aparência */
+          margin: 8px auto 40px !important;  /* Centraliza horizontalmente */
           padding: 16px 32px;
-          background: linear-gradient(135deg, var(--btn-color), rgba(var(--btn-color-rgb), 0.8));
+          
+          background: linear-gradient(135deg, var(--btn-color, #00bcd4) 0%, var(--btn-color, #00bcd4) 100%);
           color: white;
-          font-size: 15px;
-          font-weight: 600;
           border: none;
           border-radius: 12px;
+          
+          font-size: 16px;
+          font-weight: 700;
+          
           cursor: pointer;
-          transition: all 0.3s ease;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          
+          box-shadow: 0 8px 24px rgba(0, 188, 212, 0.3);
           position: relative;
           overflow: hidden;
         }
@@ -692,6 +757,29 @@ const AgendaCompleta: React.FC = () => {
 
         .btn-show-more:active::before {
           left: 100%;
+        }
+
+        /* Hover e estados */
+        .btn-show-more:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 32px rgba(0, 188, 212, 0.4);
+        }
+
+        .btn-show-more:active {
+          transform: translateY(0);
+        }
+
+        /* Ícone SVG dentro do botão */
+        .btn-show-more svg {
+          width: 20px;
+          height: 20px;
+          flex-shrink: 0;              /* impede o ícone de encolher */
+          transition: transform 0.3s ease;
+        }
+
+        /* Rotaciona o ícone quando expandido */
+        .btn-show-more[data-expanded="true"] svg {
+          transform: rotate(180deg);
         }
 
         /* Animação shimmer para placeholder */
@@ -1226,6 +1314,131 @@ const AgendaCompleta: React.FC = () => {
           transform: translate3d(0, 0, 0);
         }
 
+        /* ===== ANIMAÇÕES PARA PRÉ-RENDERIZAÇÃO ===== */
+        .timeline-item-reveal {
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+          transform-origin: center;
+        }
+
+        /* Remove margem/padding excessivo do container que envolve os itens + botão */
+        .agenda-list,
+        .timeline-container,
+        .activities-wrapper {
+          gap: 12px !important;           /* reduz espaço entre itens */
+          padding-bottom: 0 !important;   /* remove padding inferior do container */
+        }
+
+        /* Adiciona espaço abaixo do botão "Mostrar Mais" */
+        .mostrar-mais-btn,
+        .btn-show-more {
+          margin-top: 8px !important;    /* ALTERADO de 16px para 8px */
+          margin-bottom: 40px !important;  /* Cria respiro antes da próxima seção */
+        }
+
+        /* Remove margem do último item visível (antes dos hidden) */
+        .timeline-items > div[style*="visibility: visible"]:last-of-type {
+          margin-bottom: 0 !important;
+        }
+
+        /* Ou force o último antes de hidden */
+        .timeline-items > div:has(+ div[style*="visibility: hidden"]) {
+          margin-bottom: 0 !important;
+        }
+
+        /* Remove margem inferior do último item se houver */
+        .agenda-item:last-of-type,
+        .timeline-item:last-child {
+          margin-bottom: 0 !important;
+        }
+
+        /* Garante espaçamento superior da seção de workshops */
+        .workshops-section,
+        section:has(h2:contains("Minicursos")),
+        .minicursos-section,
+        #workshops {
+          margin-top: 60px !important;
+          padding-top: 40px !important;
+        }
+
+        /* PATCH RÁPIDO - Remove espaço excessivo acima do botão */
+        .btn-show-more,
+        .mostrar-mais-btn {
+          margin-top: 8px !important;  /* Reduzido de 16px */
+        }
+
+        /* Remove margem do último item visível da timeline */
+        .timeline-items > div:last-child {
+          margin-bottom: 0 !important;
+        }
+
+        /* Procure por wrappers intermediários com espaçamento fixo */
+        .btn-wrapper,
+        .actions-container {
+          padding-top: 0 !important;
+          margin-top: 0 !important;
+          min-height: 0 !important;
+        }
+
+        .timeline-item-reveal.hidden {
+          opacity: 0;
+          transform: translateY(20px) scale(0.95);
+          height: 0;
+          margin-bottom: 0;
+          overflow: hidden;
+        }
+
+        .timeline-item-reveal.visible {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+          height: auto;
+          margin-bottom: 32px;
+        }
+
+        /* Efeito shimmer para itens sendo carregados */
+        .timeline-item-loading {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .timeline-item-loading::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent, 
+            rgba(0, 188, 212, 0.1), 
+            transparent
+          );
+          animation: shimmer 1.5s infinite;
+          z-index: 1;
+        }
+
+        @keyframes shimmer {
+          0% {
+            left: -100%;
+          }
+          100% {
+            left: 100%;
+          }
+        }
+
+        /* Animação de entrada escalonada */
+        .timeline-item-stagger {
+          animation: fadeInUp 0.6s ease-out forwards;
+          opacity: 0;
+          transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
         /* ===== RESPONSIVIDADE ATUALIZADA ===== */
 
         /* Desktop Grande (1920px+) */
@@ -1622,12 +1835,24 @@ const AgendaCompleta: React.FC = () => {
           }
         }
 
+        /* Mobile: ocupa mais largura */
+        @media (max-width: 640px) {
+          .btn-show-more {
+            width: calc(100% - 32px);     /* Largura quase completa em mobile */
+            max-width: none;
+            min-width: 0;
+            margin: 8px 16px 40px !important;
+            padding: 14px 24px;
+            font-size: 15px;
+          }
+        }
+
         /* Mobile - Botões e CTAs */
         @media (max-width: 768px) {
           .btn-show-more {
             padding: 14px 24px;
             font-size: 14px;
-            margin: 32px auto 0;
+            margin: 8px auto 40px !important; /* ALTERADO de 16px para 8px */
           }
           
           .btn-inscreva-se {
@@ -1747,15 +1972,130 @@ const AgendaCompleta: React.FC = () => {
         </div>
 
 
-        {/* Timeline de Atividades */}
-        {eventoAtivo && (
-          <TimelineView
-            evento={eventoAtivo}
-            isExpanded={expandedSections[eventoAtivo.id]}
-            onToggle={() => toggleExpand(eventoAtivo.id)}
-            maxItems={ITEMS_PER_VIEW}
-          />
-        )}
+        {/* Timeline de Atividades - Sequência Contínua */}
+        <div className="timeline-container">
+          <div className="timeline-line" style={{ '--timeline-color': '#00bcd4' } as React.CSSProperties}></div>
+          
+          <motion.div 
+            className="timeline-items"
+            initial={false}
+            animate={{ 
+              opacity: 1,
+              height: "auto"
+            }}
+            transition={{ 
+              duration: 0.5,
+              ease: "easeInOut"
+            }}
+            style={{
+              minHeight: "auto",
+              overflow: "hidden",
+              position: "relative",
+              willChange: "height, opacity",
+              transform: "translateZ(0)",
+              backfaceVisibility: "hidden"
+            }}
+          >
+            {todasAtividadesDoDia.map((atividade, index) => {
+              const isVisible = index < atividadesVisiveis;
+              const isInitialLoad = index < ITEMS_PER_VIEW;
+              const isLastVisible = isVisible && index === atividadesVisiveis - 1;
+              
+              return (
+                <motion.div
+                  key={atividade.id}
+                  initial={isInitialLoad ? { opacity: 0, y: 20 } : { opacity: 0, y: 10, scale: 0.95 }}
+                  animate={isVisible ? { 
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    transition: {
+                      duration: 0.5,
+                      ease: "easeOut"
+                    }
+                  } : { 
+                    opacity: 0, 
+                    y: 10, 
+                    scale: 0.95,
+                    transition: {
+                      duration: 0.3,
+                      ease: "easeIn"
+                    }
+                  }}
+                  style={{
+                    willChange: "transform, opacity",
+                    transform: "translateZ(0)",
+                    backfaceVisibility: "hidden",
+                    // Pré-renderizar mas controlar visibilidade
+                    visibility: isVisible ? "visible" : "hidden",
+                    height: isVisible ? "auto" : "0",
+                    overflow: "hidden",
+                    // Remove margem do último item visível
+                    marginBottom: isLastVisible ? "0" : (isVisible ? "12px" : "0")  // ALTERADO de 32px para 12px
+                  }}
+                >
+                  <TimelineItem 
+                    atividade={atividade} 
+                    cor="#00bcd4"
+                    index={index}
+                  />
+                </motion.div>
+              );
+            })}
+
+            {/* Botão Ver Mais/Menos - AGORA DENTRO do timeline-items */}
+            {todasAtividadesDoDia.length > ITEMS_PER_VIEW && (
+              <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+                <motion.button 
+                  className="btn-show-more mostrar-mais-btn"
+                  onClick={toggleShowMore}
+                  disabled={isLoadingMore}
+                  data-expanded={isExpanded}
+                  style={{ 
+                    '--btn-color': '#00bcd4',
+                    '--btn-color-rgb': '0, 188, 212',
+                    opacity: isLoadingMore ? 0.7 : 1,
+                    cursor: isLoadingMore ? 'not-allowed' : 'pointer'
+                  } as React.CSSProperties}
+                  whileHover={!isLoadingMore ? { scale: 1.02 } : {}}
+                  whileTap={!isLoadingMore ? { scale: 0.98 } : {}}
+                  transition={{ duration: 0.2 }}
+                >
+                {isLoadingMore ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      style={{ width: 20, height: 20 }}
+                    >
+                      <svg width="20" height="20" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="31.416" strokeDashoffset="31.416">
+                          <animate attributeName="stroke-dashoffset" values="31.416;0" dur="1s" repeatCount="indefinite"/>
+                        </circle>
+                      </svg>
+                    </motion.div>
+                    Carregando...
+                  </>
+                ) : isExpanded ? (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M7 14l5-5 5 5z"/>
+                    </svg>
+                    Mostrar Menos
+                  </>
+                ) : (
+                  <>
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M7 10l5 5 5-5z"/>
+                    </svg>
+                    Mostrar Mais {todasAtividadesDoDia.length - ITEMS_PER_VIEW} Atividades
+                  </>
+                )}
+                </motion.button>
+              </div>
+            )}
+          </motion.div>
+        </div>
 
         {/* Seção de divulgação de Workshops e Minicursos */}
         <section id="workshops" className="wk-hero">

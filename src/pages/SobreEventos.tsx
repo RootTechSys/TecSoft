@@ -2063,10 +2063,11 @@ export default function SobreEventos() {
                 <div className="event-description">
                   <p>
                     É um evento consolidado no cenário nacional de promoção da inovação tecnológica, 
-                    realizado anualmente pela Associação Brasileira de Fomento à Inovação em 
-                    Plataformas Tecnológicas – BraFip. Desde suas primeiras edições, o InCoDay tem 
-                    como principal objetivo fomentar a colaboração entre empresas, universidades, 
-                    centros de pesquisa e instituições públicas e privadas.
+                    realizado anualmente pela Associação Brasileira da Pesquisa, Desenvolvimento e 
+                    Inovação Colaborativa -BraFIP e pela Federação de Entidades de Tecnologia da 
+                    Informação da América Latina, Caribe, Espanha e Portugal - ALETI. Desde suas 
+                    primeiras edições, o InCoDay tem como objetivo fomentar a colaboração entre 
+                    empresas, universidades, centros de pesquisas e instituições públicas e privadas.
                   </p>
                 </div>
                 
@@ -2183,7 +2184,44 @@ export default function SobreEventos() {
               </li>
               {/* ASSESPRODF */}
               <li className="member-card contrast">
-                <img src="/Logos/GFORTI/ASSESPRODF.jpeg" alt="ASSESPRODF" loading="lazy" />
+                <img 
+                  src="/Logos/GFORTI/ASSESPRODF.jpeg" 
+                  alt="ASSESPRODF" 
+                  loading="lazy" 
+                  onError={(e) => {
+                    console.error('Erro ao carregar imagem ASSESPRODF:', e);
+                    // Tenta diferentes caminhos e formatos
+                    const target = e.currentTarget;
+                    if (target.src.includes('.jpeg')) {
+                      target.src = '/Logos/GFORTI/ASSESPRODF.png';
+                    } else if (target.src.includes('.png')) {
+                      target.src = '/Logos/GFORTI/ASSESPRODF.jpg';
+                    } else {
+                      // Fallback final - mostra texto se nenhuma imagem carregar
+                      target.style.display = 'none';
+                      const parent = target.parentElement;
+                      if (parent && !parent.querySelector('.fallback-text')) {
+                        const fallback = document.createElement('div');
+                        fallback.className = 'fallback-text';
+                        fallback.style.cssText = `
+                          display: flex;
+                          align-items: center;
+                          justify-content: center;
+                          width: 100%;
+                          height: 100%;
+                          background: #f3f4f6;
+                          color: #374151;
+                          font-weight: bold;
+                          font-size: 14px;
+                          text-align: center;
+                          border-radius: 8px;
+                        `;
+                        fallback.textContent = 'ASSESPRODF';
+                        parent.appendChild(fallback);
+                      }
+                    }
+                  }}
+                />
               </li>
               {/* Brasil Startups */}
               <li className="member-card contrast">

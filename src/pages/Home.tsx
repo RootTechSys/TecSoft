@@ -550,7 +550,7 @@ const Home: React.FC = () => {
             >
               <div className="flex items-center space-x-4">
                 <div 
-                  className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg"
+                  className="bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg"
                   style={{ width: '48px', height: '48px', borderRadius: '12px' }}
                 >
                   <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -558,14 +558,14 @@ const Home: React.FC = () => {
                   </svg>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-gray-800 group-hover:text-green-600 transition-colors">
-                    Próximo Evento
+                  <h3 className="text-lg font-bold text-gray-800 group-hover:text-cyan-600 transition-colors">
+                    Open Connection + InCoDay
                   </h3>
                   <p className="text-sm text-gray-600 mt-1">
                     Conecte-se com a comunidade
                   </p>
                 </div>
-                <ArrowRightIcon className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition-colors" />
+                <ArrowRightIcon className="w-5 h-5 text-gray-400 group-hover:text-cyan-600 transition-colors" />
               </div>
             </motion.a>
           </motion.div>
@@ -793,20 +793,20 @@ const Home: React.FC = () => {
                 className="group relative bg-white rounded-2xl p-6 border border-green-200/50 hover:border-green-300 hover:shadow-xl transition-all duration-300 cursor-pointer block w-full"
               >
                 <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                     <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/>
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-lg font-bold text-gray-800 group-hover:text-green-600 transition-colors">
-                      Próximo Evento
+                    <h3 className="text-lg font-bold text-gray-800 group-hover:text-cyan-600 transition-colors">
+                      Open Connection + InCoDay
                     </h3>
                     <p className="text-sm text-gray-600 mt-1">
                       Conecte-se com a comunidade
                     </p>
                   </div>
-                  <ArrowRightIcon className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition-colors" />
+                  <ArrowRightIcon className="w-5 h-5 text-gray-400 group-hover:text-cyan-600 transition-colors" />
                 </div>
               </motion.a>
             </motion.div>
