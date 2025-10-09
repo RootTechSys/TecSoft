@@ -8,7 +8,7 @@ interface Atividade {
   atividade: string;
   tipo: string;
   icone: string;
-  palestrante?: string;
+  palestrante?: string | string[];
 }
 
 interface Evento {
@@ -687,6 +687,12 @@ const AgendaCompleta: React.FC = () => {
           margin: 0;
         }
 
+        .activity-speakers {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
         .activity-speaker {
           display: flex;
           align-items: center;
@@ -699,6 +705,7 @@ const AgendaCompleta: React.FC = () => {
 
         .activity-speaker svg {
           opacity: 0.6;
+          flex-shrink: 0;
         }
 
         /* Itens de Intervalo - Estilo Diferenciado */
@@ -2348,12 +2355,25 @@ const TimelineItem = React.memo(function TimelineItem({ atividade, cor, index }:
         <div className="activity-body">
           <h3 className="activity-title">{atividade.atividade}</h3>
           {atividade.palestrante && (
-            <p className="activity-speaker">
-              <svg width="16" height="16" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-              {atividade.palestrante}
-            </p>
+            <div className="activity-speakers">
+              {Array.isArray(atividade.palestrante) ? (
+                atividade.palestrante.map((palestrante, index) => (
+                  <p key={index} className="activity-speaker">
+                    <svg width="16" height="16" viewBox="0 0 24 24">
+                      <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                    {palestrante}
+                  </p>
+                ))
+              ) : (
+                <p className="activity-speaker">
+                  <svg width="16" height="16" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                  </svg>
+                  {atividade.palestrante}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>

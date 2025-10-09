@@ -9,7 +9,7 @@
       "atividades": [
         {
           "id": 1,
-          "horario": "08:00 às 09:00",
+          "horario": "08:30 às 09:00",
           "atividade": "Credenciamento e Café da Manhã de Boas-vindas",
           "tipo": "credenciamento",
           "icone": "☕"
@@ -19,22 +19,24 @@
           "horario": "09:00 às 10:00",
           "atividade": "Abertura",
           "tipo": "cerimonia",
-          "icone": "🎤"
+          "icone": "🎤",
+          "palestrante": "Autoridades Convidadas"
         },
         {
           "id": 3,
-          "horario": "10:00 às 11:30",
+          "horario": "10:00 às 11:00",
           "atividade": "Palestra Magna: A Inovação como vetor de desenvolvimento econômico e social",
           "tipo": "palestra",
           "icone": "🎯",
-          "palestrante": "Nome do Palestrante"
+          "palestrante": "Palestrante a confirmar"
         },
         {
           "id": 4,
-          "horario": "11:30 às 12:30",
+          "horario": "11:00 às 12:30",
           "atividade": "Painel: A Transformação Digital do Agronegócio como Oportunidade para empresas brasileiras de Tecnologia",
           "tipo": "painel",
-          "icone": "💼"
+          "icone": "💼",
+          "palestrante": ["Camilo Mussi (Min. da Agricultura)", "Representante da Embrapa (a confirmar)", "Rodrigo Feliciano Lima – Controller e especialista em gestão para o Agronegócio"]
         },
         {
           "id": 5,
@@ -57,7 +59,8 @@
           "horario": "14:00 às 15:15",
           "atividade": "Painel: Cyber segurança: tendências e desafios estratégicos para os próximos anos",
           "tipo": "painel",
-          "icone": "🔒"
+          "icone": "🔒",
+          "palestrante": ["Humberto Ribeiro – CyberLab/UnB", "Representante do Banco Central (a confirmar)","Rodrigo Fragola – membro CNCiber/GSI/PR"]
         },
         {
           "id": 7,
