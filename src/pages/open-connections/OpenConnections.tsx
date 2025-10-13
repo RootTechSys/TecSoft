@@ -101,7 +101,7 @@ const OpenConnections: React.FC = () => {
           href="/hotsite/inscricoes"
           className="bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 text-white font-bold py-3 px-6 rounded-full shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105 inline-block"
         >
-          {scrollProgress > 50 ? 'Garantir Vaga' : 'Inscrever-se'}
+          {scrollProgress > 50 ? 'Garantir Vaga' : 'Atividades e Inscrições'}
         </a>
       </motion.div>
 

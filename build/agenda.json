@@ -67,7 +67,8 @@
           "horario": "15:15 às 16:30",
           "atividade": "Painel: Mecanismos de Financiamento à Inovação: A perspectiva da Finep (Brasil)",
           "tipo": "painel",
-          "icone": "💰"
+          "icone": "💰",
+          "palestrante": ["Fernando Ribeiro – Finep", "Representante do MCTI(a confirmar)", "Representante de agente financeiro credenciado pela FINEP (a confirmar)"]
         },
         {
           "id": 8,
@@ -81,7 +82,8 @@
           "horario": "17:00 às 18:15",
           "atividade": "Painel: Internacionalização da Inovação: diferentes perspectivas",
           "tipo": "painel",
-          "icone": "🌍"
+          "icone": "🌍",
+          "palestrante": ["Marcio Canedo - European Enterprise Network EEN-IBICT", "Representante de Agência Internacional (a confirmar)","Alexandre Barragat - FINEP"]
         },
         {
           "id": 10,
@@ -104,21 +106,24 @@
           "horario": "09:00 às 10:00",
           "atividade": "Painel: Mecanismos de acesso aos mercados EUA, EU, Asia-Pacífico, LATAM",
           "tipo": "painel",
-          "icone": "🌐"
+          "icone": "🌐",
+          "palestrante":["Fabio Pagani - Correspondente Internacional da BraFIP","Reynaldo Costa - Correspondente Internacional da BraFIP ","Hélio Ciffoni - Correspondente Internacional da BraFIP","Fernando Cariello - Correspondente Internacional da BraFIP"]
         },
         {
           "id": 12,
           "horario": "10:00 às 11:15",
           "atividade": "Bloco de Pitches #1: 4 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
-          "icone": "🚀"
+          "icone": "🚀",
+          "palestrante": "Representantes responsáveis por ideias selecionadas e banca examinadora"
         },
         {
           "id": 13,
           "horario": "11:15 às 12:30",
           "atividade": "Painel: Cases de Aplicação de IA",
           "tipo": "painel",
-          "icone": "🤖"
+          "icone": "🤖",
+          "palestrante": ["Marcelo Boarin (A5 Solutions)","Silvio Montenegro (Imagine AI)","Geraldo Lima (Associação dos Oficiais de Justiça do Brasil)"]
         },
         {
           "id": 14,
@@ -141,7 +146,8 @@
           "horario": "14:00 às 15:45",
           "atividade": "Bloco de Pitches #2: 4 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
-          "icone": "🚀"
+          "icone": "🚀",
+          "palestrante": "Representantes responsáveis por ideias selecionadas e banca examinadora"
         },
     
         {
@@ -156,14 +162,17 @@
           "horario": "16:05 às 16:50",
           "atividade": "Bloco de Pitches #3: 3 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
-          "icone": "🚀"
+          "icone": "🚀",
+          "palestrante": "Representantes responsáveis por ideias selecionadas e banca examinadora"
+
         },
         {
           "id": 15,
           "horario": "16:50 às 18:05",
           "atividade": "Painel: Ações afirmativas para formação de recursos humanos qualificados",
           "tipo": "painel",
-          "icone": "👥"
+          "icone": "👥",
+          "palestrante":"Raulison Resende – Inst. Hospital Albert Einstein"
         },
         {
           "id": 19,

@@ -590,7 +590,7 @@ const HolographicHero: React.FC = () => {
             <span className="hero-event-title">Open Connections + InCoDay 2025</span>: reunindo Tecnologia, Inovação e Negócios para o desenvolvimento profissional, empresarial e do DF
           </p>
           <div className="hero-cta">
-            <a href="/hotsite/inscricoes" className="btn-primary">Inscreva-se Agora</a>
+            <a href="/hotsite/inscricoes" className="btn-primary">Atividades e Inscrições</a>
             <a href="/hotsite/sobre" className="btn-secondary">Saiba Mais</a>
           </div>
         </div>
