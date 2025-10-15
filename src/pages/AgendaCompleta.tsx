@@ -46,11 +46,6 @@ const AgendaCompleta: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [activeDay, setActiveDay] = useState(1);
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
-  const [atividadesVisiveis, setAtividadesVisiveis] = useState(5);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-  
-  const ITEMS_PER_VIEW = 5;
 
   useEffect(() => {
     const fetchAgenda = async () => {
@@ -91,54 +86,7 @@ const AgendaCompleta: React.FC = () => {
     }
   }, [expandedSections]);
 
-  // Reset do estado quando mudar de dia
-  useEffect(() => {
-    setAtividadesVisiveis(ITEMS_PER_VIEW);
-    setIsExpanded(false);
-  }, [activeDay]);
 
-  // Função para alternar entre mostrar mais/menos atividades
-  const toggleShowMore = useCallback(() => {
-    if (isExpanded) {
-      // Mostrar menos - voltar aos primeiros 5 itens
-      setAtividadesVisiveis(ITEMS_PER_VIEW);
-      setIsExpanded(false);
-      setIsLoadingMore(false);
-      
-      // Scroll suave para o topo da timeline
-      setTimeout(() => {
-        const timelineContainer = document.querySelector('.timeline-container');
-        if (timelineContainer) {
-          timelineContainer.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'start' 
-          });
-        }
-      }, 300);
-    } else {
-      // Mostrar mais - animar a revelação dos itens adicionais
-      setIsExpanded(true);
-      setIsLoadingMore(true);
-      
-      // Animar a revelação dos itens adicionais com delay escalonado
-      const totalItems = agendaData ? agendaData.eventos.filter(e => e.dia === activeDay).flatMap(evento => evento.atividades).length : 0;
-      const itemsToShow = totalItems;
-      
-      // Revelar itens gradualmente
-      for (let i = ITEMS_PER_VIEW; i < itemsToShow; i++) {
-        setTimeout(() => {
-          setAtividadesVisiveis(prev => Math.min(prev + 1, itemsToShow));
-          
-          // Parar o loading quando todos os itens foram revelados
-          if (i === itemsToShow - 1) {
-            setTimeout(() => {
-              setIsLoadingMore(false);
-            }, 200);
-          }
-        }, (i - ITEMS_PER_VIEW) * 150); // 150ms de delay entre cada item
-      }
-    }
-  }, [isExpanded, activeDay, agendaData, ITEMS_PER_VIEW]);
 
   if (loading) {
     return (
@@ -1363,7 +1311,13 @@ const AgendaCompleta: React.FC = () => {
         section:has(h2:contains("Minicursos")),
         .minicursos-section,
         #workshops {
-          margin-top: 60px !important;
+          margin-top: 120px !important;
+          padding-top: 60px !important;
+        }
+        
+        /* Espaçamento adicional para a seção wk-hero */
+        .wk-hero {
+          margin-top: 80px !important;
           padding-top: 40px !important;
         }
 
@@ -2004,41 +1958,25 @@ const AgendaCompleta: React.FC = () => {
             }}
           >
             {todasAtividadesDoDia.map((atividade, index) => {
-              const isVisible = index < atividadesVisiveis;
-              const isInitialLoad = index < ITEMS_PER_VIEW;
-              const isLastVisible = isVisible && index === atividadesVisiveis - 1;
-              
               return (
                 <motion.div
                   key={atividade.id}
-                  initial={isInitialLoad ? { opacity: 0, y: 20 } : { opacity: 0, y: 10, scale: 0.95 }}
-                  animate={isVisible ? { 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ 
                     opacity: 1, 
                     y: 0, 
                     scale: 1,
                     transition: {
                       duration: 0.5,
+                      delay: index * 0.1,
                       ease: "easeOut"
-                    }
-                  } : { 
-                    opacity: 0, 
-                    y: 10, 
-                    scale: 0.95,
-                    transition: {
-                      duration: 0.3,
-                      ease: "easeIn"
                     }
                   }}
                   style={{
                     willChange: "transform, opacity",
                     transform: "translateZ(0)",
                     backfaceVisibility: "hidden",
-                    // Pré-renderizar mas controlar visibilidade
-                    visibility: isVisible ? "visible" : "hidden",
-                    height: isVisible ? "auto" : "0",
-                    overflow: "hidden",
-                    // Remove margem do último item visível
-                    marginBottom: isLastVisible ? "0" : (isVisible ? "12px" : "0")  // ALTERADO de 32px para 12px
+                    marginBottom: index === todasAtividadesDoDia.length - 1 ? "0" : "12px"
                   }}
                 >
                   <TimelineItem 
@@ -2050,59 +1988,11 @@ const AgendaCompleta: React.FC = () => {
               );
             })}
 
-            {/* Botão Ver Mais/Menos - AGORA DENTRO do timeline-items */}
-            {todasAtividadesDoDia.length > ITEMS_PER_VIEW && (
-              <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                <motion.button 
-                  className="btn-show-more mostrar-mais-btn"
-                  onClick={toggleShowMore}
-                  disabled={isLoadingMore}
-                  data-expanded={isExpanded}
-                  style={{ 
-                    '--btn-color': '#00bcd4',
-                    '--btn-color-rgb': '0, 188, 212',
-                    opacity: isLoadingMore ? 0.7 : 1,
-                    cursor: isLoadingMore ? 'not-allowed' : 'pointer'
-                  } as React.CSSProperties}
-                  whileHover={!isLoadingMore ? { scale: 1.02 } : {}}
-                  whileTap={!isLoadingMore ? { scale: 0.98 } : {}}
-                  transition={{ duration: 0.2 }}
-                >
-                {isLoadingMore ? (
-                  <>
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                      style={{ width: 20, height: 20 }}
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" strokeDasharray="31.416" strokeDashoffset="31.416">
-                          <animate attributeName="stroke-dashoffset" values="31.416;0" dur="1s" repeatCount="indefinite"/>
-                        </circle>
-                      </svg>
-                    </motion.div>
-                    Carregando...
-                  </>
-                ) : isExpanded ? (
-                  <>
-                    <svg width="20" height="20" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M7 14l5-5 5 5z"/>
-                    </svg>
-                    Mostrar Menos
-                  </>
-                ) : (
-                  <>
-                    <svg width="20" height="20" viewBox="0 0 24 24">
-                      <path fill="currentColor" d="M7 10l5 5 5-5z"/>
-                    </svg>
-                    Mostrar Mais {todasAtividadesDoDia.length - ITEMS_PER_VIEW} Atividades
-                  </>
-                )}
-                </motion.button>
-              </div>
-            )}
           </motion.div>
         </div>
+
+        {/* Espaçamento entre seções */}
+        <div style={{ height: '80px' }}></div>
 
         {/* Seção de divulgação de Workshops e Minicursos */}
         <section id="workshops" className="wk-hero">

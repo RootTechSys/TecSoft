@@ -113,8 +113,20 @@ const OpenConnections: React.FC = () => {
           @media (max-width: 480px){ .oc-container{ padding: 0 16px; } }
 
           /* Grids padrão da página */
-          .grid-3{ display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
-          .grid-2{ display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
+          .grid-3{ 
+            display: grid; 
+            grid-template-columns: repeat(3, minmax(0,1fr)); 
+            gap: 16px; 
+            align-items: stretch; 
+            grid-auto-rows: 1fr; /* Força todas as linhas a terem a mesma altura */
+          }
+          .grid-2{ 
+            display: grid; 
+            grid-template-columns: repeat(2, minmax(0,1fr)); 
+            gap: 16px; 
+            align-items: stretch; 
+            grid-auto-rows: 1fr; /* Força todas as linhas a terem a mesma altura */
+          }
 
           @media (max-width: 900px){
             .grid-3{ grid-template-columns: repeat(2,1fr); }
@@ -170,14 +182,27 @@ const OpenConnections: React.FC = () => {
           .speaker-card{
             display:grid; grid-template-rows: auto 1fr; gap:10px;
             background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:16px; overflow:hidden;
+            height: 100%; /* Força todos os cards a terem a mesma altura */
+            min-height: 320px; /* Altura mínima aumentada para consistência */
           }
           .speaker-photo{ height: 160px; background:#222; }
           .speaker-photo img{ width:100%; height:100%; object-fit:cover; }
           .speaker-name{ color:#fff; font-weight:900; font-size: clamp(16px,4.4vw,18px); }
           .speaker-role,.speaker-bio{ color:rgba(255,255,255,.9); font-size: clamp(12px,3.4vw,14px); line-height:1.55; }
+          .sph-body{ 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: flex-start; /* Alinha o conteúdo no topo */
+            padding: 16px; /* Adiciona padding interno */
+          }
           @media (min-width: 900px){
-            .speaker-card{ grid-template-columns: 42% 58%; grid-template-rows: auto; }
+            .speaker-card{ 
+              grid-template-columns: 42% 58%; 
+              grid-template-rows: auto; 
+              min-height: 240px; /* Altura mínima aumentada no desktop */
+            }
             .speaker-photo{ height:auto; }
+            .sph-body{ padding: 20px; } /* Padding maior no desktop */
           }
 
           /* Para tabelas inevitáveis */
@@ -228,6 +253,36 @@ const OpenConnections: React.FC = () => {
             .sph-head{ text-align: center; margin-bottom: 24px; }
             .sph-head h2{ color:#fff; margin:0 0 6px; font-weight:900; font-size: clamp(24px,3.2vw,36px); }
             .sph-head p{ color: rgba(255,255,255,.9); }
+            
+            /* Botão de programação */
+            .btn-programacao{
+              display: inline-block;
+              margin-top: 16px;
+              padding: 14px 28px;
+              background: linear-gradient(135deg, #ff6b35, #f7931e);
+              color: white;
+              text-decoration: none;
+              border-radius: 12px;
+              font-weight: 700;
+              font-size: 15px;
+              transition: all 0.3s ease;
+              border: 2px solid rgba(255, 255, 255, 0.2);
+              cursor: pointer;
+              box-shadow: 
+                0 4px 15px rgba(255, 107, 53, 0.4),
+                0 2px 8px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+              text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            }
+            .btn-programacao:hover{
+              background: linear-gradient(135deg, #ff5722, #ff9800);
+              transform: translateY(-3px);
+              box-shadow: 
+                0 8px 25px rgba(255, 107, 53, 0.6),
+                0 4px 12px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+              border-color: rgba(255, 255, 255, 0.4);
+            }
 
             /* Evita colapso de altura quando o conteúdo ainda não foi migrado */
             .sph-grid{
@@ -307,10 +362,13 @@ const OpenConnections: React.FC = () => {
         <div className="oc-container">
           <header className="sph-head">
             <h2 className="oc-hero-title">Palestrantes desta edição</h2>
-            <p className="oc-hero-sub">Quatro vozes que conduzem conteúdo de alto impacto.</p>
+            <p className="oc-hero-sub">Vozes que conduzem conteúdo de alto impacto</p>
+            <a href="/hotsite/agenda" className="btn-programacao">
+              Ver programação completa
+            </a>
           </header>
 
-          <div className="grid-2">
+          <div className="grid-3">
             {/* Humberto */}
             <article className="speaker-card">
               <div className="speaker-photo">
