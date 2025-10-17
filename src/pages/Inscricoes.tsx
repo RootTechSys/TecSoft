@@ -9,6 +9,9 @@ type Card = {
   desc: string;
   href: string;
   tone?: 'amber' | 'cyan' | 'violet' | 'pink' | 'green' | 'blue';
+  datetime: string;
+  programLinkText?: string;
+  programLinkHref?: string;
 };
 
 const CARDS: Card[] = [
@@ -18,7 +21,8 @@ const CARDS: Card[] = [
     title: 'Congresso Técnico e de Negócios',
     desc: 'Palestras e painéis com especialistas e atores de sucesso no mercado.',
     href: 'https://forms.gle/4iqerAKaukLmkGgCA',
-    tone: 'amber'
+    tone: 'amber',
+    datetime: '11 e 12 de novembro, 09h00 às 19h00'
   },
   {
     id: 'estandes',
@@ -26,7 +30,8 @@ const CARDS: Card[] = [
     title: 'Estandes de empresas e start-ups',
     desc: 'Demonstração de produtos e serviços de empresas e start-ups.',
     href: 'https://forms.gle/4iqerAKaukLmkGgCA',
-    tone: 'cyan'
+    tone: 'cyan',
+    datetime: '11 e 12 de novembro, 09h00 às 19h00'
   },
   {
     id: 'rodada',
@@ -34,7 +39,8 @@ const CARDS: Card[] = [
     title: 'Rodada de Negócios',
     desc: 'Conexões diretas para parcerias e investimentos.',
     href: 'https://forms.gle/jdMLaKpW9gx3naq56',
-    tone: 'violet'
+    tone: 'violet',
+    datetime: '11 de novembro, 14h00 às 18h00'
   },
   {
     id: 'pitch',
@@ -42,7 +48,8 @@ const CARDS: Card[] = [
     title: 'Pitch Day',
     desc: 'Pitch das ideias selecionadas na Chamada 2025. Acompanhe as ideias selecionadas na chamada de ideias.',
     href: 'https://forms.gle/4iqerAKaukLmkGgCA',
-    tone: 'pink'
+    tone: 'pink',
+    datetime: '12 de novembro, 09h00 às 18h00'
   },
   {
     id: 'hackathon',
@@ -50,7 +57,8 @@ const CARDS: Card[] = [
     title: 'Hackathon',
     desc: 'Evento reunindo pessoas de diversas formações para resolver problemas e criar soluções inovadoras em pouco tempo.',
     href: 'https://forms.gle/rFLyTLZia5qTEAvd6',
-    tone: 'green'
+    tone: 'green',
+    datetime: '12 de novembro, 09h00 às 12h00'
   },
   {
     id: 'workshops',
@@ -58,7 +66,10 @@ const CARDS: Card[] = [
     title: 'Mini-cursos e workshops',
     desc: 'Programação paralela de capacitações e treinamentos relevantes para empresas inovadoras.',
     href: 'https://forms.gle/LEX9CiPZhhYE2kUe9',
-    tone: 'blue'
+    tone: 'blue',
+    datetime: '11 e 12 de novembro, 09h00 às 18h00',
+    programLinkText: '(conforme programação)',
+    programLinkHref: '/hotsite/agenda'
   }
 ];
 
@@ -119,6 +130,13 @@ const Inscricoes: React.FC = () => {
           content-visibility: auto; /* performance */
           align-items: stretch; /* estica cards para mesma altura */
           padding: 10px 0; /* espaço extra para ribbons */
+        }
+        
+        /* Garantir altura uniforme dos cards */
+        .insc-card {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
         @media (max-width: 1024px){ 
           .insc-grid{ 
@@ -205,7 +223,33 @@ const Inscricoes: React.FC = () => {
         .insc-cta{ 
           margin-top: 6px;
           display: flex; 
-          justify-content: flex-end; /* alinha à direita em desktop */
+          justify-content: space-between; /* espaço entre datetime e botão */
+          align-items: center;
+          gap: 12px;
+        }
+        
+        /* Data e horário */
+        .insc-datetime {
+          color: rgba(255,255,255,.7);
+          font-size: 13px;
+          font-weight: 600;
+          line-height: 1.3;
+          flex-shrink: 0;
+          max-width: 140px;
+        }
+        
+        /* Link de programação */
+        .insc-program-link {
+          color: #60a5fa;
+          text-decoration: none;
+          font-size: 12px;
+          font-weight: 500;
+          transition: color 0.2s ease, text-decoration 0.2s ease;
+        }
+        
+        .insc-program-link:hover {
+          color: #93c5fd;
+          text-decoration: underline;
         }
         .insc-btn{
           display:inline-flex; align-items:center; justify-content:center;
@@ -269,7 +313,19 @@ const Inscricoes: React.FC = () => {
           
           /* CTA ocupa largura total no mobile */
           .insc-cta{ 
-            justify-content: stretch;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 8px;
+          }
+          .insc-datetime {
+            font-size: 12px;
+            max-width: none;
+            text-align: center;
+            margin-bottom: 4px;
+          }
+          
+          .insc-program-link {
+            font-size: 11px;
           }
           .insc-btn{ 
             width: 100%; 
@@ -550,6 +606,21 @@ const Inscricoes: React.FC = () => {
                 <p className="insc-desc">{c.desc}</p>
 
                 <div className="insc-cta">
+                  <div className="insc-datetime">
+                    {c.datetime}
+                    {c.programLinkText && c.programLinkHref && (
+                      <>
+                        <br />
+                        <a 
+                          href={c.programLinkHref}
+                          className="insc-program-link"
+                          aria-label="Ver programação completa"
+                        >
+                          {c.programLinkText}
+                        </a>
+                      </>
+                    )}
+                  </div>
                   <motion.a
                     href={c.href}
                     target={c.href.startsWith('http') ? '_blank' : undefined}
