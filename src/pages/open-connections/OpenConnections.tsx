@@ -429,6 +429,69 @@ const OpenConnections: React.FC = () => {
                 </p>
               </div>
             </article>
+
+            {/* Fabio Pagani */}
+            <article className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/Palestrantes/Fabio Pagani - Foto.jpg" alt="Fabio Pagani" loading="lazy" />
+              </div>
+              <div className="sph-body">
+                <h3 className="speaker-name">Fabio Pagani</h3>
+                <p className="speaker-role">Empreendedor Serial • Ativista do Ecossistema de Inovação</p>
+                <p className="speaker-bio">
+                  Empreendedor serial, em 40 anos de empreendedorismo abri seis empresas. Errei em três.
+                  Ativista do ecossistema de inovação e empreendedorismo brasileiro desde os anos 90, participei da criação e da gestão de quatro 
+                  entidades ligadas à este ecossistema. Empreendi politicamente, participando da gestão da tecnologia nos municípios de Campinas e de São Paulo.
+                  Sou mentor e investidor de startups que irão melhorar o mundo.
+                </p>
+              </div>
+            </article>
+
+            {/* Gerardo Lima */}
+            <article className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/Palestrantes/Gerardor Lima - Foto.jpg" alt="Gerardo Lima" loading="lazy" />
+              </div>
+              <div className="sph-body">
+                <h3 className="speaker-name">Gerardo Lima</h3>
+                <p className="speaker-role">Consultor Técnico Empresarial • Presidente da UniOficiais/BR</p>
+                <p className="speaker-bio">
+                  Consultor técnico na área empresarial. Bacharel, Especialista e Mestre em Direito. Presidente da Associação Nacional dos Oficiais de Justiça Federais - UniOficiais/BR. 
+                  23 anos como Oficial de Justiça do TJDFT e como ex-policial rodoviário federal.
+                </p>
+              </div>
+            </article>
+
+            {/* Alexandre Barragat */}
+            <article className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/Palestrantes/Alexandre Barragat - Foto1.jpg" alt="Alexandre Barragat" loading="lazy" />
+              </div>
+              <div className="sph-body">
+                <h3 className="speaker-name">Alexandre Barragat</h3>
+                <p className="speaker-role">Gerente do Departamento de Cooperação Internacional da Finep</p>
+                <p className="speaker-bio">
+                  Engenheiro civil formado pela Universidade Federal de Viçosa, especialista em engenharia econômica pela Fundação Dom Cabral e mestre em administração pública pela Fundação Getúlio Vargas. 
+                  Analista da Finep desde 2001, trabalhou em operações, no planejamento e na cooperação internacional. Anteriormente, foi engenheiro da Caixa Econômica Federal e do Banco de Desenvolvimento de Minas Gerais.
+                </p>
+              </div>
+            </article>
+
+            {/* Helio Galvão Ciffoni */}
+            <article className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/Palestrantes/Helio Ciffoni - Foto.jpg" alt="Helio Galvão Ciffoni" loading="lazy" />
+              </div>
+              <div className="sph-body">
+                <h3 className="speaker-name">Helio Galvão Ciffoni</h3>
+                <p className="speaker-role">Fundador e CEO da Sapiens Global</p>
+                <p className="speaker-bio">
+                  Fundador e CEO da Sapiens Global, empresa com sede em Singapura e escritórios em Tóquio, Dongguan, Barcelos (Portugal), Curitiba e São Paulo.
+                  Mestre em Educação (PUCPR), Físico e Engenheiro Civil (UFPR). Empresário com mais de 30 anos de experiência em Gestão de Empresas, Tecnologia da Informação e Mercado Internacional.
+                  Foi professor do Depto. de Ciência da Computação da PUCPR por 20 anos, de 1987 a 2007.
+                </p>
+              </div>
+            </article>
           </div>
         </div>
       </section>

@@ -29,7 +29,7 @@ const CARDS: Card[] = [
     icon: 'ic-estandes',
     title: 'Estandes de empresas e start-ups',
     desc: 'Demonstração de produtos e serviços de empresas e start-ups.',
-    href: 'https://forms.gle/4iqerAKaukLmkGgCA',
+    href: 'https://forms.gle/r6mDgcRLjEMCXW5XA',
     tone: 'cyan',
     datetime: '11 e 12 de novembro, 09h00 às 19h00'
   },
@@ -47,7 +47,7 @@ const CARDS: Card[] = [
     icon: 'ic-pitch',
     title: 'Pitch Day',
     desc: 'Pitch das ideias selecionadas na Chamada 2025. Acompanhe as ideias selecionadas na chamada de ideias.',
-    href: 'https://forms.gle/4iqerAKaukLmkGgCA',
+    href: 'https://forms.gle/XpQz43saQhCCJW2q8',
     tone: 'pink',
     datetime: '12 de novembro, 09h00 às 18h00'
   },

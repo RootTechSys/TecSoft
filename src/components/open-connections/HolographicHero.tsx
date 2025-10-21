@@ -500,6 +500,30 @@ const HolographicHero: React.FC = () => {
           border-color: rgba(255, 255, 255, 0.6);
         }
 
+        /* ===== INFORMAÇÕES DO EVENTO ===== */
+        .hero-event-info {
+          margin-top: 24px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .event-location {
+          font-size: 18px;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.9);
+          margin: 0;
+          line-height: 1.4;
+        }
+
+        .event-time {
+          font-size: 16px;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 0.7);
+          margin: 0;
+          line-height: 1.4;
+        }
+
         /* ===== RESPONSIVIDADE ===== */
 
         @media (max-width: 1024px) {
@@ -578,6 +602,14 @@ const HolographicHero: React.FC = () => {
           .hero-description {
             font-size: 18px;
           }
+          
+          .event-location {
+            font-size: 16px;
+          }
+          
+          .event-time {
+            font-size: 14px;
+          }
         }
       `}</style>
       <div className="hero-container">
@@ -592,6 +624,10 @@ const HolographicHero: React.FC = () => {
           <div className="hero-cta">
             <a href="/hotsite/inscricoes" className="btn-primary">Atividades e Inscrições</a>
             <a href="/hotsite/sobre" className="btn-secondary">Saiba Mais</a>
+          </div>
+          <div className="hero-event-info">
+            <p className="event-location">Brasília, 11 e 12 de novembro de 2025</p>
+            <p className="event-time">09h00 às 19h00</p>
           </div>
         </div>
 
