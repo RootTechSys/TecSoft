@@ -1853,6 +1853,145 @@ export default function SobreEventos() {
           .gforti-mark{ margin: 0 auto; width: 180px; }
         }
 
+        /* ===== DEMAIS PARCEIROS APOIADORES ===== */
+        .parceiros-section {
+          padding: 80px 0;
+          position: relative;
+          background: rgba(0, 0, 0, 0.15);
+          border-top: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .parceiros-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: radial-gradient(60% 50% at 50% 0%,
+            rgba(255, 255, 255, 0.04) 0%, 
+            rgba(255, 255, 255, 0) 70%
+          );
+          pointer-events: none;
+        }
+
+        .parceiros-header {
+          text-align: center;
+          margin-bottom: 50px;
+          position: relative;
+          z-index: 1;
+        }
+
+        .parceiros-eyebrow {
+          display: inline-block;
+          padding: 8px 20px;
+          border-radius: 20px;
+          border: 2px solid rgba(255, 255, 255, 0.3);
+          color: #fff;
+          font-weight: 700;
+          font-size: 13px;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          backdrop-filter: blur(10px);
+          margin-bottom: 16px;
+        }
+
+        .parceiros-title {
+          font-size: clamp(28px, 4vw, 42px);
+          font-weight: 900;
+          color: #fff;
+          margin: 0 0 16px;
+          text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .parceiros-sub {
+          font-size: clamp(14px, 1.8vw, 18px);
+          color: rgba(255, 255, 255, 0.9);
+          max-width: 800px;
+          margin: 0 auto;
+          line-height: 1.6;
+        }
+
+        .parceiros-image-container {
+          position: relative;
+          z-index: 1;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
+        .parceiros-image-wrapper {
+          position: relative;
+          max-width: 100%;
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 24px;
+          padding: 40px;
+          backdrop-filter: blur(20px);
+          border: 2px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 
+            0 20px 60px rgba(0, 0, 0, 0.3),
+            inset 0 0 40px rgba(255, 255, 255, 0.05);
+          transition: all 0.4s ease;
+        }
+
+        .parceiros-image-wrapper:hover {
+          transform: translateY(-8px);
+          border-color: rgba(255, 255, 255, 0.4);
+          box-shadow: 
+            0 32px 80px rgba(0, 0, 0, 0.4),
+            inset 0 0 60px rgba(255, 255, 255, 0.08);
+        }
+
+        .parceiros-image {
+          width: 100%;
+          height: auto;
+          max-width: 1200px;
+          border-radius: 16px;
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+          transition: transform 0.3s ease;
+        }
+
+        .parceiros-image-wrapper:hover .parceiros-image {
+          transform: scale(1.02);
+        }
+
+        /* Responsividade para a seção de parceiros */
+        @media (max-width: 1024px) {
+          .parceiros-section {
+            padding: 60px 0;
+          }
+          
+          .parceiros-image-wrapper {
+            padding: 30px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .parceiros-section {
+            padding: 50px 0;
+          }
+          
+          .parceiros-image-wrapper {
+            padding: 20px;
+            border-radius: 20px;
+          }
+          
+          .parceiros-title {
+            font-size: 28px;
+          }
+          
+          .parceiros-sub {
+            font-size: 16px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .parceiros-image-wrapper {
+            padding: 16px;
+            border-radius: 16px;
+          }
+        }
+
         /* ===== RESPONSIVIDADE ===== */
         @media (max-width: 1024px) {
           .comparison-grid {
@@ -2249,6 +2388,30 @@ export default function SobreEventos() {
               </li>
             </ul>
           </section>
+        </div>
+      </section>
+
+      {/* ===== DEMAIS PARCEIROS APOIADORES ===== */}
+      <section className="parceiros-section">
+        <div className="container-wide">
+          <div className="parceiros-header">
+            <span className="parceiros-eyebrow">Apoio Estratégico</span>
+            <h2 className="parceiros-title">Demais Parceiros Apoiadores</h2>
+            <p className="parceiros-sub">
+              Organizações que apoiam e fortalecem o ecossistema de inovação e tecnologia.
+            </p>
+          </div>
+
+          <div className="parceiros-image-container">
+            <div className="parceiros-image-wrapper">
+              <img 
+                src="/Logos/Segunda parte/PainelApoiadoresParceiros.png" 
+                alt="Parceiros e Apoiadores" 
+                className="parceiros-image"
+                loading="lazy"
+              />
+            </div>
+          </div>
         </div>
       </section>
 

@@ -492,6 +492,22 @@ const OpenConnections: React.FC = () => {
                 </p>
               </div>
             </article>
+
+            {/* Henrique de Oliveira Miguel */}
+            <article className="speaker-card">
+              <div className="speaker-photo">
+                <img src="/Palestrantes/henriquedeoliveiramiguel.jpg" alt="Henrique de Oliveira Miguel" loading="lazy" />
+              </div>
+              <div className="sph-body">
+                <h3 className="speaker-name">Henrique de Oliveira Miguel</h3>
+                <p className="speaker-role">Secretário de Ciência e Tecnologia para Transformação Digital - MCTI</p>
+                <p className="speaker-bio">
+                  Engenheiro eletrônico pela Universidade de Brasília - UnB. Iniciou a carreira como Assessor Técnico da antiga Secretaria Especial de Informática - SEI, órgão pioneiro na definição de políticas públicas para o setor de Tecnologias da Informação e Comunicação no Brasil. 
+                  Já no Ministério da Ciência, Tecnologia e Inovação, ocupou diversos cargos de direção, coordenação e assessoramento, com destaque para a de Coordenador-Geral de Microeletrônica da Secretaria de Política de Informática do Ministério da Ciência, Tecnologia e Inovação e de Coordenador-Geral de Tecnologias Digitais (CGTD) da Secretaria de Empreendedorismo e Inovação-SEMPI do MCTI. 
+                  Funcionário de carreira, assumiu como interino, por diversas vezes, o cargo de Secretário de Política de Informática e de outras secretarias do MCTI que trataram do tema das políticas nacionais de TIC até assumir a titularidade como secretário da Secretaria de Ciência e Tecnologia para Transformação Digital do MCTI, em junho de 2023.
+                </p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -916,7 +932,7 @@ const OpenConnections: React.FC = () => {
                   <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
                 </svg>
               </span>
-              <span className="guest-name">Raulison Resende (Instituto Hosp. Alberto Einstein)</span>
+              <span className="guest-name">Raulison Resende (Instituto Hosp. Albert Einstein)</span>
             </li>
 
             <li className="guest-card">

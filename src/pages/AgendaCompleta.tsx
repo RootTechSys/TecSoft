@@ -36,9 +36,23 @@ interface WorkshopsData {
   items: Workshop[];
 }
 
+interface OutraAtividade {
+  id: number;
+  data: string;
+  atividade: string;
+  descricao: string;
+}
+
+interface OutrasAtividadesData {
+  titulo: string;
+  cor: string;
+  items: OutraAtividade[];
+}
+
 interface AgendaData {
   eventos: Evento[];
   workshops: WorkshopsData;
+  outras_atividades: OutrasAtividadesData;
 }
 
 const AgendaCompleta: React.FC = () => {
@@ -1860,6 +1874,228 @@ const AgendaCompleta: React.FC = () => {
             padding: 20px 32px 28px;
           }
         }
+        /* ===== OUTRAS ATIVIDADES SECTION ===== */
+        .outras-atividades-section {
+          padding: 100px 0;
+          background: linear-gradient(135deg, 
+            rgba(0, 188, 212, 0.05) 0%, 
+            rgba(124, 58, 237, 0.05) 50%,
+            rgba(236, 72, 153, 0.05) 100%
+          );
+          position: relative;
+          overflow: hidden;
+          margin-top: 60px;
+        }
+
+        .outras-atividades-section::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: 
+            radial-gradient(circle at 20% 20%, rgba(0, 188, 212, 0.08) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
+          pointer-events: none;
+        }
+
+        .oa-container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 0 40px;
+          position: relative;
+          z-index: 1;
+        }
+
+        .oa-head {
+          text-align: center;
+          margin-bottom: 80px;
+        }
+
+        .oa-title {
+          font-size: clamp(32px, 4vw, 48px);
+          font-weight: 900;
+          background: linear-gradient(135deg, #00bcd4, #7c3aed, #ec4899);
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin: 0 0 20px;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          position: relative;
+        }
+
+        .oa-title::after {
+          content: '';
+          display: block;
+          width: 120px;
+          height: 3px;
+          background: linear-gradient(90deg, #00bcd4, #7c3aed, #ec4899);
+          margin: 16px auto 0;
+          border-radius: 2px;
+        }
+
+        .oa-sub {
+          font-size: clamp(16px, 2vw, 20px);
+          color: #64748b;
+          max-width: 800px;
+          margin: 0 auto;
+          line-height: 1.6;
+          font-weight: 500;
+        }
+
+        .oa-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+          gap: 32px;
+        }
+
+        .oa-card {
+          background: rgba(255, 255, 255, 0.98);
+          border-radius: 20px;
+          padding: 32px;
+          box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.06),
+            0 0 0 1px rgba(0, 188, 212, 0.08);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          border: 1px solid rgba(0, 188, 212, 0.12);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .oa-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, #00bcd4, #7c3aed, #ec4899);
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .oa-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 
+            0 16px 48px rgba(0, 0, 0, 0.1),
+            0 0 0 1px rgba(0, 188, 212, 0.15);
+          border-color: rgba(0, 188, 212, 0.2);
+        }
+
+        .oa-card:hover::before {
+          opacity: 1;
+        }
+
+        .oa-card-header {
+          margin-bottom: 20px;
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .oa-date {
+          display: inline-block;
+          background: linear-gradient(135deg, #00bcd4, #7c3aed);
+          color: white;
+          padding: 8px 16px;
+          border-radius: 12px;
+          font-size: 13px;
+          font-weight: 700;
+          box-shadow: 0 4px 12px rgba(0, 188, 212, 0.25);
+          letter-spacing: 0.5px;
+          align-self: flex-start;
+        }
+
+        .oa-activity {
+          font-size: 20px;
+          font-weight: 800;
+          color: #1e293b;
+          margin: 0;
+          line-height: 1.4;
+          letter-spacing: -0.02em;
+        }
+
+        .oa-description {
+          font-size: 15px;
+          color: #64748b;
+          line-height: 1.6;
+          margin: 0;
+          font-weight: 400;
+        }
+
+        /* Responsividade para Outras Atividades */
+        @media (max-width: 1200px) {
+          .oa-grid {
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 28px;
+          }
+        }
+
+        @media (max-width: 1024px) {
+          .oa-grid {
+            grid-template-columns: 1fr;
+            gap: 24px;
+          }
+          
+          .oa-card {
+            padding: 28px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .outras-atividades-section {
+            padding: 80px 0;
+            margin-top: 40px;
+          }
+          
+          .oa-container {
+            padding: 0 20px;
+          }
+          
+          .oa-head {
+            margin-bottom: 60px;
+          }
+          
+          .oa-title {
+            font-size: 28px;
+          }
+          
+          .oa-sub {
+            font-size: 16px;
+          }
+          
+          .oa-card {
+            padding: 24px;
+          }
+          
+          .oa-activity {
+            font-size: 18px;
+          }
+          
+          .oa-description {
+            font-size: 14px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .oa-card {
+            padding: 20px;
+          }
+          
+          .oa-date {
+            padding: 6px 12px;
+            font-size: 12px;
+          }
+          
+          .oa-activity {
+            font-size: 16px;
+          }
+          
+          .oa-description {
+            font-size: 13px;
+          }
+        }
       `}</style>
       
       {/* Navigation Sidebar */}
@@ -1991,6 +2227,39 @@ const AgendaCompleta: React.FC = () => {
           </motion.div>
         </div>
 
+        {/* Seção de Outras Atividades */}
+        {agendaData?.outras_atividades && (
+          <section className="outras-atividades-section">
+            <div className="oa-container">
+              <header className="oa-head">
+                <h2 className="oa-title">{agendaData.outras_atividades.titulo}</h2>
+                <p className="oa-sub">
+                  Atividades complementares que enriquecem ainda mais a experiência do evento.
+                </p>
+              </header>
+
+              <div className="oa-grid">
+                {agendaData.outras_atividades.items.map((atividade) => (
+                  <motion.div
+                    key={atividade.id}
+                    className="oa-card"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="oa-card-header">
+                      <div className="oa-date">{atividade.data}</div>
+                      <h3 className="oa-activity">{atividade.atividade}</h3>
+                    </div>
+                    <p className="oa-description">{atividade.descricao}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Espaçamento entre seções */}
         <div style={{ height: '80px' }}></div>
 
@@ -2027,7 +2296,7 @@ const AgendaCompleta: React.FC = () => {
                 </span>
                 <div className="wk-fb">
                   <h3>Escolha no formulário</h3>
-                  <p>Seleção do workshop direto no formulário, sem precisar alterar o site.</p>
+                  <p>Seleção do workshop direto no formulário.</p>
                 </div>
               </div>
               <div className="wk-feature">
@@ -2036,7 +2305,7 @@ const AgendaCompleta: React.FC = () => {
                 </span>
                 <div className="wk-fb">
                   <h3>Vagas limitadas</h3>
-                  <p>Garanta participação com antecedência; confirmação por e-mail.</p>
+                  <p>Garanta participação com antecedência.</p>
                 </div>
               </div>
             </div>
@@ -2052,10 +2321,11 @@ const AgendaCompleta: React.FC = () => {
               >
                 Inscreva-se nos Workshops
               </a>
-              <p className="wk-note">Escolha seu workshop no formulário — confirmação por e‑mail</p>
+              <p className="wk-note">Escolha no formulário<br />Seleção do workshop direto no formulário.</p>
             </div>
           </div>
         </section>
+
       </div>
     </div>
   );
