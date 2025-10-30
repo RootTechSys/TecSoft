@@ -44,11 +44,10 @@ const Courses: React.FC = () => {
         'Ferramentas práticas',
         'Certificado de participação'
       ],
-      schedule: '11/11 e 12/11/25',
-      time: '14:30 às 17:30',
-      location: 'Sede da Finatec-UnB',
-      locationUrl: 'https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA',
-      event: 'Open Connections + InCoDay',
+      schedule: 'Data a definir',
+      time: '',
+      location: '',
+      locationUrl: '',
       status: 'Aguarde link de inscrição!',
       statusType: 'Em Breve',
       image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
@@ -76,11 +75,10 @@ const Courses: React.FC = () => {
         'Ferramentas práticas',
         'Certificado de participação'
       ],
-      schedule: '11/11 e 12/11/25',
-      time: '14:30 às 17:30',
-      location: 'Sede da Finatec-UnB',
-      locationUrl: 'https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA',
-      event: 'Open Connections + InCoDay',
+      schedule: 'Data a definir',
+      time: '',
+      location: '',
+      locationUrl: '',
       status: 'Aguarde link de inscrição!',
       statusType: 'Em Breve',
       image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
@@ -108,11 +106,10 @@ const Courses: React.FC = () => {
         'Ferramentas práticas',
         'Certificado de participação'
       ],
-      schedule: '11/11 e 12/11/25',
-      time: '09:30 às 12:30',
-      location: 'Sede da Finatec-UnB',
-      locationUrl: 'https://maps.app.goo.gl/mP1iyT24Bd2rAkcCA',
-      event: 'Open Connections + InCoDay',
+      schedule: 'Data a definir',
+      time: '',
+      location: '',
+      locationUrl: '',
       status: 'Aguarde link de inscrição!',
       statusType: 'Em Breve',
       image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
@@ -137,8 +134,8 @@ const Courses: React.FC = () => {
     },
     {
       icon: UserGroupIcon,
-      title: 'Evento Gratuito',
-      description: 'Cursos totalmente gratuitos no âmbito do evento'
+      title: 'Cursos Gratuitos',
+      description: 'Cursos totalmente gratuitos'
     },
     {
       icon: ClockIcon,
@@ -165,11 +162,10 @@ const Courses: React.FC = () => {
             className="text-center max-w-4xl mx-auto"
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
-              Cursos <span className="text-gradient">Open Connections + InCoDay</span>
+              Cursos <span className="text-gradient">TecSoft</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 leading-relaxed">
-              Participe dos cursos gratuitos do evento Open Connections + InCoDay, 
-              ministrados por especialistas da Metodologia MGPDI.
+              Cursos gratuitos ministrados por especialistas da Metodologia MGPDI.
             </p>
           </motion.div>
         </div>
@@ -334,24 +330,25 @@ const Courses: React.FC = () => {
 
                     {/* Schedule - Compact */}
                     <div className="space-y-1 mb-3 text-xs text-gray-600">
-                      <p><span className="font-medium">Dias:</span> {course.schedule}</p>
+                      <p><span className="font-medium">Data:</span> {course.schedule}</p>
                       {course.time && (
                         <p><span className="font-medium">Horário:</span> {course.time}</p>
                       )}
-                      <p>
-                        <span className="font-medium">Local:</span> 
-                        <a 
-                          href={course.locationUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:text-blue-800 ml-1"
-                        >
-                          {course.location}
-                        </a>
-                      </p>
-                      {course.event && (
-                        <p className="text-blue-600 font-medium text-xs">
-                          {course.event}
+                      {course.location && (
+                        <p>
+                          <span className="font-medium">Local:</span> 
+                          {course.locationUrl ? (
+                            <a 
+                              href={course.locationUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-blue-600 hover:text-blue-800 ml-1"
+                            >
+                              {course.location}
+                            </a>
+                          ) : (
+                            <span className="ml-1">{course.location}</span>
+                          )}
                         </p>
                       )}
                     </div>

@@ -559,7 +559,7 @@ const Home: React.FC = () => {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-bold text-gray-800 group-hover:text-cyan-600 transition-colors">
-                    Open Connection + InCoDay
+                    Open Connections + InCoDay
                   </h3>
                   <p className="text-sm text-gray-600 mt-1">
                     Conecte-se com a comunidade

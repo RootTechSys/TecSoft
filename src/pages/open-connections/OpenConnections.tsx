@@ -4,9 +4,34 @@ import HolographicHero from '../../components/open-connections/HolographicHero';
 import CurvedBanner from '../../components/open-connections/CurvedBanner';
 import NavigationSidebar from '../../components/NavigationSidebar';
 
+interface Speaker {
+  id: number;
+  name: string;
+  role: string;
+  bio: string;
+  miniBio: string[]; // Array de 3 bullets para mini bio
+  photo: string;
+  externalLink?: string; // Link externo opcional
+}
+
 const OpenConnections: React.FC = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showAllGuests, setShowAllGuests] = useState(false);
+  const [expandedBios, setExpandedBios] = useState<Set<number>>(new Set());
+  const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 900);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      document.body.style.overflow = 'auto'; // Limpa overflow ao desmontar
+    };
+  }, []);
 
   const toggleGuests = () => {
     if (showAllGuests) {
@@ -26,6 +51,277 @@ const OpenConnections: React.FC = () => {
       setShowAllGuests(true);
     }
   };
+
+  const toggleBio = (speakerId: number, speaker: Speaker, event?: React.MouseEvent) => {
+    if (isMobile) {
+      // Mobile: acordeão - apenas um card expandido por vez
+      setExpandedBios(prev => {
+        const newSet = new Set<number>();
+        if (!prev.has(speakerId)) {
+          // Se não estava expandido, expande este e fecha os outros
+          newSet.add(speakerId);
+          // Scroll suave para o card expandido
+          setTimeout(() => {
+            const cardElement = document.getElementById(`speaker-card-${speakerId}`);
+            if (cardElement) {
+              cardElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }, 250); // Após animação do acordeão
+        }
+        // Se já estava expandido, fecha (newSet vazio)
+        return newSet;
+      });
+    } else {
+      // Desktop: abre modal
+      // Guarda referência do botão que abriu para retornar foco
+      const triggerButton = event?.currentTarget as HTMLButtonElement;
+      if (triggerButton) {
+        triggerButton.setAttribute('data-modal-trigger', 'true');
+      }
+      
+      setSelectedSpeaker(speaker);
+      document.body.style.overflow = 'hidden';
+      
+      // Foco inicial no título do modal (será aplicado após render)
+      setTimeout(() => {
+        const modalTitle = document.getElementById('speaker-modal-title');
+        if (modalTitle) {
+          (modalTitle as HTMLElement).focus();
+        }
+      }, 200);
+    }
+    
+    // Previne propagação do evento
+    event?.stopPropagation();
+  };
+
+  const closeModal = () => {
+    // Encontra o botão que abriu o modal
+    const triggerButton = document.querySelector('[data-modal-trigger="true"]') as HTMLButtonElement;
+    
+    setSelectedSpeaker(null);
+    document.body.style.overflow = 'auto';
+    
+    // Remove atributo e retorna foco ao botão
+    if (triggerButton) {
+      triggerButton.removeAttribute('data-modal-trigger');
+      setTimeout(() => {
+        triggerButton.focus();
+      }, 100);
+    }
+  };
+
+  // Fecha modal com ESC
+  useEffect(() => {
+    if (!selectedSpeaker) return;
+    
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedSpeaker(null);
+        document.body.style.overflow = 'auto';
+      }
+    };
+    
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, [selectedSpeaker]);
+
+
+  // Mapeamento de foco para cada palestrante (ajuste conforme necessário)
+  // Valores são percentuais: --focus-x (horizontal), --focus-y (vertical)
+  // Por padrão, imagens usam object-fit: contain (mostram inteiras)
+  // Se useCover: true, usa object-fit: cover (preenche o espaço, pode cortar)
+  const speakerFocusMap: Record<number, { x: string; y: string; useCover?: boolean }> = {
+    1: { x: 'center', y: 'center' }, // Henrique (primeiro)
+    2: { x: 'center', y: 'center' }, // Humberto
+    3: { x: 'center', y: 'center' }, // Raulison
+    4: { x: 'center', y: 'center' }, // Marcelo
+    5: { x: 'center', y: 'center' }, // Camilo
+    6: { x: 'center', y: 'center' }, // Fabio
+    7: { x: 'center', y: 'center' }, // Gerardo
+    8: { x: 'center', y: 'center' }, // Alexandre
+    9: { x: 'center', y: 'center' }, // Helio
+    10: { x: 'center', y: 'center' }, // Marcio Canedo
+    11: { x: 'center', y: 'center' }, // Renata Vianna
+  };
+
+  // Dados dos palestrantes
+  const speakers: Speaker[] = [
+    {
+      id: 1,
+      name: 'Henrique de Oliveira Miguel',
+      role: 'Secretário de Ciência e Tecnologia para Transformação Digital - MCTI',
+      miniBio: [
+        'Eng. eletrônico (UnB) e servidor de carreira no MCTI.',
+        'Liderou CG de Microeletrônica e Tecnologias Digitais; hoje Secretário de Transformação Digital (desde 06/2023).',
+        'Trajetória iniciada na SEI em políticas públicas de TIC.'
+      ],
+      bio: `Henrique de Oliveira Miguel é engenheiro eletrônico pela Universidade de Brasília - UnB. Iniciou a carreira como Assessor Técnico da antiga Secretaria Especial de Informática - SEI, órgão pioneiro na definição de políticas públicas para o setor de Tecnologias da Informação e Comunicação no Brasil. Já no Ministério da Ciência, Tecnologia e Inovação, ocupou diversos cargos de direção, coordenação e assessoramento, com destaque para a de Coordenador-Geral de Microeletrônica da Secretaria de Política de Informática do Ministério da Ciência, Tecnologia e Inovação e de Coordenador-Geral de Tecnologias Digitais (CGTD) da Secretaria de Empreendedorismo e Inovação-SEMPI do MCTI. Funcionário de carreira, assumiu como interino, por diversas vezes, o cargo de Secretário de Política de Informática e de outras secretarias do MCTI que trataram do tema das políticas nacionais de TIC até assumir a titularidade como secretário da Secretaria de Ciência e Tecnologia para Transformação Digital do MCTI, em junho de 2023.`,
+      photo: '/Palestrantes/henriquedeoliveiramiguel.jpg'
+    },
+    {
+      id: 2,
+      name: 'Humberto Luiz Ribeiro',
+      role: 'Diretor da EPICENTOR • Coordenador do CiberLab (FINATEC/UnB)',
+      miniBio: [
+        'Diretor da EPICENTOR e coordenador do CiberLab FINATEC/UnB.',
+        'Conselheiro de Cibersegurança do WEF (2025–2026) e diretor na FIESP (2023–2026).',
+        'Eng. pela UnB, pós no MIT/INSEAD/Wharton; ex-Secretário de Comércio e Serviços.'
+      ],
+      bio: `Diretor da EPICENTOR.
+Coordenador do CiberLab (FINATEC/UnB).
+
+É Conselheiro de Cibersegurança do World Economic Forum (2025-2026) e membro-diretor do Departamento de Defesa e Segurança da FIESP (2023-2026). 
+
+Engenheiro pela Universidade de Brasília (UnB), é pós-graduado pelo MIT, INSEAD, The Wharton School (UPenn), UNA, e Georgetown University. Professor-visitante de Services Innovation & Trade na Cornell University (NY – EUA).
+
+Foi Secretário de Comércio e Serviços do Governo Federal (2011 a 2014). Co-Fundador dirigente da BRASSCOM e da CONAJE.
+
+Condecorado com a Medalha do Mérito Alvorada (GDF), a Medalha da Vitória (Ministério da Defesa) e Hall da Fama do Franchising (ABF), entre outras comendas.`,
+      photo: '/images/speakers/humberto-ribeiro.jpg?v=1'
+    },
+    {
+      id: 3,
+      name: 'Raulison Resende',
+      role: 'Diretor do Comitê de Tecnologia (Instituto Pactuá) • Diretor de Educação (ASSESPRO‑SP) • CEO da Wongola',
+      miniBio: [
+        'Diretor de Tecnologia do Instituto Pactuá e Educação na Federação ASSESPRO‑SP; CEO da Wongola.',
+        '25+ anos liderando projetos e captação milionária em inovação no Brasil e exterior.',
+        'Fundador do programa Black in Tech; Mestre/Doutor UNICAMP, pós‑doc FGV.'
+      ],
+      bio: `Raulison Resende é Diretor do Comitê de Tecnologia do Instituto Pactuá e Diretor de Educação da Federação ASSESPRO-SP, sendo uma figura central no desenvolvimento de políticas e estratégias para o setor de tecnologia no Brasil. Com mais de 25 anos de experiência liderando projetos estratégicos, é amplamente reconhecido por sua habilidade em implementar soluções transformadoras que geram impactos mensuráveis em diferentes ecossistemas. Atualmente, Raulison é CEO da Wongola, uma startup inovadora com atuação nas áreas de tecnologia e educação, com operações no Brasil e em Angola, consolidando-se como referência em projetos que conectam tecnologia, inovação e gestão estratégica com foco em resultados concretos e escaláveis. Ele também é fundador do programa Black in Tech (BiT), uma iniciativa que promove a diversidade no setor tecnológico, conectando talentos negros a oportunidades qualificadas e reduzindo barreiras de acesso ao mercado. Sua trajetória internacional inclui a liderança de projetos de transformação digital em países como Angola e Estados Unidos, além de captar milhões de reais para iniciativas de tecnologia e inovação no Brasil. Mestre e Doutor pela UNICAMP, com pós-doutorado pela FGV, Raulison une sólida trajetória acadêmica a uma atuação profissional de destaque, posicionando-se como uma referência em tecnologia, inovação e gestão de alto impacto.`,
+      photo: '/images/speakers/raulison-resende-new.jpg'
+    },
+    {
+      id: 4,
+      name: 'Marcelo Boarin',
+      role: 'Mestre em Engenharia Elétrica (UnB) • PROFNIT (UEG) • MBA (FGV)',
+      miniBio: [
+        'Mestre em Eng. Elétrica (UnB); MBA Marketing (FGV); pós em Experiência do Cliente (Sírio‑Libanês).',
+        '20+ anos em TI, CX e IA em empresas como IBM, VIVO e Claro.',
+        'Fundador da SOBREXP e consultor na A5 Solutions (empregabilidade 50+).'
+      ],
+      bio: `Marcelo Boarin é Pai da Nicole (Autista), Mestre em Engenharia Elétrica (UNB), Mestrando em Propriedade Intelectual e Transferência de Tecnologia para a Inovação Tecnológica (UEG/PROFNIT), graduado em Engenharia e Administração (Universidade Mackenzie), MBA em Marketing (FGV) e Pós-graduado em Experiência do Cliente e Cuidado Centrado na Pessoa (Hospital Sírio Libanês) e Gestão de Tecnologia da Informação (UNB).
+Nascido em São Paulo e morando em Anápolis/Goiás a 26anos.
+Trabalhou em grandes empresas (Saint Gobain, J&J, IBM, VIVO, Brasil Telecom/Oi, CONTAX e Nextel/Claro) estando envolvido nas últimas duas décadas em grandes projetos ligados a Tecnologia da Informação / Relacionamento & Experiência do Cliente / Inovação / Inteligência Artificial.
+Fundador e entusiasta da Sociedade Brasileira de Experiência ao Paciente e Cuidado Centrado na Pessoa (SOBREXP).
+Participa da iniciativa de Empregabilidade 50+ da A5 Solutions, como consultor em projetos estratégicos.`,
+      photo: '/images/speakers/marcelo-boarin-new.jpg'
+    },
+    {
+      id: 5,
+      name: 'Camilo Mussi',
+      role: 'CIO do Ministério da Agricultura e Pecuária (desde 2023)',
+      miniBio: [
+        'CIO do MAPA desde 01/2023; ex‑CIO em ANTAQ, INEP e Min. do Esporte.',
+        'Prêmios: Security Leader Brasil 2024 e liderança em transformação digital.',
+        'Mestre em IA; docente por 24 anos em graduação e pós.'
+      ],
+      bio: `Atual CIO do Ministério da Agricultura e Pecuária, desde jan/2023.
+
+Foi CIO de diversos órgãos federais, como ANTAQ, INEP e Ministério do Esporte.
+
+Foi Oficial Aviador da Força Aérea;
+
+Recebeu premiações relevantes na área de Tecnologia da Informação, como Security Leader Brasil 2024; Líder de inovação no Distrito Federal e um dos líderes de transformação digital do governo federal em 2019.
+
+Possui Mestrado em Inteligência Artificial; Especializações e Graduação em Direito e Administração.
+ 
+Foi gestor e Professor de cursos de graduação e de pós-graduação, durante 24 anos e autor de artigos apresentados em congressos nacionais e internacionais.`,
+      photo: '/images/speakers/camilo-mussi-new.jpg'
+    },
+    {
+      id: 6,
+      name: 'Fabio Pagani',
+      role: 'Empreendedor Serial • Ativista do Ecossistema de Inovação',
+      miniBio: [
+        'Empreendedor serial: seis empresas fundadas; mentor e investidor de startups.',
+        'Ativista do ecossistema desde os anos 90; gestão pública em Campinas e SP.',
+        'Cientista da computação (Unicamp); foco em inovação, sociologia e educação.'
+      ],
+      bio: `Empreendedor serial, em 40 anos de empreendedorismo abri seis empresas. Errei em três.
+Ativista do ecossistema de inovação e empreendedorismo brasileiro desde os anos 90, participei da criação e da gestão de quatro entidades ligadas à este ecossistema.
+Empreendi politicamente, participando da gestão da tecnologia nos municípios de Campinas e de São Paulo.
+Sou mentor e investidor de startups que irão melhorar o mundo.
+A Unicamp me fez cientista da computação, a experiência me transformou em gestor, tenho paixão pela sociologia e fico feliz quando consigo ser professor, mas o que me move é a enorme disposição em ser um eterno aluno.`,
+      photo: '/Palestrantes/Fabio Pagani - Foto.jpg'
+    },
+    {
+      id: 7,
+      name: 'Gerardo Lima',
+      role: 'Consultor Técnico Empresarial • Presidente da UniOficiais/BR',
+      miniBio: [
+        'Consultor técnico empresarial; bacharel, especialista e mestre em Direito.',
+        'Presidente da UniOficiais/BR; 23 anos como Oficial de Justiça no TJDFT.',
+        'Experiência prévia como policial rodoviário federal.'
+      ],
+      bio: `Gerardo Lima. Consultor técnico na área empresarial. Bacharel, Especialista e Mestre em Direito. Presidente da Associação Nacional dos Oficiais de Justiça Federais - UniOficiais/BR. 23 anos como Oficial de Justiça do TJDFT e como ex-policial rodoviário federal.`,
+      photo: '/Palestrantes/Gerardor Lima - Foto.jpg'
+    },
+    {
+      id: 8,
+      name: 'Alexandre Barragat',
+      role: 'Gerente do Departamento de Cooperação Internacional da Finep',
+      miniBio: [
+        'Gerente de Cooperação Internacional na Finep.',
+        'Eng. civil (UFV), esp. em engenharia econômica (FDC), mestre em adm. pública (FGV).',
+        'Atuação desde 2001 na Finep em operações, planejamento e cooperação.'
+      ],
+      bio: `Gerente do Departamento de Cooperação Internacional da Finep
+
+Engenheiro civil formado pela Universidade Federal de Viçosa, especialista em engenharia econômica pela Fundação Dom Cabral e mestre em administração pública pela Fundação Getúlio Vargas. Analista da Finep desde 2001, trabalhou em operações, no planejamento e na cooperação internacional. Anteriormente, foi engenheiro da Caixa Econômica Federal e do Banco de Desenvolvimento de Minas Gerais.`,
+      photo: '/Palestrantes/Alexandre Barragat - Foto1.jpg'
+    },
+    {
+      id: 9,
+      name: 'Helio Galvão Ciffoni',
+      role: 'Fundador e CEO da Sapiens Global',
+      miniBio: [
+        'Fundador/CEO da Sapiens Global, com bases em Singapura, Japão, China, Brasil e Portugal.',
+        'Mestre em Educação (PUCPR); físico e engenheiro civil (UFPR).',
+        '30+ anos em gestão, TI e mercado internacional; palestras na Ásia, Américas e Europa.'
+      ],
+      bio: `Fundador e CEO da Sapiens Global, empresa com sede em Singapura e escritórios em Tóquio, Dongguan, Barcelos (Portugal), Curitiba e São Paulo.
+
+Mestre em Educação (PUCPR), Físico e Engenheiro Civil (UFPR). Empresário com mais de 30 anos de experiência em Gestão de Empresas, Tecnologia da Informação e Mercado Internacional.
+
+Foi professor do Depto. de Ciência da Computação da PUCPR por 20 anos, de 1987 a 2007. Atua no mercado asiático desde 1998, vivendo na Ásia (Tóquio e Singapura) desde 2009.
+Participou como palestrante em eventos de Tecnologia da Informação e Mercado Internacional no Japão, Singapura, Malásia, Indonésia, Tailândia, Myanmar, China, Brasil, Canadá e Portugal. 
+
+Ação Institucional:
+
+Diretor da MACC - Câmara de Comércio Mercosul / Sudeste Asiático (ASEAN) desde 2020;
+Membro do Conselho de Amizade com Países Estrangeiros da Cidade de Dongguan, China, desde 2019;
+Ex-Conselheiro do CITS - Centro Internacional de Tecnologia de Software (Curitiba) de 2004 a 2007;
+Membro-Fundador da CCBJ - Câmara Brasil-Japão em Tóquio, em 2001;
+Ex-Conselheiro da Câmara de Indústria e Comércio Brasil - Japão do Paraná, de 2000 a 2002.`,
+      photo: '/Palestrantes/Helio Ciffoni - Foto.jpg'
+    },
+    {
+      id: 10,
+      name: 'Marcio Canedo',
+      role: 'Pesquisador do IBICT • Coordenador do Programa Enterprise Europe Network EEN Brasil',
+      miniBio: [
+        'Pesquisador do IBICT; coordenador do Programa Enterprise Europe Network EEN Brasil.',
+        'Mestre em Relações Internacionais (Columbia); professor em múltiplas instituições.',
+        'Especialista em cooperação internacional, propriedade intelectual e contratos internacionais.'
+      ],
+      bio: `Possui graduação em Relações Internacionais e Direito pela Universidade de Brasília (1992) e Mestre (Master in International Affairs) pela Universidade Columbia, Nova Iorque, EUA. Foi professor da Universidade Federal do Mato Grosso do Sul, UFMS, na Faculdade de Direito, FADIR por 8 anos, e também consultor para assuntos internacionais e de propriedade intelectual do escritório de advocacia LGA Advogados Associados, em Campo Grande, MS, também prestando serviços similares à Paineiras Consultoria, também em Campo Grande, MS. Tem experiência docente e profissional nas áreas de Ciência Política, Relações Internacionais e Direito, com ênfase em Política Internacional, Regulação Econômica, Direito Internacional Público e Privado e Direito Empresarial. Também é consultor nas áreas jurídica e econômica internacionais e empresariais, especialmente na área de marcas e patentes internacionais e negociação de contratos internacionais, de projetos de cooperação internacional e de desenvolvimento sustentável. Foi professor e coordenador do Curso de Relações Internacionais do Centro Universitário de Campo Grande - UNAES, professor da FCG FACSUL, da Universidade Católica Dom Bosco, dos cursos preparatórios EXATO, NEON e Ícones do Direito e professor voluntário da Faculdade de Direito da Universidade de Brasília, UnB. Atualmente é pesquisador do Instituto Brasileiro de Informação em Ciência e Tecnologia, IBICT, onde também é coordenador da Seção de Relações Internacionais, SERIN, e do Programa Enterprise Europe Network EEN Brasil, a maior plataforma digital de negociação do mundo, criada pela União Europeia para facilitação de negócios internacionais para pequenas e médias empresas, e pesquisador da Fundação de Apoio à Cultura, Educação e Pesquisa, FAPEC, da Universidade Federal do Mato Grosso do Sul, UFMS.`,
+      photo: '/Palestrantes/Marcio Canedo - Foto.jpg'
+    },
+    {
+      id: 11,
+      name: 'Renata Vianna',
+      role: 'Superintendente de Ciência, Tecnologia e Inovação da FAPDF',
+      miniBio: [
+        'Superintendente de Ciência, Tecnologia e Inovação da FAPDF.',
+        'Mestre em Engenharia de Segurança Cibernética (UnB); referência em proteção de dados e IA.',
+        'Lidera iniciativas estratégicas em tecnologia, sustentabilidade e ecossistema local.'
+      ],
+      bio: `Renata Vianna é advogada e Superintendente de Ciência, Tecnologia e Inovação da FAPDF, com atuação em políticas públicas voltadas ao desenvolvimento científico e à inovação no DF. Mestre em Engenharia de Segurança Cibernética pela UnB, é referência em proteção de dados e inteligência artificial. Lidera iniciativas estratégicas com foco em tecnologia, sustentabilidade e fortalecimento do ecossistema local.`,
+      photo: '/Palestrantes/Renata Viana - Foto.jpg'
+    }
+  ];
   
   const { scrollYProgress } = useScroll();
 
@@ -113,26 +409,38 @@ const OpenConnections: React.FC = () => {
           @media (max-width: 480px){ .oc-container{ padding: 0 16px; } }
 
           /* Grids padrão da página */
+          /* Grid responsivo dos cards - garante tamanho uniforme */
           .grid-3{ 
             display: grid; 
-            grid-template-columns: repeat(3, minmax(0,1fr)); 
-            gap: 16px; 
-            align-items: stretch; 
-            grid-auto-rows: 1fr; /* Força todas as linhas a terem a mesma altura */
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 24px; 
+            align-items: stretch; /* Iguala a altura dos cards */
           }
           .grid-2{ 
             display: grid; 
-            grid-template-columns: repeat(2, minmax(0,1fr)); 
-            gap: 16px; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 24px; 
             align-items: stretch; 
-            grid-auto-rows: 1fr; /* Força todas as linhas a terem a mesma altura */
           }
 
-          @media (max-width: 900px){
-            .grid-3{ grid-template-columns: repeat(2,1fr); }
+          /* Tablet: 2 colunas */
+          @media (max-width: 1024px) and (min-width: 641px){
+            .grid-3{ 
+              grid-template-columns: repeat(2, 1fr); 
+              gap: 20px;
+            }
+            .grid-2{
+              grid-template-columns: repeat(2, 1fr);
+              gap: 20px;
+            }
           }
+          
+          /* Mobile: 1 coluna */
           @media (max-width: 640px){
-            .grid-3, .grid-2{ grid-template-columns: 1fr; gap: 12px; }
+            .grid-3, .grid-2{ 
+              grid-template-columns: 1fr; 
+              gap: 20px; 
+            }
           }
 
           /* Título principal responsivo */
@@ -180,29 +488,499 @@ const OpenConnections: React.FC = () => {
 
           /* Cards de palestrantes responsivos */
           .speaker-card{
-            display:grid; grid-template-rows: auto 1fr; gap:10px;
-            background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16); border-radius:16px; overflow:hidden;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255,255,255,.08); 
+            border:1px solid rgba(255,255,255,.16); 
+            border-radius:16px; 
+            overflow:hidden;
             height: 100%; /* Força todos os cards a terem a mesma altura */
-            min-height: 320px; /* Altura mínima aumentada para consistência */
+            min-height: 320px;
           }
-          .speaker-photo{ height: 160px; background:#222; }
-          .speaker-photo img{ width:100%; height:100%; object-fit:cover; }
-          .speaker-name{ color:#fff; font-weight:900; font-size: clamp(16px,4.4vw,18px); }
-          .speaker-role,.speaker-bio{ color:rgba(255,255,255,.9); font-size: clamp(12px,3.4vw,14px); line-height:1.55; }
+          
+          /* Wrapper da foto com proporção fixa 4:5 - todos os containers têm o mesmo tamanho */
+          .speaker-photo{ 
+            aspect-ratio: 4 / 5;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            background: #222;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* Suporta variáveis CSS para foco customizado */
+            --focus-x: 50%;
+            --focus-y: 50%;
+          }
+          
+          /* Imagens com contain para mostrar inteiras, sem cortes */
+          .speaker-photo img{ 
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Mostra imagem inteira sem cortes */
+            /* Usa variáveis CSS para posicionamento customizado por imagem */
+            object-position: var(--focus-x, center) var(--focus-y, center);
+            display: block;
+          }
+          
+          /* Alternativa para imagens que podem usar cover (se necessário) */
+          .speaker-photo img.is-cover{
+            object-fit: cover;
+          }
+          
+          /* Fallback para browsers sem suporte a aspect-ratio */
+          @supports not (aspect-ratio: 4 / 5) {
+            .speaker-photo::before {
+              content: '';
+              display: block;
+              padding-top: 125%; /* 5/4 = 1.25 = 125% */
+            }
+            .speaker-photo {
+              position: relative;
+            }
+            .speaker-photo img {
+              position: absolute;
+              top: 0;
+              left: 0;
+            }
+          }
+          .speaker-name{ 
+            color:#fff; 
+            font-weight:900; 
+            font-size: clamp(18px,4.4vw,22px); 
+            margin-bottom: 6px; 
+            line-height: 1.3;
+          }
+          .speaker-role{ 
+            color:rgba(255,255,255,.9); 
+            font-size: clamp(14px,3.2vw,16px); 
+            line-height:1.5; 
+            margin-bottom: 12px; 
+            font-weight: 600;
+          }
+          
+          /* Mini bio em bullets */
+          .speaker-mini-bio{
+            list-style: none;
+            padding: 0;
+            margin: 0 0 12px 0;
+            flex: 1 1 auto;
+            min-height: 60px;
+          }
+          .mini-bio-bullet{
+            color: rgba(255,255,255,.92);
+            font-size: clamp(14px,3.4vw,16px);
+            line-height: 1.6;
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+          }
+          .mini-bio-bullet::before{
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: rgba(255,255,255,.8);
+            font-weight: bold;
+            font-size: 18px;
+          }
+          .mini-bio-bullet:last-child{
+            margin-bottom: 0;
+          }
+          
+          /* Bio expandida (mobile acordeão) */
+          .speaker-bio-expanded{
+            flex: 1 1 auto;
+            color: rgba(255,255,255,.92);
+            font-size: clamp(14px,3.4vw,16px);
+            line-height: 1.6;
+            margin-bottom: 12px;
+            animation: slideDown 0.25s ease-out;
+          }
+          
+          @keyframes slideDown {
+            from {
+              opacity: 0;
+              transform: translateY(-10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
           .sph-body{ 
             display: flex; 
             flex-direction: column; 
-            justify-content: flex-start; /* Alinha o conteúdo no topo */
-            padding: 16px; /* Adiciona padding interno */
+            padding: 16px;
+            gap: 12px;
+            flex: 1 1 auto; /* Ocupa o espaço disponível */
+            min-height: 0;
           }
+          /* Área de ações sempre no rodapé */
+          .sph-body > .bio-toggle-btn,
+          .sph-body > .speaker-profile-link{
+            margin-top: auto; /* "Cola" no fundo do card */
+            flex-shrink: 0;
+          }
+          
+          .bio-toggle-btn{
+            padding: 12px 20px;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 8px;
+            color: rgba(255,255,255,.95);
+            font-size: clamp(14px,3.4vw,16px);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            align-self: flex-start;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            width: auto;
+            min-height: 44px; /* Área de toque mínima 44x44px */
+            min-width: 120px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+          }
+          
+          .bio-toggle-btn:focus-visible{
+            outline: 3px solid rgba(255,255,255,.6);
+            outline-offset: 2px;
+          }
+          
+          .speaker-profile-link{
+            margin-top: 8px;
+            padding: 10px 18px;
+            color: rgba(255,255,255,.9);
+            font-size: clamp(13px,3.2vw,15px);
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            min-height: 40px;
+            align-self: flex-start;
+          }
+          
+          .speaker-profile-link:hover,
+          .speaker-profile-link:focus{
+            background: rgba(255,255,255,.15);
+            border-color: rgba(255,255,255,.4);
+            outline: none;
+          }
+          
+          .speaker-profile-link:focus-visible{
+            outline: 3px solid rgba(255,255,255,.6);
+            outline-offset: 2px;
+          }
+          .bio-toggle-btn:hover{
+            background: rgba(255,255,255,.15);
+            border-color: rgba(255,255,255,.3);
+            transform: translateY(-1px);
+          }
+          .bio-toggle-btn:active{
+            transform: translateY(0);
+          }
+          
+          @media (max-width: 640px){
+            .speaker-card{
+              min-height: 280px;
+            }
+            .speaker-photo{
+              aspect-ratio: 4 / 5;
+            }
+            .bio-toggle-btn{
+              padding: 12px 20px;
+              font-size: 15px;
+              min-height: 44px;
+            }
+          }
+          
+          /* Modal de biografia completa - Desktop */
+          .speaker-modal-overlay{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(11, 27, 43, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            animation: fadeIn 0.25s ease;
+          }
+          
+          @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+          }
+          
+          /* Contraste mínimo 4.5:1 para acessibilidade */
+          .speaker-name,
+          .speaker-modal-name{
+            color: #ffffff; /* Contraste máximo com fundo escuro */
+            text-shadow: 0 1px 2px rgba(0,0,0,.3);
+          }
+          
+          .speaker-role,
+          .speaker-modal-role,
+          .mini-bio-bullet,
+          .speaker-bio-expanded{
+            color: rgba(255,255,255,.95); /* Alto contraste */
+          }
+          
+          
+          @keyframes slideUp {
+            from { 
+              opacity: 0;
+              transform: translateY(20px) scale(0.98);
+            }
+            to { 
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+          
+          .speaker-modal{
+            background: linear-gradient(135deg, rgba(255,255,255,.12), rgba(255,255,255,.08));
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: 24px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 60px rgba(0,0,0,.4);
+            animation: slideUp 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+          }
+          
+          .speaker-modal::-webkit-scrollbar {
+            width: 8px;
+          }
+          
+          .speaker-modal::-webkit-scrollbar-track {
+            background: rgba(255,255,255,.05);
+            border-radius: 4px;
+          }
+          
+          .speaker-modal::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,.2);
+            border-radius: 4px;
+          }
+          
+          .speaker-modal::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,.3);
+          }
+          
+          .speaker-modal-header{
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            padding: 32px 32px 24px;
+            border-bottom: 1px solid rgba(255,255,255,.1);
+          }
+          
+          .speaker-modal-photo{
+            width: 180px;
+            height: 180px;
+            border-radius: 16px;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid rgba(255,255,255,.2);
+            box-shadow: 0 8px 24px rgba(0,0,0,.3);
+            background: rgba(255,255,255,.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+          }
+          
+          .speaker-modal-photo img{
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Mostra imagem inteira sem cortes */
+            object-position: center center;
+            display: block;
+          }
+          
+          .speaker-modal-info{
+            flex: 1;
+          }
+          
+            .speaker-modal-name{
+              color: #fff;
+              font-weight: 900;
+              font-size: 28px;
+              margin: 0 0 8px;
+              line-height: 1.2;
+            }
+            
+            #speaker-modal-title{
+              outline: none;
+            }
+            
+            #speaker-modal-title:focus{
+              outline: 3px solid rgba(255,255,255,.6);
+              outline-offset: 2px;
+              border-radius: 4px;
+            }
+          
+          .speaker-modal-role{
+            color: rgba(255,255,255,.85);
+            font-size: 16px;
+            line-height: 1.5;
+            margin: 0;
+          }
+          
+          .speaker-modal-close{
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            min-height: 44px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.1);
+            border: 1px solid rgba(255,255,255,.2);
+            color: rgba(255,255,255,.9);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+          }
+          
+          .speaker-modal-close:focus-visible{
+            outline: 3px solid rgba(255,255,255,.6);
+            outline-offset: 2px;
+          }
+          
+          .speaker-modal-close:hover{
+            background: rgba(255,255,255,.2);
+            border-color: rgba(255,255,255,.3);
+            transform: rotate(90deg);
+          }
+          
+          .speaker-modal-body{
+            padding: 32px;
+          }
+          
+          .speaker-modal-bio{
+            color: rgba(255,255,255,.92);
+            font-size: 16px;
+            line-height: 1.7;
+            margin: 0;
+            white-space: pre-line;
+            max-width: 65ch; /* 60-75 caracteres para leitura confortável */
+          }
+          
+          .speaker-modal-bio p{
+            margin-bottom: 16px;
+          }
+          
+          .speaker-modal-bio p:last-child{
+            margin-bottom: 0;
+          }
+          
+          @media (max-width: 900px){
+            .speaker-modal-overlay{
+              padding: 0;
+              align-items: flex-end;
+            }
+            
+            .speaker-modal{
+              max-height: 90vh;
+              border-radius: 24px 24px 0 0;
+              animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .speaker-modal-header{
+              flex-direction: column;
+              text-align: center;
+              padding: 24px 20px 20px;
+            }
+            
+            .speaker-modal-photo{
+              width: 140px;
+              height: 140px;
+              /* Mantém contain para evitar cortes também no mobile */
+            }
+            
+            .speaker-modal-name{
+              font-size: 22px;
+            }
+            
+            .speaker-modal-role{
+              font-size: 14px;
+            }
+            
+            .speaker-modal-body{
+              padding: 24px 20px;
+            }
+            
+            .speaker-modal-bio{
+              font-size: 15px;
+              line-height: 1.6;
+            }
+          }
+          /* Layout desktop: mantém flex column para garantir botão no rodapé */
           @media (min-width: 900px){
             .speaker-card{ 
-              grid-template-columns: 42% 58%; 
-              grid-template-rows: auto; 
-              min-height: 240px; /* Altura mínima aumentada no desktop */
+              display: flex;
+              flex-direction: column;
+              min-height: 320px;
             }
-            .speaker-photo{ height:auto; }
-            .sph-body{ padding: 20px; } /* Padding maior no desktop */
+            .speaker-photo{ 
+              aspect-ratio: 4 / 5;
+              width: 100%;
+              flex-shrink: 0;
+            }
+            .sph-body{ 
+              padding: 20px; 
+              display: flex;
+              flex-direction: column;
+              gap: 12px;
+              flex: 1 1 auto;
+              min-height: 0;
+            }
+            .speaker-mini-bio{
+              flex: 1 1 auto;
+              min-height: 60px;
+            }
+            .speaker-bio-expanded{
+              flex: 1 1 auto;
+            }
+            .sph-body > .bio-toggle-btn,
+            .sph-body > .speaker-profile-link{
+              margin-top: auto;
+            }
+            .bio-toggle-btn{
+              padding: 12px 18px;
+              min-height: 44px;
+            }
+          }
+          
+          /* Mobile: garante altura mínima adequada */
+          @media (max-width: 640px){
+            .speaker-card{
+              min-height: 300px;
+            }
+            .speaker-photo{
+              /* Mantém aspect-ratio 4:5 em mobile também */
+            }
           }
 
           /* Para tabelas inevitáveis */
@@ -369,148 +1147,130 @@ const OpenConnections: React.FC = () => {
           </header>
 
           <div className="grid-3">
-            {/* Humberto */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/images/speakers/humberto-ribeiro.jpg?v=1" alt="Humberto Luiz Ribeiro" loading="lazy" />
+            {speakers.map((speaker) => {
+              const isExpanded = expandedBios.has(speaker.id);
+              const bioId = `speaker-bio-${speaker.id}`;
+              const buttonId = `speaker-btn-${speaker.id}`;
+              
+              return (
+                <article 
+                  key={speaker.id} 
+                  id={`speaker-card-${speaker.id}`}
+                  className="speaker-card"
+                >
+                  <div 
+                    className="speaker-photo"
+                    style={{
+                      '--focus-x': speakerFocusMap[speaker.id]?.x || '50%',
+                      '--focus-y': speakerFocusMap[speaker.id]?.y || '50%'
+                    } as React.CSSProperties}
+                  >
+                    <img 
+                      src={speaker.photo} 
+                      alt={`Foto de ${speaker.name}`} 
+                      loading="lazy"
+                      className={speakerFocusMap[speaker.id]?.useCover ? 'is-cover' : ''}
+                    />
               </div>
               <div className="sph-body">
-                <h3 className="speaker-name">Humberto Luiz Ribeiro</h3>
-                <p className="speaker-role">Diretor da EPICENTOR • Coordenador do CiberLab (FINATEC/UnB)</p>
-                <p className="speaker-bio">
-                  Conselheiro de Cibersegurança do WEF (2025–2026) e diretor do Deptº de Defesa e Segurança da FIESP (2023–2026).
-                  Formações na UnB, MIT, INSEAD, Wharton, UNA e Georgetown; professor‑visitante na Cornell. Ex‑Secretário de Comércio e
-                  Serviços do Governo Federal; cofundador da BRASSCOM e da CONAJE; condecorações diversas.
-                </p>
+                    <h3 className="speaker-name">{speaker.name}</h3>
+                    <p className="speaker-role">{speaker.role}</p>
+                    
+                    {!isExpanded ? (
+                      <ul className="speaker-mini-bio" aria-label="Informações resumidas">
+                        {speaker.miniBio.map((bullet, idx) => (
+                          <li key={idx} className="mini-bio-bullet">{bullet}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <div 
+                        id={bioId}
+                        className="speaker-bio-expanded"
+                        aria-label="Biografia completa"
+                      >
+                        {speaker.bio.split('\n').map((paragraph, idx) => 
+                          paragraph.trim() ? (
+                            <p key={idx} style={{ marginBottom: '12px', whiteSpace: 'pre-line' }}>
+                              {paragraph}
+                            </p>
+                          ) : null
+                        )}
+              </div>
+                    )}
+                    
+                    <button 
+                      id={buttonId}
+                      className="bio-toggle-btn"
+                      onClick={(e) => toggleBio(speaker.id, speaker, e)}
+                      aria-expanded={isExpanded}
+                      aria-controls={isExpanded ? bioId : undefined}
+                      aria-label={isExpanded ? `Fechar biografia de ${speaker.name}` : `Ver biografia completa de ${speaker.name}`}
+                      type="button"
+                    >
+                      {isExpanded ? 'Ver menos' : 'Ver mais'}
+                    </button>
+                    
+                    {speaker.externalLink && (
+                      <a 
+                        href={speaker.externalLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="speaker-profile-link"
+                        aria-label={`Ver perfil externo de ${speaker.name}`}
+                      >
+                        Ver perfil
+                      </a>
+                    )}
               </div>
             </article>
-
-            {/* Raulison */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/images/speakers/raulison-resende-new.jpg" alt="Raulison Resende" loading="lazy" />
+              );
+            })}
               </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Raulison Resende</h3>
-                <p className="speaker-role">Diretor do Comitê de Tecnologia (Instituto Pactuá) • Diretor de Educação (ASSESPRO‑SP) • CEO da Wongola</p>
-                <p className="speaker-bio">
-                  25+ anos liderando projetos estratégicos em tecnologia e educação (BR, Angola, EUA). Fundador do Black in Tech (BiT).
-                  Mestre/Doutor (UNICAMP) e pós‑doc (FGV); referência em inovação e gestão de alto impacto com resultados escaláveis.
-                </p>
               </div>
-            </article>
-
-            {/* Marcelo */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/images/speakers/marcelo-boarin-new.jpg" alt="Marcelo Boarin" loading="lazy" />
-              </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Marcelo Boarin</h3>
-                <p className="speaker-role">Mestre em Engenharia Elétrica (UnB) • PROFNIT (UEG) • MBA (FGV)</p>
-                <p className="speaker-bio">
-                  26 anos em TI, CX e IA; passagens por Saint Gobain, J&J, IBM, VIVO, Brasil Telecom/Oi, CONTAX e Nextel/Claro.
-                  Fundador da SOBREXP e consultor na iniciativa de Empregabilidade 50+ da A5 Solutions.
-                </p>
-              </div>
-            </article>
-
-            {/* Camilo */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/images/speakers/camilo-mussi-new.jpg" alt="Camilo Mussi" loading="lazy" />
-              </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Camilo Mussi</h3>
-                <p className="speaker-role">CIO do Ministério da Agricultura e Pecuária (desde 2023)</p>
-                <p className="speaker-bio">
-                  Ex‑CIO de ANTAQ, INEP e Ministério do Esporte. Oficial Aviador da FAB. Security Leader Brasil 2024; destaque em inovação no DF
-                  e transformação digital (2019). Mestre em IA; especializações em Direito e Administração; 24 anos como gestor e professor.
-                </p>
-              </div>
-            </article>
-
-            {/* Fabio Pagani */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/Palestrantes/Fabio Pagani - Foto.jpg" alt="Fabio Pagani" loading="lazy" />
-              </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Fabio Pagani</h3>
-                <p className="speaker-role">Empreendedor Serial • Ativista do Ecossistema de Inovação</p>
-                <p className="speaker-bio">
-                  Empreendedor serial, em 40 anos de empreendedorismo abri seis empresas. Errei em três.
-                  Ativista do ecossistema de inovação e empreendedorismo brasileiro desde os anos 90, participei da criação e da gestão de quatro 
-                  entidades ligadas à este ecossistema. Empreendi politicamente, participando da gestão da tecnologia nos municípios de Campinas e de São Paulo.
-                  Sou mentor e investidor de startups que irão melhorar o mundo.
-                </p>
-              </div>
-            </article>
-
-            {/* Gerardo Lima */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/Palestrantes/Gerardor Lima - Foto.jpg" alt="Gerardo Lima" loading="lazy" />
-              </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Gerardo Lima</h3>
-                <p className="speaker-role">Consultor Técnico Empresarial • Presidente da UniOficiais/BR</p>
-                <p className="speaker-bio">
-                  Consultor técnico na área empresarial. Bacharel, Especialista e Mestre em Direito. Presidente da Associação Nacional dos Oficiais de Justiça Federais - UniOficiais/BR. 
-                  23 anos como Oficial de Justiça do TJDFT e como ex-policial rodoviário federal.
-                </p>
-              </div>
-            </article>
-
-            {/* Alexandre Barragat */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/Palestrantes/Alexandre Barragat - Foto1.jpg" alt="Alexandre Barragat" loading="lazy" />
-              </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Alexandre Barragat</h3>
-                <p className="speaker-role">Gerente do Departamento de Cooperação Internacional da Finep</p>
-                <p className="speaker-bio">
-                  Engenheiro civil formado pela Universidade Federal de Viçosa, especialista em engenharia econômica pela Fundação Dom Cabral e mestre em administração pública pela Fundação Getúlio Vargas. 
-                  Analista da Finep desde 2001, trabalhou em operações, no planejamento e na cooperação internacional. Anteriormente, foi engenheiro da Caixa Econômica Federal e do Banco de Desenvolvimento de Minas Gerais.
-                </p>
-              </div>
-            </article>
-
-            {/* Helio Galvão Ciffoni */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/Palestrantes/Helio Ciffoni - Foto.jpg" alt="Helio Galvão Ciffoni" loading="lazy" />
-              </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Helio Galvão Ciffoni</h3>
-                <p className="speaker-role">Fundador e CEO da Sapiens Global</p>
-                <p className="speaker-bio">
-                  Fundador e CEO da Sapiens Global, empresa com sede em Singapura e escritórios em Tóquio, Dongguan, Barcelos (Portugal), Curitiba e São Paulo.
-                  Mestre em Educação (PUCPR), Físico e Engenheiro Civil (UFPR). Empresário com mais de 30 anos de experiência em Gestão de Empresas, Tecnologia da Informação e Mercado Internacional.
-                  Foi professor do Depto. de Ciência da Computação da PUCPR por 20 anos, de 1987 a 2007.
-                </p>
-              </div>
-            </article>
-
-            {/* Henrique de Oliveira Miguel */}
-            <article className="speaker-card">
-              <div className="speaker-photo">
-                <img src="/Palestrantes/henriquedeoliveiramiguel.jpg" alt="Henrique de Oliveira Miguel" loading="lazy" />
-              </div>
-              <div className="sph-body">
-                <h3 className="speaker-name">Henrique de Oliveira Miguel</h3>
-                <p className="speaker-role">Secretário de Ciência e Tecnologia para Transformação Digital - MCTI</p>
-                <p className="speaker-bio">
-                  Engenheiro eletrônico pela Universidade de Brasília - UnB. Iniciou a carreira como Assessor Técnico da antiga Secretaria Especial de Informática - SEI, órgão pioneiro na definição de políticas públicas para o setor de Tecnologias da Informação e Comunicação no Brasil. 
-                  Já no Ministério da Ciência, Tecnologia e Inovação, ocupou diversos cargos de direção, coordenação e assessoramento, com destaque para a de Coordenador-Geral de Microeletrônica da Secretaria de Política de Informática do Ministério da Ciência, Tecnologia e Inovação e de Coordenador-Geral de Tecnologias Digitais (CGTD) da Secretaria de Empreendedorismo e Inovação-SEMPI do MCTI. 
-                  Funcionário de carreira, assumiu como interino, por diversas vezes, o cargo de Secretário de Política de Informática e de outras secretarias do MCTI que trataram do tema das políticas nacionais de TIC até assumir a titularidade como secretário da Secretaria de Ciência e Tecnologia para Transformação Digital do MCTI, em junho de 2023.
-                </p>
-              </div>
-            </article>
-          </div>
-        </div>
       </section>
+
+      {/* Modal de biografia completa - Desktop */}
+      {selectedSpeaker && (
+        <div className="speaker-modal-overlay" onClick={closeModal}>
+          <motion.div 
+            className="speaker-modal"
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.98 }}
+            transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="speaker-modal-title"
+          >
+            <button 
+              className="speaker-modal-close"
+              onClick={closeModal}
+              aria-label="Fechar modal"
+            >
+              ×
+            </button>
+            <div className="speaker-modal-header">
+              <div className="speaker-modal-photo">
+                <img src={selectedSpeaker.photo} alt={selectedSpeaker.name} />
+              </div>
+              <div className="speaker-modal-info">
+                <h3 id="speaker-modal-title" className="speaker-modal-name" tabIndex={-1}>{selectedSpeaker.name}</h3>
+                <p className="speaker-modal-role">{selectedSpeaker.role}</p>
+              </div>
+          </div>
+            <div className="speaker-modal-body">
+              <div className="speaker-modal-bio">
+                {selectedSpeaker.bio.split('\n\n').map((paragraph, idx) => 
+                  paragraph.trim() ? (
+                    <p key={idx}>{paragraph.trim()}</p>
+                  ) : null
+                )}
+        </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {/* 2) Convidados confirmados (reformulado com ícones) */}
       <section id="convidados" className="guests guests-v2">
