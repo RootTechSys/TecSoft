@@ -12,38 +12,55 @@
           "horario": "08:30 às 09:00",
           "atividade": "Credenciamento e Café da Manhã de Boas-vindas",
           "tipo": "credenciamento",
-          "icone": "☕"
+          "icone": "☕",
+          "palestrante": "Todos"
         },
         {
           "id": 2,
-          "horario": "09:00 às 10:00",
+          "horario": "09:00 às 09:30",
           "atividade": "Abertura",
           "tipo": "cerimonia",
           "icone": "🎤",
-          "palestrante": "Autoridades Convidadas"
+          "palestrante": "Autoridades convidadas"
         },
         {
           "id": 3,
-          "horario": "10:00 às 11:00",
+          "horario": "09:30 às 10:15",
           "atividade": "Palestra Magna: A Inovação como vetor de desenvolvimento econômico e social",
           "tipo": "palestra",
           "icone": "🎯",
-          "palestrante": "Henrique de Oliveira Miguel - Secretário de Ciência e Tecnologia para Transformação Digital - MCTI"
+          "palestrante": "Henrique de Oliveira Miguel – Secretário de Ciência e Tecnologia para Transformação Digital do MCTI"
         },
         {
           "id": 4,
-          "horario": "11:00 às 12:30",
+          "horario": "10:15 às 11:30",
           "atividade": "Painel: A Transformação Digital do Agronegócio como Oportunidade para empresas brasileiras de Tecnologia",
           "tipo": "painel",
           "icone": "💼",
-          "palestrante": ["Camilo Mussi (Min. da Agricultura)", "Breno Assunção (Pesquisador da Embrapa)", "Rodrigo Feliciano Lima – Controller e especialista em gestão para o Agronegócio"]
+          "palestrante": [
+            "Camilo Mussi - CIO do Min. da Agricultura",
+            "Breno Assunção - Pesquisador da Embrapa",
+            "Rodrigo Feliciano Lima – Controller e especialista em gestão para o Agronegócio"
+          ]
         },
         {
           "id": 5,
+          "horario": "11:30 às 12:30",
+          "atividade": "Painel: Inteligência Artificial, Tendências, Oportunidades e Desafios – Setores Público e Privado",
+          "tipo": "painel",
+          "icone": "🤖",
+          "palestrante": [
+            "Fabio de Souza – CEO da R5 Inteligência Digital",
+            "Ricardo Sampaio – CEO do Centro de Integração de IA CIIA-GDF"
+          ]
+        },
+        {
+          "id": 6,
           "horario": "12:30 às 14:00",
           "atividade": "Almoço",
           "tipo": "intervalo",
-          "icone": "🍽️"
+          "icone": "🍽️",
+          "palestrante": "Todos"
         }
       ]
     },
@@ -55,42 +72,55 @@
       "cor": "#00e5ff",
       "atividades": [
         {
-          "id": 6,
+          "id": 7,
           "horario": "14:00 às 15:15",
           "atividade": "Painel: Cyber segurança: tendências e desafios estratégicos para os próximos anos",
           "tipo": "painel",
           "icone": "🔒",
-          "palestrante": ["Humberto Ribeiro – CyberLab/UnB","Rodrigo Fragola – membro CNCiber/GSI/PR"]
-        },
-        {
-          "id": 7,
-          "horario": "15:15 às 16:30",
-          "atividade": "Painel: Mecanismos de Financiamento à Inovação: A perspectiva da Finep (Brasil)",
-          "tipo": "painel",
-          "icone": "💰",
-          "palestrante": ["Fernando Ribeiro – Finep", "Luciano Carvalho SICOOB - agente financeiro", "Representante de agente financeiro credenciado pela FINEP (a confirmar)"]
+          "palestrante": [
+            "Humberto Ribeiro – CyberLab/UnB",
+            "Rodrigo Fragola – membro CNCiber/GSI/PR",
+            "Anderson Messias da Silva – Polícia Federal e especialista em crimes cibernéticos"
+          ]
         },
         {
           "id": 8,
-          "horario": "16:30 às 17:00",
-          "atividade": "Coffee break",
-          "tipo": "intervalo",
-          "icone": "☕"
+          "horario": "15:15 às 16:30",
+          "atividade": "Painel: Mecanismos de Financiamento à Inovação",
+          "tipo": "painel",
+          "icone": "💰",
+          "palestrante": [
+            "Fernando Ribeiro – FINEP",
+            "Luciano Carvalho - SICOOB",
+            "Renata Vianin – FAP-DF"
+          ]
         },
         {
           "id": 9,
-          "horario": "17:00 às 18:15",
-          "atividade": "Painel: Internacionalização da Inovação: diferentes perspectivas",
-          "tipo": "painel",
-          "icone": "🌍",
-          "palestrante": ["Marcio Canedo - European Enterprise Network EEN-IBICT","Alexandre Barragat - FINEP"]
+          "horario": "16:30 às 17:00",
+          "atividade": "Coffee break",
+          "tipo": "intervalo",
+          "icone": "☕",
+          "palestrante": "Todos"
         },
         {
           "id": 10,
+          "horario": "17:00 às 18:15",
+          "atividade": "Painel – Internacionalização da Inovação, como fazer: as diferentes perspectivas",
+          "tipo": "painel",
+          "icone": "🌍",
+          "palestrante": [
+            "Marcio Canedo - European Enterprise Network EEN-IBICT",
+            "Alexandra Barragat – FINEP"
+          ]
+        },
+        {
+          "id": 11,
           "horario": "18:15 às 19:00",
           "atividade": "Networking",
           "tipo": "networking",
-          "icone": "🥂"
+          "icone": "🥂",
+          "palestrante": "Todos"
         }
       ]
     },
@@ -102,35 +132,40 @@
       "cor": "#a855f7",
       "atividades": [
         {
-          "id": 11,
+          "id": 12,
           "horario": "09:00 às 10:00",
-          "atividade": "Painel: Mecanismos de acesso aos mercados EUA, EU, Asia-Pacífico, LATAM",
+          "atividade": "Painel: Mecanismos de acesso aos mercados EUA, Ásia-Pacífico, BC, LATAM",
           "tipo": "painel",
           "icone": "🌐",
           "palestrante":["Fabio Pagani - Correspondente Internacional da BraFIP","Reynaldo Costa - Correspondente Internacional da BraFIP ","Hélio Ciffoni - Correspondente Internacional da BraFIP","Fernando Cariello - Correspondente Internacional da BraFIP"]
         },
         {
-          "id": 12,
+          "id": 13,
           "horario": "10:00 às 11:15",
-          "atividade": "Bloco de Pitches #1: 4 pitches de ideias selecionadas, com 15 minutos cada",
+          "atividade": "Bloco de Pitches #1: 5 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
           "icone": "🚀",
           "palestrante": "Representantes responsáveis por ideias selecionadas e banca examinadora"
         },
         {
-          "id": 13,
+          "id": 14,
           "horario": "11:15 às 12:30",
           "atividade": "Painel: Cases de Aplicação de IA",
           "tipo": "painel",
           "icone": "🤖",
-          "palestrante": ["Marcelo Boarin (A5 Solutions)","Silvio Montenegro (Imagine AI)","Geraldo Lima (Associação dos Oficiais de Justiça do Brasil)"]
+          "palestrante": [
+            "Marcelo Boarin (A5 Solutions)",
+            "Silvio Montenegro (Imagine AI)",
+            "Geraldo Lima (Associação dos Oficiais de Justiça do Brasil)"
+          ]
         },
         {
-          "id": 14,
+          "id": 15,
           "horario": "12:30 às 14:00",
           "atividade": "Almoço",
           "tipo": "intervalo",
-          "icone": "🍽️"
+          "icone": "🍽️",
+          "palestrante": "Todos"
         }
       ]
     },
@@ -144,18 +179,18 @@
         {
           "id": 16,
           "horario": "14:00 às 15:45",
-          "atividade": "Bloco de Pitches #2: 4 pitches de ideias selecionadas, com 15 minutos cada",
+          "atividade": "Bloco de Pitches #2: 7 pitches de ideias selecionadas, com 15 minutos cada",
           "tipo": "pitch",
           "icone": "🚀",
           "palestrante": "Representantes responsáveis por ideias selecionadas e banca examinadora"
         },
-    
         {
           "id": 17,
           "horario": "15:45 às 16:05",
           "atividade": "Coffee break de networking",
           "tipo": "intervalo",
-          "icone": "☕"
+          "icone": "☕",
+          "palestrante": "Todos"
         },
         {
           "id": 18,
@@ -164,29 +199,33 @@
           "tipo": "pitch",
           "icone": "🚀",
           "palestrante": "Representantes responsáveis por ideias selecionadas e banca examinadora"
-
-        },
-        {
-          "id": 15,
-          "horario": "16:50 às 18:05",
-          "atividade": "Painel: Ações afirmativas para formação de recursos humanos qualificados",
-          "tipo": "painel",
-          "icone": "👥",
-          "palestrante": ["Raulison Resende – Inst. Hospital Albert Einstein", "Thomas Straus – Projeto Programadores de Futuro"]
         },
         {
           "id": 19,
-          "horario": "18:05 às 18:50",
-          "atividade": "Avaliação Open Connection e InCoDay, Anúncio InCoDay 2026 e Premiação",
-          "tipo": "cerimonia",
-          "icone": "🏆"
+          "horario": "16:50 às 18:05",
+          "atividade": "Painel: Capacitação em TI como Ação Afirmativa de Impacto Social",
+          "tipo": "painel",
+          "icone": "👥",
+          "palestrante": [
+            "Raulison Resende – Wongolo - Programa Black in Tech",
+            "Thomas Straus – Projeto Programador de Futuro"
+          ]
         },
         {
           "id": 20,
+          "horario": "18:05 às 18:50",
+          "atividade": "Avaliação Open Connection e InCoDay, Anúncio do InCoDay 2026 e Premiação",
+          "tipo": "cerimonia",
+          "icone": "🏆",
+          "palestrante": "Todos"
+        },
+        {
+          "id": 21,
           "horario": "18:50",
           "atividade": "Encerramento",
           "tipo": "cerimonia",
-          "icone": "👋"
+          "icone": "👋",
+          "palestrante": "Todos"
         }
       ]
     }
@@ -201,7 +240,10 @@
         "nome": "Gestão de Ideias para a Inovação – Modelo MGPDI",
         "responsavel": "Cristina Filipak Machado (QualityFocus)",
         "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
-        "dias": ["2025-11-11", "2025-11-12"],
+        "dias": [
+          "2025-11-11",
+          "2025-11-12"
+        ],
         "horario": "19:00-22:00"
       },
       {
@@ -209,7 +251,10 @@
         "nome": "Gestão da Colaboração para a Inovação – Modelo MGPDI",
         "responsavel": "José Antônio Antonioni (Softsul) e Kival Weber (MGPDI)",
         "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
-        "dias": ["2025-11-11", "2025-11-12"],
+        "dias": [
+          "2025-11-11",
+          "2025-11-12"
+        ],
         "horario": "19:00-22:00"
       },
       {
@@ -217,7 +262,10 @@
         "nome": "Inovação Aberta - Gerência de Projetos Inovadores usando Métodos Ágeis – Modelo MGPDI",
         "responsavel": "Rodrigo Quites Reis (UFPA)",
         "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
-        "dias": ["2025-11-11", "2025-11-12"],
+        "dias": [
+          "2025-11-11",
+          "2025-11-12"
+        ],
         "horario": "19:00-22:00"
       },
       {
@@ -225,7 +273,10 @@
         "nome": "Como elaborar projetos de captação de recursos para Inovação",
         "responsavel": "Membro da equipe técnica do Tecsoft",
         "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
-        "dias": ["2025-11-11", "2025-11-12"],
+        "dias": [
+          "2025-11-11",
+          "2025-11-12"
+        ],
         "horario": "19:00-22:00"
       },
       {
@@ -233,7 +284,10 @@
         "nome": "IA Generativa como alavancador de negócios – Como planejar sistemas de LLM",
         "responsavel": "Consultor especializado em IA com foco na aplicação no desenvolvimento de soluções inovadoras",
         "datasHorarios": "Dias 11 e 12 de novembro – 19:00 às 22:00",
-        "dias": ["2025-11-11", "2025-11-12"],
+        "dias": [
+          "2025-11-11",
+          "2025-11-12"
+        ],
         "horario": "19:00-22:00"
       }
     ]
