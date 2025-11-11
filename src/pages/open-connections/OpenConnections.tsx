@@ -143,6 +143,9 @@ const OpenConnections: React.FC = () => {
     9: { x: 'center', y: 'center' }, // Helio
     10: { x: 'center', y: 'center' }, // Marcio Canedo
     11: { x: 'center', y: 'center' }, // Renata Vianna
+    12: { x: 'center', y: 'center' }, // Fernando Nielander Ribeiro
+    13: { x: 'center', y: 'center' }, // Ney Canani
+    14: { x: 'center', y: 'center' }, // Danilo Brito
   };
 
   // Dados dos palestrantes
@@ -320,9 +323,56 @@ Ex-Conselheiro da Câmara de Indústria e Comércio Brasil - Japão do Paraná, 
       ],
       bio: `Renata Vianna é advogada e Superintendente de Ciência, Tecnologia e Inovação da FAPDF, com atuação em políticas públicas voltadas ao desenvolvimento científico e à inovação no DF. Mestre em Engenharia de Segurança Cibernética pela UnB, é referência em proteção de dados e inteligência artificial. Lidera iniciativas estratégicas com foco em tecnologia, sustentabilidade e fortalecimento do ecossistema local.`,
       photo: '/Palestrantes/Renata Viana - Foto.jpg'
+    },
+    {
+      id: 12,
+      name: 'Fernando Nielander Ribeiro',
+      role: 'Analista de Projetos da FINEP',
+      miniBio: [
+        'Analista de Projetos da FINEP, lotado em Brasília.',
+        'Mestre em Planejamento Energético (UFRJ, 1994).',
+        'Experiência em mecanismos de promoção à inovação e análise de projetos de P&D&I.'
+      ],
+      bio: `Tem sólida experiência na concepção de mecanismos de promoção à Inovação e na análise de projetos referentes aos temas de pesquisa, desenvolvimento e Inovação. Possui mestrado em Planejamento Energético pela Universidade Federal do Rio de Janeiro (1994). Ocupou o cargo de Diretor de Inovação na Projetos da Financiadora de Estudos e Projetos - FINEP, e atualmente está lotado em Brasília, com a função de Analista de Projetos da organização de fomento e crédito para Inovação.`,
+      photo: '/Palestrantes/Foto Fernando Ribeiro.jpg'
+    },
+    {
+      id: 13,
+      name: 'Ney Canani',
+      role: 'Chefe de Gabinete do Diretor do DOI - Itamaraty',
+      miniBio: [
+        'Diplomata de carreira; chefe de gabinete do Diretor do DOI do Itamaraty.',
+        'Doutor em Filosofia (summa cum laude, Universidade Livre de Berlim); mestre em Direito Internacional (George Washington University).',
+        'Ex-chefe da Assessoria Internacional do Ministério do Trabalho (2016-2018).'
+      ],
+      bio: `Ney Canani é diplomata de carreira, com passagem pelas embaixadas de Berlim, Caracas, Washington e Assunção. Advogado e professor, tem doutorado em Filosofia, summa cum laude, pela Universidade Livre de Berlim, e Mestrado em Direito Internacional e Comparado, pela George Washington University. Foi chefe da Assessoria Internacional do Ministério do Trabalho (2016-2018), quando integrou a primeira comissão para discutir o futuro do trabalho. Atualmente é chefe de gabinete do Diretor do Departamento de Organismos Internacionais (DOI) do Itamaraty.`,
+      photo: '/Palestrantes/Ney Canani.jpeg'
+    },
+    {
+      id: 14,
+      name: 'Danilo Brito',
+      role: 'CEO da Limbic • Empreendedor em Tecnologia e Inteligência Artificial',
+      miniBio: [
+        'CEO da Limbic (Grupo SOS Docs); desenvolve soluções em IA para gestão da informação.',
+        'Lidera a criação do Docfy, plataforma de IA para extração, anonimização e classificação de documentos.',
+        'Foco em inovação prática para tornar empresas mais eficientes, seguras e conectadas ao futuro digital.'
+      ],
+      bio: `Danilo Brito é CEO da Limbic, empresa do Grupo SOS Docs voltada ao desenvolvimento de soluções em Inteligência Artificial aplicada à gestão da informação.
+
+Lidera a criação do Docfy, plataforma de IA focada em extração de dados, anonimização de informações sensíveis, classificação automatizada e busca inteligente de documentos.
+
+Com visão empreendedora e foco em inovação, Danilo atua na aplicação prática da IA para tornar empresas e instituições mais eficientes, seguras e conectadas ao futuro digital.`,
+      photo: '/Palestrantes/danilo.png'
     }
   ];
   
+  // Lista de convidados que NÃO estão na seção "Palestrantes desta edição"
+  // Estes serão exibidos na seção "Convidados confirmados"
+  const confirmedGuests = [
+    { name: 'Roberto Mayer', affiliation: 'BRAFIP' },
+    { name: 'Fernando Cariello', affiliation: 'representante USA' }
+  ];
+
   const { scrollYProgress } = useScroll();
 
   useEffect(() => {
@@ -1659,95 +1709,16 @@ Ex-Conselheiro da Câmara de Indústria e Comércio Brasil - Japão do Paraná, 
           <h3 className="guests-title">Convidados confirmados</h3>
 
           <ul className={`guests-grid ${showAllGuests ? 'expanded' : 'collapsed'}`}>
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Camilo Mussi (MAPA)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Fernando Ribeiro (FINEP)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Humberto Ribeiro (CyberLab)</span>
-            </li>
-
-            <li className="guest-card is-raulison">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Raulison Resende (Instituto Hosp. Albert Einstein)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Marcelo Boarin (A5 Solution)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Roberto Mayer (BRAFIP)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Fabio Pagani (representante Austrália)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Hélio Ciffoni (representante Japão)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Fernando Cariello (representante USA)</span>
-            </li>
-
-            <li className="guest-card">
-              <span className="guest-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" className="ic">
-                  <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
-                </svg>
-              </span>
-              <span className="guest-name">Márcio Canedo (EEN‑IBICT)</span>
-            </li>
+            {confirmedGuests.map((guest, index) => (
+              <li key={index} className="guest-card">
+                <span className="guest-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" className="ic">
+                    <path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z"/>
+                  </svg>
+                </span>
+                <span className="guest-name">{guest.name} ({guest.affiliation})</span>
+              </li>
+            ))}
           </ul>
           
           {/* Botão Ver Mais/Ver Menos - Apenas Mobile */}
