@@ -346,7 +346,7 @@ Ex-Conselheiro da Câmara de Indústria e Comércio Brasil - Japão do Paraná, 
         'Ex-chefe da Assessoria Internacional do Ministério do Trabalho (2016-2018).'
       ],
       bio: `Ney Canani é diplomata de carreira, com passagem pelas embaixadas de Berlim, Caracas, Washington e Assunção. Advogado e professor, tem doutorado em Filosofia, summa cum laude, pela Universidade Livre de Berlim, e Mestrado em Direito Internacional e Comparado, pela George Washington University. Foi chefe da Assessoria Internacional do Ministério do Trabalho (2016-2018), quando integrou a primeira comissão para discutir o futuro do trabalho. Atualmente é chefe de gabinete do Diretor do Departamento de Organismos Internacionais (DOI) do Itamaraty.`,
-      photo: '/Palestrantes/Ney Canani.jpeg'
+      photo: '/Palestrantes/Ney Canani.jpg'
     },
     {
       id: 14,
