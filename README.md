@@ -98,16 +98,18 @@ TecSoft/
 
 ## 🚀 Como Executar
 
-### Pré-requisitos
-- Node.js (versão 16 ou superior)
-- npm ou yarn
+Há dois fluxos suportados: **desenvolvimento local com Node** (hot-reload, ideal para codar) e **produção via Docker** (espelha o que roda no VPS, ideal para validar build e fazer deploy).
 
-### Instalação
+### Desenvolvimento local (Node)
+
+#### Pré-requisitos
+- Node.js 20+ (ver `engines` em `package.json`)
+- npm 10+
+
+#### Instalação
 ```bash
 # Clone o repositório
 git clone [URL_DO_REPOSITORIO]
-
-# Entre no diretório
 cd TecSoft
 
 # Instale as dependências
@@ -117,13 +119,77 @@ npm install
 npm start
 ```
 
-O site estará disponível em `http://localhost:3000`
+O site estará disponível em `http://localhost:3000` com hot-reload.
 
-### Scripts Disponíveis
+#### Scripts Disponíveis
 - `npm start`: Inicia o servidor de desenvolvimento
-- `npm build`: Cria a versão de produção
+- `npm run build`: Cria a versão de produção em `build/`
 - `npm test`: Executa os testes
-- `npm eject`: Ejeta a configuração do Create React App
+- `npm run eject`: Ejeta a configuração do Create React App
+
+### Produção via Docker
+
+Build multi-stage (`node:20-alpine` → `nginx:1.27-alpine`) servindo o bundle estático na porta 80 do container.
+
+#### Pré-requisitos
+- Docker Desktop (Windows/Mac) ou Docker Engine 20+ (Linux)
+- Docker Compose v2 (já incluso no Docker Desktop)
+
+#### Subindo o container
+```bash
+# Clone (se ainda nao tiver)
+git clone [URL_DO_REPOSITORIO]
+cd TecSoft
+
+# Crie o .env a partir do template (opcional — ver nota abaixo)
+cp .env.docker.example .env
+# Preencha .env com as REACT_APP_FIREBASE_* (referencia: env.example)
+
+# Build e start
+docker compose build
+docker compose up -d
+```
+
+Acesse: `http://localhost:8080`
+
+> **Nota sobre as chaves Firebase:** o app já tem fallback hardcoded em `src/services/firebase.ts` com as chaves Web SDK públicas. O `.env` é opcional para rodar localmente — útil quando se quer apontar o build para um projeto Firebase diferente. As chaves Web SDK são públicas por design (ficam no bundle JavaScript do client); a proteção real é via Firestore Security Rules, já versionadas em `firestore.rules`.
+
+#### Comandos úteis
+```bash
+# ver logs ao vivo
+docker compose logs -f
+
+# status + healthcheck
+docker compose ps
+
+# parar
+docker compose down
+
+# rebuild apos mudar codigo
+docker compose up -d --build
+
+# rebuild limpando cache (apos trocar variaveis no .env)
+docker compose build --no-cache && docker compose up -d
+```
+
+#### Trocar a porta exposta
+Edite `docker-compose.yml` na linha `"8080:80"` e troque o primeiro número (ex.: `"3000:80"` → `http://localhost:3000`).
+
+### Deploy em VPS (Portainer / docker-compose puro)
+
+1. Suba o repositório no servidor (`git clone` ou aponte a stack do Portainer pra ele).
+2. Crie o `.env` no servidor (não vem do Git por design) — copie de `.env.docker.example` e preencha.
+3. `docker compose build && docker compose up -d`.
+4. Configure o proxy reverso do host (Nginx, Traefik, Caddy) apontando para `http://localhost:8080` para HTTPS e domínio próprio.
+
+No **Portainer**, vá em **Stacks → Add stack**, cole o conteúdo do `docker-compose.yml`, adicione as variáveis em **Environment variables** (ou faça upload do `.env`) e clique em **Deploy the stack**.
+
+### Arquivos de infra
+- `Dockerfile` — multi-stage com build args para `REACT_APP_FIREBASE_*`
+- `nginx.conf` — SPA fallback (react-router), cache imutável para assets, no-cache para `index.html`, gzip
+- `docker-compose.yml` — service `web` na porta 8080, healthcheck e `restart: unless-stopped`
+- `.dockerignore` — reduz contexto enviado ao daemon
+- `.env.docker.example` — template das variáveis de build
 
 ## 🎨 Design System
 
@@ -171,9 +237,10 @@ O projeto utiliza Tailwind CSS com configurações customizadas:
 
 ## 🔮 Próximos Passos
 
-- [ ] Integração com backend
-- [ ] Sistema de autenticação
-- [ ] Painel administrativo
+- [x] Integração com backend (Firebase: Auth + Firestore + Storage)
+- [x] Sistema de autenticação (`/admin/login`)
+- [x] Painel administrativo
+- [x] Dockerização para deploy em VPS
 - [ ] Blog dinâmico
 - [ ] Sistema de newsletter
 - [ ] Analytics e métricas
